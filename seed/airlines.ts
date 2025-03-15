@@ -45,6 +45,17 @@ export const airlines: Airline[] = [
     established: '1947',
     popularity: 9.6,
   },
+  {
+    id: 5,
+    name: 'British Airways',
+    country: 'United Kingdom',
+    logo: '/logos/british-airways.png',
+    slogan: 'To Fly. To Serve.',
+    head_quarters: 'London, England, UK',
+    website: 'https://www.britishairways.com',
+    established: '1974',
+    popularity: 9.2,
+  },
 ];
 
 export const airlineFleets: AirlineFleet[] = [

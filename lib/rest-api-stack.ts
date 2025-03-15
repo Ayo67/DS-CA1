@@ -56,6 +56,18 @@ export class RestAPIStack extends cdk.Stack {
       }
     );
 
+    const addAirlineFn = new lambdanode.NodejsFunction(this, "AddAirlineFn", {
+      architecture: lambda.Architecture.ARM_64,
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: `${__dirname}/../lambdas/addAirline.ts`,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 128,
+      environment: {
+        TABLE_NAME: airlinesTable.tableName,
+        REGION: "eu-west-1",
+      },
+    });
+
     new custom.AwsCustomResource(this, "airlinesddbInitData", {
       onCreate: {
         service: "DynamoDB",
@@ -75,6 +87,7 @@ export class RestAPIStack extends cdk.Stack {
     // Permissions 
     airlinesTable.grantReadData(getAirlineByIdFn);
     airlinesTable.grantReadData(getAllAirlinesFn);
+    airlinesTable.grantReadWriteData(addAirlineFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -102,6 +115,12 @@ export class RestAPIStack extends cdk.Stack {
     specificAirlineEndpoint.addMethod(
       "GET",
       new apig.LambdaIntegration(getAirlineByIdFn, { proxy: true })
+    );
+
+    // Add airline endpoint
+    airlinesEndpoint.addMethod(
+      "POST",
+      new apig.LambdaIntegration(addAirlineFn, { proxy: true })
     );
 
   }
