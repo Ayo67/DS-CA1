@@ -1,0 +1,373 @@
+{
+  "version": "39.0.0",
+  "artifacts": {
+    "RestAPIStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "RestAPIStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "RestAPIStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/eu-west-1",
+      "properties": {
+        "templateFile": "RestAPIStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/d1c5c3503fe6a123268a729de37a40f364968e42ed60eee487e2f0cdc0dd049c.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "RestAPIStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "RestAPIStack.assets"
+      ],
+      "metadata": {
+        "/RestAPIStack/MoviesTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "MoviesTable0F76A3E4"
+            }
+          }
+        ],
+        "/RestAPIStack/MoviesTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MoviesTable0F76A3E4"
+          }
+        ],
+        "/RestAPIStack/MovieCastTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "MovieCastTableE4F7E4C8"
+            }
+          }
+        ],
+        "/RestAPIStack/MovieCastTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MovieCastTableE4F7E4C8"
+          }
+        ],
+        "/RestAPIStack/GetMovieByIdFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetMovieByIdFnServiceRole129ED770"
+          }
+        ],
+        "/RestAPIStack/GetMovieByIdFn/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetMovieByIdFnServiceRoleDefaultPolicy0B2C84C0"
+          }
+        ],
+        "/RestAPIStack/GetMovieByIdFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetMovieByIdFn429FC61F"
+          }
+        ],
+        "/RestAPIStack/GetAllMoviesFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAllMoviesFnServiceRole0FF7E3CB"
+          }
+        ],
+        "/RestAPIStack/GetAllMoviesFn/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAllMoviesFnServiceRoleDefaultPolicy2E8AB9F7"
+          }
+        ],
+        "/RestAPIStack/GetAllMoviesFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAllMoviesFnD14CC45A"
+          }
+        ],
+        "/RestAPIStack/AddMovieFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AddMovieFnServiceRoleB1F9B436"
+          }
+        ],
+        "/RestAPIStack/AddMovieFn/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AddMovieFnServiceRoleDefaultPolicy28168983"
+          }
+        ],
+        "/RestAPIStack/AddMovieFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AddMovieFnA0261A58"
+          }
+        ],
+        "/RestAPIStack/DeleteMovieFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteMovieFnServiceRole38DEA1BA"
+          }
+        ],
+        "/RestAPIStack/DeleteMovieFn/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteMovieFnServiceRoleDefaultPolicy387CD24D"
+          }
+        ],
+        "/RestAPIStack/DeleteMovieFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteMovieFnCF59BB54"
+          }
+        ],
+        "/RestAPIStack/GetCastMemberFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCastMemberFnServiceRoleE3D31A5A"
+          }
+        ],
+        "/RestAPIStack/GetCastMemberFn/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCastMemberFnServiceRoleDefaultPolicyE149AAD0"
+          }
+        ],
+        "/RestAPIStack/GetCastMemberFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCastMemberFn1BEFFC9C"
+          }
+        ],
+        "/RestAPIStack/moviesddbInitData/Resource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "moviesddbInitDataA13BB07E"
+          }
+        ],
+        "/RestAPIStack/moviesddbInitData/CustomResourcePolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "moviesddbInitDataCustomResourcePolicyA35F01DC"
+          }
+        ],
+        "/RestAPIStack/AWS679f53fac002430cb0da5b7982bd2287": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-singleton",
+            "data": true
+          },
+          {
+            "type": "aws:cdk:is-custom-resource-handler-runtime-family",
+            "data": 0
+          }
+        ],
+        "/RestAPIStack/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ],
+        "/RestAPIStack/AWS679f53fac002430cb0da5b7982bd2287/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AWS679f53fac002430cb0da5b7982bd22872D164C4C"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPI1CC12F26"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPIDeploymentD35A5380d64c92f478cadb2183a4f271828d4698"
+          }
+        ],
+        "/RestAPIStack/RestAPI/DeploymentStage.dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPIDeploymentStagedev1DE74094"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPIEndpointB14C3C54"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPIOPTIONS3271A002"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesA51CB040"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesOPTIONS1E02A856"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..movies": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesGETApiPermissionRestAPIStackRestAPIBD91D303GETmovies4E6039D0"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..movies": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesGETApiPermissionTestRestAPIStackRestAPIBD91D303GETmovies1D7D11A0"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesGET8F06310F"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/POST/ApiPermission.RestAPIStackRestAPIBD91D303.POST..movies": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesPOSTApiPermissionRestAPIStackRestAPIBD91D303POSTmovies8CD10A5C"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/POST/ApiPermission.Test.RestAPIStackRestAPIBD91D303.POST..movies": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesPOSTApiPermissionTestRestAPIStackRestAPIBD91D303POSTmovies2C903EBE"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesPOSTC027C064"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieId3DE0D522"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieIdOPTIONSC1FB0512"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..movies.{movieId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieIdGETApiPermissionRestAPIStackRestAPIBD91D303GETmoviesmovieId92836E56"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..movies.{movieId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieIdGETApiPermissionTestRestAPIStackRestAPIBD91D303GETmoviesmovieId290552F1"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieIdGET6B517F00"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/DELETE/ApiPermission.RestAPIStackRestAPIBD91D303.DELETE..movies.{movieId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieIdDELETEApiPermissionRestAPIStackRestAPIBD91D303DELETEmoviesmovieId3400CE17"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/DELETE/ApiPermission.Test.RestAPIStackRestAPIBD91D303.DELETE..movies.{movieId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieIdDELETEApiPermissionTestRestAPIStackRestAPIBD91D303DELETEmoviesmovieId5F19D9C8"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/{movieId}/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviesmovieIdDELETE61543642"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/cast/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviescastA509B28E"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/cast/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviescastOPTIONS396E3DE5"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/cast/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..movies.cast": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviescastGETApiPermissionRestAPIStackRestAPIBD91D303GETmoviescast847390FD"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/cast/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..movies.cast": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviescastGETApiPermissionTestRestAPIStackRestAPIBD91D303GETmoviescast7A2985A7"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/movies/cast/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPImoviescastGET553E1102"
+          }
+        ],
+        "/RestAPIStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/RestAPIStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/RestAPIStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "RestAPIStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

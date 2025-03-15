@@ -1,0 +1,104 @@
+{
+  "version": "39.0.0",
+  "files": {
+    "889dbdd5e2a87aa395ffd5ec3cd9906de758e353d1805c28296591c1a9eba58e": {
+      "source": {
+        "path": "C:\\Users\\ayoog\\rest-api-app",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "889dbdd5e2a87aa395ffd5ec3cd9906de758e353d1805c28296591c1a9eba58e.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    },
+    "df4ed428258ddabf4ac90f0d181b7eb6612daeb330c1d2f01c016078b351c8d5": {
+      "source": {
+        "path": "C:\\Users\\ayoog\\rest-api-app",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "df4ed428258ddabf4ac90f0d181b7eb6612daeb330c1d2f01c016078b351c8d5.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    },
+    "8cb97ceddb69e320fdfe1cc883b14d30725bdcf87d12762f7a728f2bcc4b0475": {
+      "source": {
+        "path": "C:\\Users\\ayoog\\rest-api-app",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "8cb97ceddb69e320fdfe1cc883b14d30725bdcf87d12762f7a728f2bcc4b0475.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    },
+    "cd4208b4ff82732f952ab84f7346d15f186635d7d3dcc8b87418fd8bd702bc27": {
+      "source": {
+        "path": "C:\\Users\\ayoog\\rest-api-app",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "cd4208b4ff82732f952ab84f7346d15f186635d7d3dcc8b87418fd8bd702bc27.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    },
+    "2b678101bbaf2a42a28a52eaa64c2bc479ae569175851d2f1d9691cc16b182a5": {
+      "source": {
+        "path": "C:\\Users\\ayoog\\rest-api-app",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "2b678101bbaf2a42a28a52eaa64c2bc479ae569175851d2f1d9691cc16b182a5.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    },
+    "ce2f3595a340d6c519a65888ef97e3b9b64f053f83608e32cc28162e22d7d99a": {
+      "source": {
+        "path": "asset.ce2f3595a340d6c519a65888ef97e3b9b64f053f83608e32cc28162e22d7d99a",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "ce2f3595a340d6c519a65888ef97e3b9b64f053f83608e32cc28162e22d7d99a.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    },
+    "d1c5c3503fe6a123268a729de37a40f364968e42ed60eee487e2f0cdc0dd049c": {
+      "source": {
+        "path": "RestAPIStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "d1c5c3503fe6a123268a729de37a40f364968e42ed60eee487e2f0cdc0dd049c.json",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
