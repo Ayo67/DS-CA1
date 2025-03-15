@@ -1,112 +1,71 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
-        "Movie": {
+        "Airline": {
             "additionalProperties": false,
             "properties": {
-                "adult": {
-                    "type": "boolean"
-                },
-                "backdrop_path": {
+                "country": {
                     "type": "string"
                 },
-                "genre_ids": {
-                    "items": {
-                        "type": "number"
-                    },
-                    "type": "array"
+                "established": {
+                    "type": "string"
+                },
+                "head_quarters": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "number"
                 },
-                "original_language": {
+                "logo": {
                     "type": "string"
                 },
-                "original_title": {
-                    "type": "string"
-                },
-                "overview": {
+                "name": {
                     "type": "string"
                 },
                 "popularity": {
                     "type": "number"
                 },
-                "poster_path": {
+                "slogan": {
                     "type": "string"
                 },
-                "release_date": {
+                "website": {
                     "type": "string"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "video": {
-                    "type": "boolean"
-                },
-                "vote_average": {
-                    "type": "number"
-                },
-                "vote_count": {
-                    "type": "number"
                 }
             },
             "required": [
-                "adult",
-                "backdrop_path",
-                "genre_ids",
+                "country",
+                "established",
+                "head_quarters",
                 "id",
-                "original_language",
-                "original_title",
-                "overview",
+                "logo",
+                "name",
                 "popularity",
-                "poster_path",
-                "release_date",
-                "title",
-                "video",
-                "vote_average",
-                "vote_count"
+                "slogan",
+                "website"
             ],
             "type": "object"
         },
-        "MovieCast": {
+        "AirlineFleet": {
             "additionalProperties": false,
             "properties": {
-                "actorName": {
+                "aircraftName": {
                     "type": "string"
                 },
-                "movieId": {
+                "airlineId": {
                     "type": "number"
                 },
-                "roleDescription": {
-                    "type": "string"
+                "capacity": {
+                    "type": "number"
                 },
-                "roleName": {
+                "range": {
                     "type": "string"
                 }
             },
             "required": [
-                "actorName",
-                "movieId",
-                "roleDescription",
-                "roleName"
-            ],
-            "type": "object"
-        },
-        "MovieCastMemberQueryParams": {
-            "additionalProperties": false,
-            "properties": {
-                "actorName": {
-                    "type": "string"
-                },
-                "movieId": {
-                    "type": "string"
-                },
-                "roleName": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "movieId"
+                "aircraftName",
+                "airlineId",
+                "capacity",
+                "range"
             ],
             "type": "object"
         }

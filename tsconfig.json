@@ -28,6 +28,8 @@
     "node_modules",
     "cdk.out"
   ],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": [
+    "shared/*.json",
+  ]
 }
 

@@ -68,6 +68,18 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
+    const deleteAirlineFn = new lambdanode.NodejsFunction(this, "DeleteAirlineFn", {
+      architecture: lambda.Architecture.ARM_64,
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: `${__dirname}/../lambdas/deleteAirline.ts`,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 128,
+      environment: {
+        TABLE_NAME: airlinesTable.tableName,
+        REGION: "eu-west-1",
+      },
+    });
+
     new custom.AwsCustomResource(this, "airlinesddbInitData", {
       onCreate: {
         service: "DynamoDB",
@@ -88,6 +100,7 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadData(getAirlineByIdFn);
     airlinesTable.grantReadData(getAllAirlinesFn);
     airlinesTable.grantReadWriteData(addAirlineFn);
+    airlinesTable.grantReadWriteData(deleteAirlineFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -121,6 +134,12 @@ export class RestAPIStack extends cdk.Stack {
     airlinesEndpoint.addMethod(
       "POST",
       new apig.LambdaIntegration(addAirlineFn, { proxy: true })
+    );
+
+    // Delete airline endpoint
+    specificAirlineEndpoint.addMethod(
+      "DELETE",
+      new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
     );
 
   }

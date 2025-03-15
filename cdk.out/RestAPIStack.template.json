@@ -353,7 +353,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "2f5ca55d91537b030961fd167ee80dc04c7fa4cd2c806351d722e04c7c43017e.zip"
+     "S3Key": "82678658b922ef2f7c61c23330def13b0acf6b9fb0dfb9c1a96b0ab4a029cec6.zip"
     },
     "Environment": {
      "Variables": {
@@ -380,7 +380,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/AddAirlineFn/Resource",
-    "aws:asset:path": "asset.2f5ca55d91537b030961fd167ee80dc04c7fa4cd2c806351d722e04c7c43017e",
+    "aws:asset:path": "asset.82678658b922ef2f7c61c23330def13b0acf6b9fb0dfb9c1a96b0ab4a029cec6",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -402,7 +402,7 @@
        {
         "Ref": "AirlinesTableF593EC65"
        },
-       "\":[{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"1\"},\"name\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"head_quarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.5\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"2\"},\"name\":{\"S\":\"Emirates\"},\"country\":{\"S\":\"United Arab Emirates\"},\"logo\":{\"S\":\"/logos/emirates.png\"},\"slogan\":{\"S\":\"Fly Better\"},\"head_quarters\":{\"S\":\"Dubai, UAE\"},\"website\":{\"S\":\"https://www.emirates.com\"},\"established\":{\"S\":\"1985\"},\"popularity\":{\"N\":\"9.8\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"3\"},\"name\":{\"S\":\"Qatar Airways\"},\"country\":{\"S\":\"Qatar\"},\"logo\":{\"S\":\"/logos/qatar.png\"},\"slogan\":{\"S\":\"Going Places Together\"},\"head_quarters\":{\"S\":\"Doha, Qatar\"},\"website\":{\"S\":\"https://www.qatarairways.com\"},\"established\":{\"S\":\"1993\"},\"popularity\":{\"N\":\"9.7\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"4\"},\"name\":{\"S\":\"Singapore Airlines\"},\"country\":{\"S\":\"Singapore\"},\"logo\":{\"S\":\"/logos/singapore.png\"},\"slogan\":{\"S\":\"A Great Way to Fly\"},\"head_quarters\":{\"S\":\"Singapore\"},\"website\":{\"S\":\"https://www.singaporeair.com\"},\"established\":{\"S\":\"1947\"},\"popularity\":{\"N\":\"9.6\"}}}}]}},\"physicalResourceId\":{\"id\":\"airlinesddbInitData\"}}"
+       "\":[{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"1\"},\"name\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"head_quarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.5\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"2\"},\"name\":{\"S\":\"Emirates\"},\"country\":{\"S\":\"United Arab Emirates\"},\"logo\":{\"S\":\"/logos/emirates.png\"},\"slogan\":{\"S\":\"Fly Better\"},\"head_quarters\":{\"S\":\"Dubai, UAE\"},\"website\":{\"S\":\"https://www.emirates.com\"},\"established\":{\"S\":\"1985\"},\"popularity\":{\"N\":\"9.8\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"3\"},\"name\":{\"S\":\"Qatar Airways\"},\"country\":{\"S\":\"Qatar\"},\"logo\":{\"S\":\"/logos/qatar.png\"},\"slogan\":{\"S\":\"Going Places Together\"},\"head_quarters\":{\"S\":\"Doha, Qatar\"},\"website\":{\"S\":\"https://www.qatarairways.com\"},\"established\":{\"S\":\"1993\"},\"popularity\":{\"N\":\"9.7\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"4\"},\"name\":{\"S\":\"Singapore Airlines\"},\"country\":{\"S\":\"Singapore\"},\"logo\":{\"S\":\"/logos/singapore.png\"},\"slogan\":{\"S\":\"A Great Way to Fly\"},\"head_quarters\":{\"S\":\"Singapore\"},\"website\":{\"S\":\"https://www.singaporeair.com\"},\"established\":{\"S\":\"1947\"},\"popularity\":{\"N\":\"9.6\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"5\"},\"name\":{\"S\":\"British Airways\"},\"country\":{\"S\":\"United Kingdom\"},\"logo\":{\"S\":\"/logos/british-airways.png\"},\"slogan\":{\"S\":\"To Fly. To Serve.\"},\"head_quarters\":{\"S\":\"London, England, UK\"},\"website\":{\"S\":\"https://www.britishairways.com\"},\"established\":{\"S\":\"1974\"},\"popularity\":{\"N\":\"9.2\"}}}}]}},\"physicalResourceId\":{\"id\":\"airlinesddbInitData\"}}"
       ]
      ]
     },
