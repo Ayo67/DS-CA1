@@ -1,4 +1,4 @@
-//import { Airline, AirlineFleet } from '../shared/types';
+import { Airline, AirlineFleet } from '../shared/types';
 
 export const airlines: Airline[] = [
   {

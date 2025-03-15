@@ -7,23 +7,24 @@ import { Construct } from "constructs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { generateBatch } from "../shared/util";
 import { airlines } from "../seed/airlines";
+import * as apig from "aws-cdk-lib/aws-apigateway";
 
 
 export class RestAPIStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-     // Tables 
-     const airlinesTable = new dynamodb.Table(this, "AirlinesTable", {
+    // Tables 
+    const airlinesTable = new dynamodb.Table(this, "AirlinesTable", {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: { name: "id", type: dynamodb.AttributeType.NUMBER },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       tableName: "Airlines",
     });
 
-    
-     // Functions 
-     const getAirlineByIdFn = new lambdanode.NodejsFunction(
+
+    // Functions 
+    const getAirlineByIdFn = new lambdanode.NodejsFunction(
       this,
       "GetAirlineByIdFn",
       {
@@ -74,6 +75,34 @@ export class RestAPIStack extends cdk.Stack {
     // Permissions 
     airlinesTable.grantReadData(getAirlineByIdFn);
     airlinesTable.grantReadData(getAllAirlinesFn);
+
+    // REST API 
+    const api = new apig.RestApi(this, "RestAPI", {
+      description: "Airlines API",
+      deployOptions: {
+        stageName: "dev",
+      },
+      defaultCorsPreflightOptions: {
+        allowHeaders: ["Content-Type", "X-Amz-Date"],
+        allowMethods: ["OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"],
+        allowCredentials: true,
+        allowOrigins: ["*"],
+      },
+    });
+
+    // Airlines endpoint
+    const airlinesEndpoint = api.root.addResource("airlines");
+    airlinesEndpoint.addMethod(
+      "GET",
+      new apig.LambdaIntegration(getAllAirlinesFn, { proxy: true })
+    );
+
+    // Detail airline endpoint
+    const specificAirlineEndpoint = airlinesEndpoint.addResource("{airlineId}");
+    specificAirlineEndpoint.addMethod(
+      "GET",
+      new apig.LambdaIntegration(getAirlineByIdFn, { proxy: true })
+    );
+
   }
 }
-    
