@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/0bed899b500709a2577dc428c21a2e7a5c4bd86fac97ca1e987337d3d2f9c632.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/2cfd665e0701eb433aeb761f4c9d5d8046c7adfddf1846781b0fb9077b4764eb.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -102,6 +102,24 @@
             "data": "AddAirlineFn002E9C30"
           }
         ],
+        "/RestAPIStack/DeleteAirlineFn/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteAirlineFnServiceRoleC1C87159"
+          }
+        ],
+        "/RestAPIStack/DeleteAirlineFn/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteAirlineFnServiceRoleDefaultPolicyFEB4623D"
+          }
+        ],
+        "/RestAPIStack/DeleteAirlineFn/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteAirlineFn110DF859"
+          }
+        ],
         "/RestAPIStack/airlinesddbInitData/Resource/Default": [
           {
             "type": "aws:cdk:logicalId",
@@ -145,7 +163,7 @@
         "/RestAPIStack/RestAPI/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RestAPIDeploymentD35A53803b709b3482ed21ca63f4710b88da071c"
+            "data": "RestAPIDeploymentD35A5380e9a3a83ce1b5b9cfd86f8ffc2bfde5c5"
           }
         ],
         "/RestAPIStack/RestAPI/DeploymentStage.dev/Resource": [
@@ -224,6 +242,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "RestAPIairlinesairlineIdGET85BD3742"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/airlines/{airlineId}/DELETE/ApiPermission.RestAPIStackRestAPIBD91D303.DELETE..airlines.{airlineId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPIairlinesairlineIdDELETEApiPermissionRestAPIStackRestAPIBD91D303DELETEairlinesairlineId3B9DD047"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/airlines/{airlineId}/DELETE/ApiPermission.Test.RestAPIStackRestAPIBD91D303.DELETE..airlines.{airlineId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPIairlinesairlineIdDELETEApiPermissionTestRestAPIStackRestAPIBD91D303DELETEairlinesairlineId06A2D302"
+          }
+        ],
+        "/RestAPIStack/RestAPI/Default/airlines/{airlineId}/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestAPIairlinesairlineIdDELETE7A572294"
           }
         ],
         "/RestAPIStack/RestAPI/Default/airlines/POST/ApiPermission.RestAPIStackRestAPIBD91D303.POST..airlines": [
