@@ -130,41 +130,42 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
-    // Airlines endpoint
-    const airlinesEndpoint = api.root.addResource("airlines");
-    airlinesEndpoint.addMethod(
+        // Airlines endpoint
+      const airlinesEndpoint = api.root.addResource("airlines");
+      airlinesEndpoint.addMethod(
       "GET",
       new apig.LambdaIntegration(getAllAirlinesFn, { proxy: true })
-    );
+      );
 
-    // Detail airline endpoint
-    const specificAirlineEndpoint = airlinesEndpoint.addResource("{airlineId}");
-    specificAirlineEndpoint.addMethod(
+      // Detail airline endpoint
+      const specificAirlineEndpoint = airlinesEndpoint.addResource("{airlineId}");
+      specificAirlineEndpoint.addMethod(
       "GET",
       new apig.LambdaIntegration(getAirlineByIdFn, { proxy: true })
-    );
+      );
 
-    // Add airline endpoint
-    airlinesEndpoint.addMethod(
+      // Add airline endpoint
+      airlinesEndpoint.addMethod(
       "POST",
       new apig.LambdaIntegration(addAirlineFn, { proxy: true })
-    );
+      );
 
-    // Delete airline endpoint
-    specificAirlineEndpoint.addMethod(
+      // Delete airline endpoint
+      specificAirlineEndpoint.addMethod(
       "DELETE",
       new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
-    );
+      );
 
-          // Aircraft endpoint
-      const aircraftEndpoint = airlinesEndpoint.addResource("aircraft");
+      // Aircraft endpoint for specific airline (nested under /airlines/{airlineId})
+      const aircraftEndpoint = specificAirlineEndpoint.addResource("aircraft");
       const specificAircraftEndpoint = aircraftEndpoint.addResource("{aircraftId}");
 
-      // GET endpoint to retrieve an aircraft by ID
+      // Get specific aircraft for the airline
       specificAircraftEndpoint.addMethod(
-        "GET",
-        new apig.LambdaIntegration(getAircraftByIdFn, { proxy: true })
+      "GET",
+      new apig.LambdaIntegration(getAircraftByIdFn, { proxy: true })
       );
+
 
   }
 }
