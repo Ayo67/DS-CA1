@@ -4,22 +4,31 @@
         "Airline": {
             "additionalProperties": false,
             "properties": {
+                "airlineId": {
+                    "type": "number"
+                },
+                "airlineName": {
+                    "type": "string"
+                },
                 "country": {
+                    "type": "string"
+                },
+                "destination": {
                     "type": "string"
                 },
                 "established": {
                     "type": "string"
                 },
-                "head_quarters": {
-                    "type": "string"
-                },
-                "id": {
+                "fleetSize": {
                     "type": "number"
                 },
-                "logo": {
+                "headQuarters": {
                     "type": "string"
                 },
-                "name": {
+                "international": {
+                    "type": "boolean"
+                },
+                "logo": {
                     "type": "string"
                 },
                 "popularity": {
@@ -28,44 +37,48 @@
                 "slogan": {
                     "type": "string"
                 },
+                "tags": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "website": {
                     "type": "string"
                 }
             },
             "required": [
+                "airlineId",
+                "airlineName",
                 "country",
+                "destination",
                 "established",
-                "head_quarters",
-                "id",
+                "fleetSize",
+                "headQuarters",
+                "international",
                 "logo",
-                "name",
                 "popularity",
                 "slogan",
+                "tags",
                 "website"
             ],
             "type": "object"
         },
-        "AirlineFleet": {
+        "AirlineFleetQueryParams": {
             "additionalProperties": false,
             "properties": {
-                "aircraftName": {
-                    "type": "string"
-                },
                 "airlineId": {
                     "type": "number"
                 },
-                "capacity": {
-                    "type": "number"
+                "airlineName": {
+                    "type": "string"
                 },
-                "range": {
+                "destination": {
                     "type": "string"
                 }
             },
             "required": [
-                "aircraftName",
-                "airlineId",
-                "capacity",
-                "range"
+                "airlineId"
             ],
             "type": "object"
         }

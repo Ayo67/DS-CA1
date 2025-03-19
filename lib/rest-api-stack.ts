@@ -17,7 +17,7 @@ export class RestAPIStack extends cdk.Stack {
     // Tables 
     const airlinesTable = new dynamodb.Table(this, "AirlinesTable", {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      partitionKey: { name: "id", type: dynamodb.AttributeType.NUMBER },
+      partitionKey: { name: "airlineId", type: dynamodb.AttributeType.NUMBER },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       tableName: "Airlines",
     });

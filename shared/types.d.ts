@@ -15,10 +15,7 @@ export type Airline = {
 };
 
 export type AirlineFleetQueryParams = {
-  airlineId: string;
+  airlineId: number;
   airlineName?: string;
   destination?: string;
 };
-
-
-

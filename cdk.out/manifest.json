@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/bdc57d3b96482b12a2c7224876e33e0d972eb397d64e2fe721b682f97c4a8fc0.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/22dff5f89e852d4cd9c1958c0405b92ec395d9eab8b4fa5e0af6ffab3657c736.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -46,20 +46,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "AirlinesTableF593EC65"
-          }
-        ],
-        "/RestAPIStack/AirlineFleetTable": [
-          {
-            "type": "aws:cdk:hasPhysicalName",
-            "data": {
-              "Ref": "AirlineFleetTable4D6807D2"
-            }
-          }
-        ],
-        "/RestAPIStack/AirlineFleetTable/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlineFleetTable4D6807D2"
           }
         ],
         "/RestAPIStack/GetAirlineByIdFn/ServiceRole/Resource": [
@@ -134,24 +120,6 @@
             "data": "DeleteAirlineFn110DF859"
           }
         ],
-        "/RestAPIStack/GetAllAirlineFleetFn/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "GetAllAirlineFleetFnServiceRole0B289FF7"
-          }
-        ],
-        "/RestAPIStack/GetAllAirlineFleetFn/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "GetAllAirlineFleetFnServiceRoleDefaultPolicyB9660587"
-          }
-        ],
-        "/RestAPIStack/GetAllAirlineFleetFn/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "GetAllAirlineFleetFnAE635DA3"
-          }
-        ],
         "/RestAPIStack/airlinesDbInitData/Resource/Default": [
           {
             "type": "aws:cdk:logicalId",
@@ -195,7 +163,7 @@
         "/RestAPIStack/RestAPI/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RestAPIDeploymentD35A53807c92fc2038ebaaa39265c906584d80b7"
+            "data": "RestAPIDeploymentD35A5380e9a3a83ce1b5b9cfd86f8ffc2bfde5c5"
           }
         ],
         "/RestAPIStack/RestAPI/DeploymentStage.dev/Resource": [
@@ -310,36 +278,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "RestAPIairlinesPOST3F9E0F43"
-          }
-        ],
-        "/RestAPIStack/RestAPI/Default/airlineFleet/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RestAPIairlineFleet117E4578"
-          }
-        ],
-        "/RestAPIStack/RestAPI/Default/airlineFleet/OPTIONS/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RestAPIairlineFleetOPTIONS979675FA"
-          }
-        ],
-        "/RestAPIStack/RestAPI/Default/airlineFleet/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlineFleet": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RestAPIairlineFleetGETApiPermissionRestAPIStackRestAPIBD91D303GETairlineFleet98E8377B"
-          }
-        ],
-        "/RestAPIStack/RestAPI/Default/airlineFleet/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlineFleet": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RestAPIairlineFleetGETApiPermissionTestRestAPIStackRestAPIBD91D303GETairlineFleetF87D2B44"
-          }
-        ],
-        "/RestAPIStack/RestAPI/Default/airlineFleet/GET/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "RestAPIairlineFleetGET4AFD4426"
           }
         ],
         "/RestAPIStack/CDKMetadata/Default": [

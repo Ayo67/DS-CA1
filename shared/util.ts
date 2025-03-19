@@ -1,7 +1,7 @@
 import { marshall } from "@aws-sdk/util-dynamodb";
-import { Airline, AirlineFleet } from "./types";
+import { Airline } from "./types";
 
-type Entity = Airline | AirlineFleet;
+type Entity = Airline;
 export const generateAirlineItem = (entity: Entity) => {
   return {
     PutRequest: {

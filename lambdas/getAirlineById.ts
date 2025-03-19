@@ -9,8 +9,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("Event: ", JSON.stringify(event));
     const pathParameters = event?.pathParameters;
-    const queryStringParameters = event?.queryStringParameters || {};
-    const includeFleet = queryStringParameters.fleet === "true";
     const airlineId = pathParameters?.airlineId? parseInt(pathParameters.airlineId) : undefined;
 
     if (!airlineId) {
