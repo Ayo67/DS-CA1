@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, GetCommand , QueryCommand} from "@aws-sdk/lib-dynamodb";
 
 const ddbDocClient = createDDbDocClient();
 
@@ -9,6 +9,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("Event: ", JSON.stringify(event));
     const pathParameters = event?.pathParameters;
+    const queryStringParameters = event?.queryStringParameters || {};
+    const includeFleet = queryStringParameters.fleet === "true";
     const airlineId = pathParameters?.airlineId? parseInt(pathParameters.airlineId) : undefined;
 
     if (!airlineId) {
