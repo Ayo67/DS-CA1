@@ -24,6 +24,60 @@
     "aws:cdk:path": "RestAPIStack/AirlinesTable/Resource"
    }
   },
+  "AirlineFleetTable4D6807D2": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "airlineId",
+      "AttributeType": "N"
+     },
+     {
+      "AttributeName": "aircraftName",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "range",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "airlineId",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "aircraftName",
+      "KeyType": "RANGE"
+     }
+    ],
+    "LocalSecondaryIndexes": [
+     {
+      "IndexName": "aircraftRangeIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "airlineId",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "range",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "TableName": "AirlineFleet"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/AirlineFleetTable/Resource"
+   }
+  },
   "GetAirlineByIdFnServiceRoleEFD1DAE6": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -117,6 +171,9 @@
      "Variables": {
       "TABLE_NAME": {
        "Ref": "AirlinesTableF593EC65"
+      },
+      "FLEET_TABLE": {
+       "Ref": "AirlineFleetTable4D6807D2"
       },
       "REGION": "eu-west-1"
      }
@@ -508,7 +565,137 @@
     "aws:asset:property": "Code"
    }
   },
-  "airlinesddbInitData6E0EE5D4": {
+  "GetAllAirlineFleetFnServiceRole0B289FF7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/GetAllAirlineFleetFn/ServiceRole/Resource"
+   }
+  },
+  "GetAllAirlineFleetFnServiceRoleDefaultPolicyB9660587": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AirlineFleetTable4D6807D2",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AirlineFleetTable4D6807D2",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetAllAirlineFleetFnServiceRoleDefaultPolicyB9660587",
+    "Roles": [
+     {
+      "Ref": "GetAllAirlineFleetFnServiceRole0B289FF7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/GetAllAirlineFleetFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetAllAirlineFleetFnAE635DA3": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "adbabdcf3f8a1c43b338024df6f0b8ed7ffc5045ed8b626b0eeebd39e935b71a.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "AirlineFleetTable4D6807D2"
+      },
+      "REGION": "eu-west-1"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 128,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetAllAirlineFleetFnServiceRole0B289FF7",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "GetAllAirlineFleetFnServiceRoleDefaultPolicyB9660587",
+    "GetAllAirlineFleetFnServiceRole0B289FF7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/GetAllAirlineFleetFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "airlinesDbInitData8E0DB83F": {
    "Type": "Custom::AWS",
    "Properties": {
     "ServiceToken": {
@@ -525,22 +712,26 @@
        {
         "Ref": "AirlinesTableF593EC65"
        },
-       "\":[{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"1\"},\"name\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"head_quarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.5\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"2\"},\"name\":{\"S\":\"Emirates\"},\"country\":{\"S\":\"United Arab Emirates\"},\"logo\":{\"S\":\"/logos/emirates.png\"},\"slogan\":{\"S\":\"Fly Better\"},\"head_quarters\":{\"S\":\"Dubai, UAE\"},\"website\":{\"S\":\"https://www.emirates.com\"},\"established\":{\"S\":\"1985\"},\"popularity\":{\"N\":\"9.8\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"3\"},\"name\":{\"S\":\"Qatar Airways\"},\"country\":{\"S\":\"Qatar\"},\"logo\":{\"S\":\"/logos/qatar.png\"},\"slogan\":{\"S\":\"Going Places Together\"},\"head_quarters\":{\"S\":\"Doha, Qatar\"},\"website\":{\"S\":\"https://www.qatarairways.com\"},\"established\":{\"S\":\"1993\"},\"popularity\":{\"N\":\"9.7\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"4\"},\"name\":{\"S\":\"Singapore Airlines\"},\"country\":{\"S\":\"Singapore\"},\"logo\":{\"S\":\"/logos/singapore.png\"},\"slogan\":{\"S\":\"A Great Way to Fly\"},\"head_quarters\":{\"S\":\"Singapore\"},\"website\":{\"S\":\"https://www.singaporeair.com\"},\"established\":{\"S\":\"1947\"},\"popularity\":{\"N\":\"9.6\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"5\"},\"name\":{\"S\":\"British Airways\"},\"country\":{\"S\":\"United Kingdom\"},\"logo\":{\"S\":\"/logos/british-airways.png\"},\"slogan\":{\"S\":\"To Fly. To Serve.\"},\"head_quarters\":{\"S\":\"London, England, UK\"},\"website\":{\"S\":\"https://www.britishairways.com\"},\"established\":{\"S\":\"1974\"},\"popularity\":{\"N\":\"9.2\"}}}}]}},\"physicalResourceId\":{\"id\":\"airlinesddbInitData\"}}"
+       "\":[{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"1\"},\"name\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"head_quarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.5\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"2\"},\"name\":{\"S\":\"Emirates\"},\"country\":{\"S\":\"United Arab Emirates\"},\"logo\":{\"S\":\"/logos/emirates.png\"},\"slogan\":{\"S\":\"Fly Better\"},\"head_quarters\":{\"S\":\"Dubai, UAE\"},\"website\":{\"S\":\"https://www.emirates.com\"},\"established\":{\"S\":\"1985\"},\"popularity\":{\"N\":\"9.8\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"3\"},\"name\":{\"S\":\"Qatar Airways\"},\"country\":{\"S\":\"Qatar\"},\"logo\":{\"S\":\"/logos/qatar.png\"},\"slogan\":{\"S\":\"Going Places Together\"},\"head_quarters\":{\"S\":\"Doha, Qatar\"},\"website\":{\"S\":\"https://www.qatarairways.com\"},\"established\":{\"S\":\"1993\"},\"popularity\":{\"N\":\"9.7\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"4\"},\"name\":{\"S\":\"Singapore Airlines\"},\"country\":{\"S\":\"Singapore\"},\"logo\":{\"S\":\"/logos/singapore.png\"},\"slogan\":{\"S\":\"A Great Way to Fly\"},\"head_quarters\":{\"S\":\"Singapore\"},\"website\":{\"S\":\"https://www.singaporeair.com\"},\"established\":{\"S\":\"1947\"},\"popularity\":{\"N\":\"9.6\"}}}},{\"PutRequest\":{\"Item\":{\"id\":{\"N\":\"5\"},\"name\":{\"S\":\"British Airways\"},\"country\":{\"S\":\"United Kingdom\"},\"logo\":{\"S\":\"/logos/british-airways.png\"},\"slogan\":{\"S\":\"To Fly. To Serve.\"},\"head_quarters\":{\"S\":\"London, England, UK\"},\"website\":{\"S\":\"https://www.britishairways.com\"},\"established\":{\"S\":\"1974\"},\"popularity\":{\"N\":\"9.2\"}}}}],\"",
+       {
+        "Ref": "AirlineFleetTable4D6807D2"
+       },
+       "\":[{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"1\"},\"aircraftName\":{\"S\":\"Boeing 737\"},\"capacity\":{\"N\":\"160\"},\"range\":{\"S\":\"3,850 miles\"},\"destination\":{\"S\":\"New York, USA\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"2\"},\"aircraftName\":{\"S\":\"Airbus A350\"},\"capacity\":{\"N\":\"300\"},\"range\":{\"S\":\"8,100 miles\"},\"destination\":{\"S\":\"London, UK\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"3\"},\"aircraftName\":{\"S\":\"Boeing 777\"},\"capacity\":{\"N\":\"396\"},\"range\":{\"S\":\"7,370 miles\"},\"destination\":{\"S\":\"Doha, Qatar\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"4\"},\"aircraftName\":{\"S\":\"Airbus A380\"},\"capacity\":{\"N\":\"853\"},\"range\":{\"S\":\"8,000 miles\"},\"destination\":{\"S\":\"Singapore\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"5\"},\"aircraftName\":{\"S\":\"Boeing 787\"},\"capacity\":{\"N\":\"242\"},\"range\":{\"S\":\"7,635 miles\"},\"destination\":{\"S\":\"Dubai, UAE\"}}}}]}},\"physicalResourceId\":{\"id\":\"airlinesDbInitData\"}}"
       ]
      ]
     },
     "InstallLatestAwsSdk": false
    },
    "DependsOn": [
-    "airlinesddbInitDataCustomResourcePolicy138C6534"
+    "airlinesDbInitDataCustomResourcePolicy221D2A12"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/airlinesddbInitData/Resource/Default"
+    "aws:cdk:path": "RestAPIStack/airlinesDbInitData/Resource/Default"
    }
   },
-  "airlinesddbInitDataCustomResourcePolicy138C6534": {
+  "airlinesDbInitDataCustomResourcePolicy221D2A12": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -548,17 +739,25 @@
       {
        "Action": "dynamodb:BatchWriteItem",
        "Effect": "Allow",
-       "Resource": {
-        "Fn::GetAtt": [
-         "AirlinesTableF593EC65",
-         "Arn"
-        ]
-       }
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AirlineFleetTable4D6807D2",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "AirlinesTableF593EC65",
+          "Arn"
+         ]
+        }
+       ]
       }
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "airlinesddbInitDataCustomResourcePolicy138C6534",
+    "PolicyName": "airlinesDbInitDataCustomResourcePolicy221D2A12",
     "Roles": [
      {
       "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
@@ -566,7 +765,7 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/airlinesddbInitData/CustomResourcePolicy/Resource"
+    "aws:cdk:path": "RestAPIStack/airlinesDbInitData/CustomResourcePolicy/Resource"
    }
   },
   "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": {
@@ -642,7 +841,7 @@
     "aws:cdk:path": "RestAPIStack/RestAPI/Resource"
    }
   },
-  "RestAPIDeploymentD35A5380e9a3a83ce1b5b9cfd86f8ffc2bfde5c5": {
+  "RestAPIDeploymentD35A53807c92fc2038ebaaa39265c906584d80b7": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Airlines API",
@@ -651,6 +850,9 @@
     }
    },
    "DependsOn": [
+    "RestAPIairlineFleetGET4AFD4426",
+    "RestAPIairlineFleetOPTIONS979675FA",
+    "RestAPIairlineFleet117E4578",
     "RestAPIairlinesairlineIdDELETE7A572294",
     "RestAPIairlinesairlineIdGET85BD3742",
     "RestAPIairlinesairlineIdOPTIONSD009B84C",
@@ -669,7 +871,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "RestAPIDeploymentD35A5380e9a3a83ce1b5b9cfd86f8ffc2bfde5c5"
+     "Ref": "RestAPIDeploymentD35A53807c92fc2038ebaaa39265c906584d80b7"
     },
     "RestApiId": {
      "Ref": "RestAPI1CC12F26"
@@ -1261,6 +1463,172 @@
    },
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/POST/Resource"
+   }
+  },
+  "RestAPIairlineFleet117E4578": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "RestAPI1CC12F26",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "airlineFleet",
+    "RestApiId": {
+     "Ref": "RestAPI1CC12F26"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlineFleet/Resource"
+   }
+  },
+  "RestAPIairlineFleetOPTIONS979675FA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "RestAPIairlineFleet117E4578"
+    },
+    "RestApiId": {
+     "Ref": "RestAPI1CC12F26"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlineFleet/OPTIONS/Resource"
+   }
+  },
+  "RestAPIairlineFleetGETApiPermissionRestAPIStackRestAPIBD91D303GETairlineFleet98E8377B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAllAirlineFleetFnAE635DA3",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "RestAPI1CC12F26"
+       },
+       "/",
+       {
+        "Ref": "RestAPIDeploymentStagedev1DE74094"
+       },
+       "/GET/airlineFleet"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlineFleet/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlineFleet"
+   }
+  },
+  "RestAPIairlineFleetGETApiPermissionTestRestAPIStackRestAPIBD91D303GETairlineFleetF87D2B44": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAllAirlineFleetFnAE635DA3",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "RestAPI1CC12F26"
+       },
+       "/test-invoke-stage/GET/airlineFleet"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlineFleet/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlineFleet"
+   }
+  },
+  "RestAPIairlineFleetGET4AFD4426": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GetAllAirlineFleetFnAE635DA3",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "RestAPIairlineFleet117E4578"
+    },
+    "RestApiId": {
+     "Ref": "RestAPI1CC12F26"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlineFleet/GET/Resource"
    }
   },
   "CDKMetadata": {

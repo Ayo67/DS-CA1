@@ -1,21 +1,24 @@
 export type Airline = {
-  id: number;
-  name: string;
+  airlineId: number;
+  airlineName: string;
   country: string;
   logo: string;
   slogan: string;
-  head_quarters: string;
+  headQuarters: string;
   website: string;
   established: string;
   popularity: number;
+  fleetSize: number;
+  international: boolean;
+  tags: string[];
+  destination: string;
 };
 
-export type AirlineFleet = {
-  airlineId: number; 
-  aircraftName: string; 
-  capacity: number;
-  range: string; 
+export type AirlineFleetQueryParams = {
+  airlineId: string;
+  airlineName?: string;
+  destination?: string;
+};
 
-}; 
 
 

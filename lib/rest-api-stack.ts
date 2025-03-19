@@ -6,7 +6,7 @@ import * as custom from "aws-cdk-lib/custom-resources";
 import { Construct } from "constructs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { generateBatch } from "../shared/util";
-import { airlines, airlineFleets } from "../seed/airlines";
+import { airlines } from "../seed/airlines";
 import * as apig from "aws-cdk-lib/aws-apigateway";
 
 
@@ -22,20 +22,6 @@ export class RestAPIStack extends cdk.Stack {
       tableName: "Airlines",
     });
 
-    const airlineFleetTable = new dynamodb.Table(this, "AirlineFleetTable", {
-      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      partitionKey: { name: "airlineId", type: dynamodb.AttributeType.NUMBER },
-      sortKey: { name: "aircraftName", type: dynamodb.AttributeType.STRING },
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      tableName: "AirlineFleet",
-    });
-
-    airlineFleetTable.addLocalSecondaryIndex({
-      indexName: "aircraftRangeIndex",
-      sortKey: { name: "range", type: dynamodb.AttributeType.STRING },
-    });
-
-
     // Functions 
     const getAirlineByIdFn = new lambdanode.NodejsFunction(
       this,
@@ -48,7 +34,6 @@ export class RestAPIStack extends cdk.Stack {
         memorySize: 128,
         environment: {
           TABLE_NAME: airlinesTable.tableName,
-          FLEET_TABLE: airlineFleetTable.tableName,
           REGION: 'eu-west-1',
         },
       }
@@ -94,18 +79,6 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
-    const getAllAirlineFleetFn = new lambdanode.NodejsFunction(this, "GetAllAirlineFleetFn", {
-      architecture: lambda.Architecture.ARM_64,
-      runtime: lambda.Runtime.NODEJS_18_X,
-      entry: `${__dirname}/../lambdas/getAllAirlineFleet.ts`,
-      timeout: cdk.Duration.seconds(10),
-      memorySize: 128,
-      environment: {
-        TABLE_NAME: airlineFleetTable.tableName,
-        REGION: "eu-west-1",
-      },
-    });
-
     new custom.AwsCustomResource(this, "airlinesDbInitData", {
       onCreate: {
         service: "DynamoDB",
@@ -113,13 +86,12 @@ export class RestAPIStack extends cdk.Stack {
         parameters: {
           RequestItems: {
             [airlinesTable.tableName]: generateBatch(airlines),
-            [airlineFleetTable.tableName]: generateBatch(airlineFleets),
           },
         },
         physicalResourceId: custom.PhysicalResourceId.of("airlinesDbInitData"),
       },
       policy: custom.AwsCustomResourcePolicy.fromSdkCalls({
-        resources: [airlinesTable.tableArn, airlineFleetTable.tableArn],
+        resources: [airlinesTable.tableArn],
       }),
     });
 
@@ -129,7 +101,6 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadData(getAllAirlinesFn);
     airlinesTable.grantReadWriteData(addAirlineFn);
     airlinesTable.grantReadWriteData(deleteAirlineFn);
-    airlineFleetTable.grantReadData(getAllAirlineFleetFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -170,12 +141,6 @@ export class RestAPIStack extends cdk.Stack {
       "DELETE",
       new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
     );
-
-    const airlineFleetEndpoint = api.root.addResource("airlineFleet");
-      airlineFleetEndpoint.addMethod(
-      "GET",
-        new apig.LambdaIntegration(getAllAirlineFleetFn, { proxy: true })
-);
 
   }
 }

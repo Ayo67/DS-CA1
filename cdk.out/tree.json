@@ -55,6 +55,83 @@
               "metadata": []
             }
           },
+          "AirlineFleetTable": {
+            "id": "AirlineFleetTable",
+            "path": "RestAPIStack/AirlineFleetTable",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "RestAPIStack/AirlineFleetTable/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "airlineId",
+                        "attributeType": "N"
+                      },
+                      {
+                        "attributeName": "aircraftName",
+                        "attributeType": "S"
+                      },
+                      {
+                        "attributeName": "range",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "billingMode": "PAY_PER_REQUEST",
+                    "keySchema": [
+                      {
+                        "attributeName": "airlineId",
+                        "keyType": "HASH"
+                      },
+                      {
+                        "attributeName": "aircraftName",
+                        "keyType": "RANGE"
+                      }
+                    ],
+                    "localSecondaryIndexes": [
+                      {
+                        "indexName": "aircraftRangeIndex",
+                        "keySchema": [
+                          {
+                            "attributeName": "airlineId",
+                            "keyType": "HASH"
+                          },
+                          {
+                            "attributeName": "range",
+                            "keyType": "RANGE"
+                          }
+                        ],
+                        "projection": {
+                          "projectionType": "ALL"
+                        }
+                      }
+                    ],
+                    "tableName": "AirlineFleet"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.184.1"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "RestAPIStack/AirlineFleetTable/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.184.1",
+                  "metadata": []
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.184.1",
+              "metadata": []
+            }
+          },
           "GetAirlineByIdFn": {
             "id": "GetAirlineByIdFn",
             "path": "RestAPIStack/GetAirlineByIdFn",
@@ -223,6 +300,9 @@
                       "variables": {
                         "TABLE_NAME": {
                           "Ref": "AirlinesTableF593EC65"
+                        },
+                        "FLEET_TABLE": {
+                          "Ref": "AirlineFleetTable4D6807D2"
                         },
                         "REGION": "eu-west-1"
                       }
@@ -847,13 +927,220 @@
               "metadata": []
             }
           },
-          "airlinesddbInitData": {
-            "id": "airlinesddbInitData",
-            "path": "RestAPIStack/airlinesddbInitData",
+          "GetAllAirlineFleetFn": {
+            "id": "GetAllAirlineFleetFn",
+            "path": "RestAPIStack/GetAllAirlineFleetFn",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "RestAPIStack/GetAllAirlineFleetFn/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "RestAPIStack/GetAllAirlineFleetFn/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.184.1",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "RestAPIStack/GetAllAirlineFleetFn/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.184.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "RestAPIStack/GetAllAirlineFleetFn/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RestAPIStack/GetAllAirlineFleetFn/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DescribeTable",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:Scan"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "AirlineFleetTable4D6807D2",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "AirlineFleetTable4D6807D2",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/index/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "GetAllAirlineFleetFnServiceRoleDefaultPolicyB9660587",
+                            "roles": [
+                              {
+                                "Ref": "GetAllAirlineFleetFnServiceRole0B289FF7"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.184.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.184.1",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.184.1",
+                  "metadata": []
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "RestAPIStack/GetAllAirlineFleetFn/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "RestAPIStack/GetAllAirlineFleetFn/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.184.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "RestAPIStack/GetAllAirlineFleetFn/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.184.1",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.184.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "RestAPIStack/GetAllAirlineFleetFn/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "architectures": [
+                      "arm64"
+                    ],
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+                      },
+                      "s3Key": "adbabdcf3f8a1c43b338024df6f0b8ed7ffc5045ed8b626b0eeebd39e935b71a.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "TABLE_NAME": {
+                          "Ref": "AirlineFleetTable4D6807D2"
+                        },
+                        "REGION": "eu-west-1"
+                      }
+                    },
+                    "handler": "index.handler",
+                    "memorySize": 128,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "GetAllAirlineFleetFnServiceRole0B289FF7",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs18.x",
+                    "timeout": 10
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.184.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+              "version": "2.184.1",
+              "metadata": []
+            }
+          },
+          "airlinesDbInitData": {
+            "id": "airlinesDbInitData",
+            "path": "RestAPIStack/airlinesDbInitData",
             "children": {
               "Provider": {
                 "id": "Provider",
-                "path": "RestAPIStack/airlinesddbInitData/Provider",
+                "path": "RestAPIStack/airlinesDbInitData/Provider",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_lambda.SingletonFunction",
                   "version": "2.184.1",
@@ -862,11 +1149,11 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "RestAPIStack/airlinesddbInitData/Resource",
+                "path": "RestAPIStack/airlinesDbInitData/Resource",
                 "children": {
                   "Default": {
                     "id": "Default",
-                    "path": "RestAPIStack/airlinesddbInitData/Resource/Default",
+                    "path": "RestAPIStack/airlinesDbInitData/Resource/Default",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnResource",
                       "version": "2.184.1"
@@ -881,11 +1168,11 @@
               },
               "CustomResourcePolicy": {
                 "id": "CustomResourcePolicy",
-                "path": "RestAPIStack/airlinesddbInitData/CustomResourcePolicy",
+                "path": "RestAPIStack/airlinesDbInitData/CustomResourcePolicy",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "RestAPIStack/airlinesddbInitData/CustomResourcePolicy/Resource",
+                    "path": "RestAPIStack/airlinesDbInitData/CustomResourcePolicy/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                       "aws:cdk:cloudformation:props": {
@@ -894,17 +1181,25 @@
                             {
                               "Action": "dynamodb:BatchWriteItem",
                               "Effect": "Allow",
-                              "Resource": {
-                                "Fn::GetAtt": [
-                                  "AirlinesTableF593EC65",
-                                  "Arn"
-                                ]
-                              }
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "AirlineFleetTable4D6807D2",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "AirlinesTableF593EC65",
+                                    "Arn"
+                                  ]
+                                }
+                              ]
                             }
                           ],
                           "Version": "2012-10-17"
                         },
-                        "policyName": "airlinesddbInitDataCustomResourcePolicy138C6534",
+                        "policyName": "airlinesDbInitDataCustomResourcePolicy221D2A12",
                         "roles": [
                           {
                             "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
@@ -1113,7 +1408,7 @@
                       "aws:cdk:cloudformation:type": "AWS::ApiGateway::Stage",
                       "aws:cdk:cloudformation:props": {
                         "deploymentId": {
-                          "Ref": "RestAPIDeploymentD35A5380e9a3a83ce1b5b9cfd86f8ffc2bfde5c5"
+                          "Ref": "RestAPIDeploymentD35A53807c92fc2038ebaaa39265c906584d80b7"
                         },
                         "restApiId": {
                           "Ref": "RestAPI1CC12F26"
@@ -1887,6 +2182,230 @@
                                 },
                                 "resourceId": {
                                   "Ref": "RestAPIairlines7492FEC0"
+                                },
+                                "restApiId": {
+                                  "Ref": "RestAPI1CC12F26"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.184.1"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.184.1",
+                          "metadata": []
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.184.1",
+                      "metadata": []
+                    }
+                  },
+                  "airlineFleet": {
+                    "id": "airlineFleet",
+                    "path": "RestAPIStack/RestAPI/Default/airlineFleet",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RestAPIStack/RestAPI/Default/airlineFleet/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "RestAPI1CC12F26",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "airlineFleet",
+                            "restApiId": {
+                              "Ref": "RestAPI1CC12F26"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.184.1"
+                        }
+                      },
+                      "OPTIONS": {
+                        "id": "OPTIONS",
+                        "path": "RestAPIStack/RestAPI/Default/airlineFleet/OPTIONS",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RestAPIStack/RestAPI/Default/airlineFleet/OPTIONS/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "apiKeyRequired": false,
+                                "authorizationType": "NONE",
+                                "httpMethod": "OPTIONS",
+                                "integration": {
+                                  "type": "MOCK",
+                                  "requestTemplates": {
+                                    "application/json": "{ statusCode: 200 }"
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "204",
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date'",
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
+                                        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "204",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Headers": true,
+                                      "method.response.header.Access-Control-Allow-Origin": true,
+                                      "method.response.header.Access-Control-Allow-Methods": true,
+                                      "method.response.header.Access-Control-Allow-Credentials": true
+                                    }
+                                  }
+                                ],
+                                "resourceId": {
+                                  "Ref": "RestAPIairlineFleet117E4578"
+                                },
+                                "restApiId": {
+                                  "Ref": "RestAPI1CC12F26"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.184.1"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.184.1",
+                          "metadata": []
+                        }
+                      },
+                      "GET": {
+                        "id": "GET",
+                        "path": "RestAPIStack/RestAPI/Default/airlineFleet/GET",
+                        "children": {
+                          "ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlineFleet": {
+                            "id": "ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlineFleet",
+                            "path": "RestAPIStack/RestAPI/Default/airlineFleet/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlineFleet",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                              "aws:cdk:cloudformation:props": {
+                                "action": "lambda:InvokeFunction",
+                                "functionName": {
+                                  "Fn::GetAtt": [
+                                    "GetAllAirlineFleetFnAE635DA3",
+                                    "Arn"
+                                  ]
+                                },
+                                "principal": "apigateway.amazonaws.com",
+                                "sourceArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:aws:execute-api:eu-west-1:",
+                                      {
+                                        "Ref": "AWS::AccountId"
+                                      },
+                                      ":",
+                                      {
+                                        "Ref": "RestAPI1CC12F26"
+                                      },
+                                      "/",
+                                      {
+                                        "Ref": "RestAPIDeploymentStagedev1DE74094"
+                                      },
+                                      "/GET/airlineFleet"
+                                    ]
+                                  ]
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                              "version": "2.184.1"
+                            }
+                          },
+                          "ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlineFleet": {
+                            "id": "ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlineFleet",
+                            "path": "RestAPIStack/RestAPI/Default/airlineFleet/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlineFleet",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                              "aws:cdk:cloudformation:props": {
+                                "action": "lambda:InvokeFunction",
+                                "functionName": {
+                                  "Fn::GetAtt": [
+                                    "GetAllAirlineFleetFnAE635DA3",
+                                    "Arn"
+                                  ]
+                                },
+                                "principal": "apigateway.amazonaws.com",
+                                "sourceArn": {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      "arn:aws:execute-api:eu-west-1:",
+                                      {
+                                        "Ref": "AWS::AccountId"
+                                      },
+                                      ":",
+                                      {
+                                        "Ref": "RestAPI1CC12F26"
+                                      },
+                                      "/test-invoke-stage/GET/airlineFleet"
+                                    ]
+                                  ]
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                              "version": "2.184.1"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "RestAPIStack/RestAPI/Default/airlineFleet/GET/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "authorizationType": "NONE",
+                                "httpMethod": "GET",
+                                "integration": {
+                                  "type": "AWS_PROXY",
+                                  "uri": {
+                                    "Fn::Join": [
+                                      "",
+                                      [
+                                        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+                                        {
+                                          "Fn::GetAtt": [
+                                            "GetAllAirlineFleetFnAE635DA3",
+                                            "Arn"
+                                          ]
+                                        },
+                                        "/invocations"
+                                      ]
+                                    ]
+                                  },
+                                  "integrationHttpMethod": "POST"
+                                },
+                                "resourceId": {
+                                  "Ref": "RestAPIairlineFleet117E4578"
                                 },
                                 "restApiId": {
                                   "Ref": "RestAPI1CC12F26"
