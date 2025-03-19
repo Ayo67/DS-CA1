@@ -22,6 +22,10 @@
                       {
                         "attributeName": "airlineId",
                         "attributeType": "N"
+                      },
+                      {
+                        "attributeName": "aircraftId",
+                        "attributeType": "N"
                       }
                     ],
                     "billingMode": "PAY_PER_REQUEST",
@@ -29,6 +33,10 @@
                       {
                         "attributeName": "airlineId",
                         "keyType": "HASH"
+                      },
+                      {
+                        "attributeName": "aircraftId",
+                        "keyType": "RANGE"
                       }
                     ],
                     "tableName": "Airlines"
@@ -217,7 +225,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
                       },
-                      "s3Key": "6599fecddc7bcd210f4d091b2fac5d965ed4e2dca753157a558466123796fd8d.zip"
+                      "s3Key": "612d2a8e1617e7091bc552eb77f9e0e0e67acc6518ad50048d045030f6986f1f.zip"
                     },
                     "environment": {
                       "variables": {
@@ -413,7 +421,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
                       },
-                      "s3Key": "131c94bbd23c48feb3fad2b0d2c3708ee74730324bd362a845d5a0309c4e2476.zip"
+                      "s3Key": "197edc70ff60cce6b1292434348767cd075d95ca6e9735146e90f947e75bcd15.zip"
                     },
                     "environment": {
                       "variables": {
@@ -613,7 +621,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
                       },
-                      "s3Key": "8df20d15325018916fbee8441d21a1802f7d03595c8478b9e8f4af7444c4051d.zip"
+                      "s3Key": "7e83e6d136b6b1601c3cd2b29169597db209624bd9e6bfda4c643423b228c0e2.zip"
                     },
                     "environment": {
                       "variables": {
@@ -813,7 +821,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
                       },
-                      "s3Key": "35331cfc48475512048f607a0ea6773c713eba63b7be2c9f83d830cd9ecbf97f.zip"
+                      "s3Key": "c55725c8d1c9ddd23a2f72c8d026b1bb3d2f86af6b76d32912b0e615f5476687.zip"
                     },
                     "environment": {
                       "variables": {

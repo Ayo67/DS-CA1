@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.147",
     "@types/node": "^22.13.10",
-    "typescript-json-schema": "^0.65.1"
+    "typescript-json-schema": "^0.65.1",
+    "esbuild": "^0.14.0"
   }
 }

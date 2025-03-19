@@ -4,6 +4,12 @@
         "Airline": {
             "additionalProperties": false,
             "properties": {
+                "aircraftId": {
+                    "type": "number"
+                },
+                "aircraftName": {
+                    "type": "string"
+                },
                 "airlineId": {
                     "type": "number"
                 },
@@ -48,6 +54,8 @@
                 }
             },
             "required": [
+                "aircraftId",
+                "aircraftName",
                 "airlineId",
                 "airlineName",
                 "country",

@@ -2,7 +2,7 @@ import { marshall } from "@aws-sdk/util-dynamodb";
 import { Airline } from "./types";
 
 type Entity = Airline;
-export const generateAirlineItem = (entity: Entity) => {
+export const generateItem = (entity: Entity) => {
   return {
     PutRequest: {
       Item: marshall(entity),
@@ -12,6 +12,6 @@ export const generateAirlineItem = (entity: Entity) => {
 
 export const generateBatch = (data: Entity[]) => {
   return data.map((e) => {
-    return generateAirlineItem(e);
+    return generateItem(e);
   });
 };

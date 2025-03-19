@@ -18,6 +18,7 @@ export class RestAPIStack extends cdk.Stack {
     const airlinesTable = new dynamodb.Table(this, "AirlinesTable", {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       partitionKey: { name: "airlineId", type: dynamodb.AttributeType.NUMBER },
+      sortKey: { name: "aircraftId", type: dynamodb.AttributeType.NUMBER },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       tableName: "Airlines",
     });
@@ -79,6 +80,18 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
+    const getAircraftByIdFn = new lambdanode.NodejsFunction(this, "GetAircraftByIdFn", {
+      architecture: lambda.Architecture.ARM_64,
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: `${__dirname}/../lambdas/getAircraftById.ts`,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 128,
+      environment: {
+        TABLE_NAME: airlinesTable.tableName,
+        REGION: "eu-west-1",
+      },
+    });
+
     new custom.AwsCustomResource(this, "airlinesDbInitData", {
       onCreate: {
         service: "DynamoDB",
@@ -101,6 +114,7 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadData(getAllAirlinesFn);
     airlinesTable.grantReadWriteData(addAirlineFn);
     airlinesTable.grantReadWriteData(deleteAirlineFn);
+    airlinesTable.grantReadData(getAircraftByIdFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -141,6 +155,16 @@ export class RestAPIStack extends cdk.Stack {
       "DELETE",
       new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
     );
+
+          // Aircraft endpoint
+      const aircraftEndpoint = airlinesEndpoint.addResource("aircraft");
+      const specificAircraftEndpoint = aircraftEndpoint.addResource("{aircraftId}");
+
+      // GET endpoint to retrieve an aircraft by ID
+      specificAircraftEndpoint.addMethod(
+        "GET",
+        new apig.LambdaIntegration(getAircraftByIdFn, { proxy: true })
+      );
 
   }
 }

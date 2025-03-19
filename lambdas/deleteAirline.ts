@@ -8,9 +8,9 @@ import { APIGatewayProxyHandlerV2 } from "aws-lambda";
    try {
      console.log("[EVENT]", JSON.stringify(event));
      
-     const movieId = event.pathParameters?.movieId;
+     const airlineId = event.pathParameters?.airlineId;
      
-     if (!movieId) {
+     if (!airlineId) {
        return {
          statusCode: 400,
          headers: {
@@ -20,7 +20,7 @@ import { APIGatewayProxyHandlerV2 } from "aws-lambda";
        };
      }
  
-     const airlineIdNum = Number(movieId);
+     const airlineIdNum = Number(airlineId);
      if (isNaN(airlineIdNum)) {
        return {
          statusCode: 400,
