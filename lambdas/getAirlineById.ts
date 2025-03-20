@@ -1,7 +1,6 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand , QueryCommand} from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 const ddbDocClient = createDDbDocClient();
 
@@ -9,40 +8,42 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("Event: ", JSON.stringify(event));
     const airlineId = event.pathParameters?.airlineId;
-    const aircraftId = event.pathParameters?.aircraftId;;
 
-    if (!airlineId || !aircraftId) {
+    if (!airlineId) {
       return {
-        statusCode: 404,
+        statusCode: 400,
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ Message: "Missing required paramaeters" }),
+        body: JSON.stringify({ Message: "Missing airlineId parameter" }),
       };
     }
 
+    // Use QueryCommand to get all items with matching partition key
     const params = {
       TableName: process.env.TABLE_NAME,
-      Key:{
-        airlineId: airlineId,
-        aircraftId: aircraftId
+      KeyConditionExpression: "airlineId = :airlineId",
+      ExpressionAttributeValues: {
+        ":airlineId": parseInt(airlineId),  // Make sure to convert to number
       },
     };
 
-    const commandOutput = await ddbDocClient.send( new GetCommand(params));
+    const commandOutput = await ddbDocClient.send(new QueryCommand(params));
 
-    console.log("GetCommand response: ", commandOutput);
-    if (!commandOutput.Item) {
+    console.log("QueryCommand response: ", commandOutput);
+    if (!commandOutput.Items || commandOutput.Items.length === 0) {
       return {
         statusCode: 404,
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ Message: "Invalid airline Id" }),
+        body: JSON.stringify({ Message: "No aircraft found for this airline" }),
       };
     }
+    
     const body = {
-      data: commandOutput.Item,
+      data: commandOutput.Items,
+      count: commandOutput.Count,
     };
 
     // Return Response
