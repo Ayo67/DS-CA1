@@ -85,6 +85,18 @@ export class RestAPIStack extends cdk.Stack {
         REGION: "eu-west-1",
       },
     });
+    
+    const deleteAircraftFn = new lambdanode.NodejsFunction(this, "DeleteAircraftFn", {
+      architecture: lambda.Architecture.ARM_64,
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: `${__dirname}/../lambdas/deleteAircraft.ts`,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 128,
+      environment: {
+        TABLE_NAME: airlinesTable.tableName,
+        REGION: "eu-west-1",
+      },
+    });
 
     const getAircraftByIdFn = new lambdanode.NodejsFunction(this, "GetAircraftByIdFn", {
       architecture: lambda.Architecture.ARM_64,
@@ -98,10 +110,10 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
-    const updateAirlineFn = new lambdanode.NodejsFunction(this, "UpdateAirlineFn", {
+    const updateAircraftFn = new lambdanode.NodejsFunction(this, "UpdateAircraftFn", {
       architecture: lambda.Architecture.ARM_64,
       runtime: lambda.Runtime.NODEJS_18_X,
-      entry: `${__dirname}/../lambdas/updateAirline.ts`,
+      entry: `${__dirname}/../lambdas/updateAircraft.ts`,
       timeout: cdk.Duration.seconds(10),
       memorySize: 128,
       environment: {
@@ -143,8 +155,9 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadData(getAllAirlinesFn);
     airlinesTable.grantReadWriteData(addAirlineFn);
     airlinesTable.grantReadWriteData(deleteAirlineFn);
+    airlinesTable.grantReadWriteData(deleteAircraftFn);
     airlinesTable.grantReadData(getAircraftByIdFn);
-    airlinesTable.grantReadWriteData(updateAirlineFn);
+    airlinesTable.grantReadWriteData(updateAircraftFn);
     airlinesTable.grantReadData(getAirlineTranslationFn);
 
     // REST API 
@@ -161,7 +174,7 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
-            // Airlines endpoint
+                // Airlines endpoint
       const airlinesEndpoint = api.root.addResource("airlines");
       airlinesEndpoint.addMethod(
         "GET",
@@ -183,25 +196,32 @@ export class RestAPIStack extends cdk.Stack {
 
       // Delete airline endpoint
       specificAirlineEndpoint.addMethod(
-        "DELETE",
+        "DELETE", 
         new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
       );
 
-      // Update specific airline endpoint
-      specificAirlineEndpoint.addMethod(
-        "PUT",
-        new apig.LambdaIntegration(updateAirlineFn, { proxy: true })
-      );
-
-      // Create specific aircraft endpoint directly under airline (no "aircraft" resource)
+      // Create specific aircraft endpoint directly under airline
       const specificAircraftEndpoint = specificAirlineEndpoint.addResource("{aircraftId}");
+
       // Get specific aircraft for the airline
       specificAircraftEndpoint.addMethod(
         "GET",
         new apig.LambdaIntegration(getAircraftByIdFn, { proxy: true })
       );
 
-            // Get aircraft with translation
+      // Delete aircraft endpoint (moved from airline to aircraft)
+      specificAircraftEndpoint.addMethod(
+        "DELETE",
+        new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
+      );
+
+      // Update specific aircraft endpoint (moved from airline to aircraft)
+      specificAircraftEndpoint.addMethod(
+        "PUT",
+        new apig.LambdaIntegration(updateAircraftFn, { proxy: true })
+      );
+
+      // Get aircraft with translation
       const translationEndpoint = specificAircraftEndpoint.addResource("translation");
       translationEndpoint.addMethod(
         "GET",
