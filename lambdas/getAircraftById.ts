@@ -1,35 +1,40 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
 
 const ddbDocClient = createDDbDocClient();
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("Event:", JSON.stringify(event));
+    const airlineId = event.pathParameters?.airlineId;
     const aircraftId = event.pathParameters?.aircraftId;
 
-    if (!aircraftId) {
+    if (!airlineId || !aircraftId) {
       return {
         statusCode: 400,
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ message: "Missing aircraftId path parameter" }),
+        body: JSON.stringify({ 
+          message: "Missing required path parameters",
+          missing: !airlineId ? "airlineId" : "aircraftId" 
+        }),
       };
     }
 
+    // Use GetCommand instead of QueryCommand since we have the exact primary key
     const params = {
       TableName: process.env.TABLE_NAME,
-      KeyConditionExpression: "aircraftId = :aircraftId",
-      ExpressionAttributeValues: {
-        ":aircraftId": parseInt(aircraftId),
-      },
+      Key: {
+        airlineId: parseInt(airlineId),
+        aircraftId: parseInt(aircraftId)
+      }
     };
 
-    const commandOutput = await ddbDocClient.send(new QueryCommand(params));
+    const commandOutput = await ddbDocClient.send(new GetCommand(params));
 
-    if (!commandOutput.Items || commandOutput.Items.length === 0) {
+    if (!commandOutput.Item) {
       return {
         statusCode: 404,
         headers: {
@@ -46,7 +51,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
       body: JSON.stringify({
         message: "Successfully retrieved aircraft",
-        aircraft: commandOutput.Items[0],
+        aircraft: commandOutput.Item,
       }),
     };
   } catch (error: any) {

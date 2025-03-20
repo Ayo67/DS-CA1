@@ -119,7 +119,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "612d2a8e1617e7091bc552eb77f9e0e0e67acc6518ad50048d045030f6986f1f.zip"
+     "S3Key": "7c2fec3f24dcc057a41a3ae16a318d6aa269bcd0b62825800263c4b2bb19e14b.zip"
     },
     "Environment": {
      "Variables": {
@@ -146,7 +146,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/GetAirlineByIdFn/Resource",
-    "aws:asset:path": "asset.612d2a8e1617e7091bc552eb77f9e0e0e67acc6518ad50048d045030f6986f1f",
+    "aws:asset:path": "asset.7c2fec3f24dcc057a41a3ae16a318d6aa269bcd0b62825800263c4b2bb19e14b",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -603,7 +603,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "a913cb5093ae2c698321c0a488387fc502921add718a4b9741753fa5ba93f2c2.zip"
+     "S3Key": "d85247338b17acbbf3f5b86ce4e6d64576039bf8de95855cd281c8db9dc16da5.zip"
     },
     "Environment": {
      "Variables": {
@@ -630,7 +630,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/GetAircraftByIdFn/Resource",
-    "aws:asset:path": "asset.a913cb5093ae2c698321c0a488387fc502921add718a4b9741753fa5ba93f2c2",
+    "aws:asset:path": "asset.d85247338b17acbbf3f5b86ce4e6d64576039bf8de95855cd281c8db9dc16da5",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -769,7 +769,7 @@
     "aws:cdk:path": "RestAPIStack/RestAPI/Resource"
    }
   },
-  "RestAPIDeploymentD35A53808ce2e7ffd2aacbb52181b1a4e84e0168": {
+  "RestAPIDeploymentD35A53803cbca4c34faafe590980dc327b345ced": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Airlines API",
@@ -778,11 +778,9 @@
     }
    },
    "DependsOn": [
-    "RestAPIairlinesairlineIdaircraftaircraftIdGET0965D6C2",
-    "RestAPIairlinesairlineIdaircraftaircraftIdOPTIONSE4B93112",
-    "RestAPIairlinesairlineIdaircraftaircraftId5AADD19C",
-    "RestAPIairlinesairlineIdaircraftOPTIONS41405E27",
-    "RestAPIairlinesairlineIdaircraft086075C8",
+    "RestAPIairlinesairlineIdaircraftIdGET36F8EB68",
+    "RestAPIairlinesairlineIdaircraftIdOPTIONS25698E46",
+    "RestAPIairlinesairlineIdaircraftIdBBA61E16",
     "RestAPIairlinesairlineIdDELETE7A572294",
     "RestAPIairlinesairlineIdGET85BD3742",
     "RestAPIairlinesairlineIdOPTIONSD009B84C",
@@ -801,7 +799,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "RestAPIDeploymentD35A53808ce2e7ffd2aacbb52181b1a4e84e0168"
+     "Ref": "RestAPIDeploymentD35A53803cbca4c34faafe590980dc327b345ced"
     },
     "RestApiId": {
      "Ref": "RestAPI1CC12F26"
@@ -1292,71 +1290,11 @@
     "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/DELETE/Resource"
    }
   },
-  "RestAPIairlinesairlineIdaircraft086075C8": {
+  "RestAPIairlinesairlineIdaircraftIdBBA61E16": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
     "ParentId": {
      "Ref": "RestAPIairlinesairlineId549B5FB0"
-    },
-    "PathPart": "aircraft",
-    "RestApiId": {
-     "Ref": "RestAPI1CC12F26"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/aircraft/Resource"
-   }
-  },
-  "RestAPIairlinesairlineIdaircraftOPTIONS41405E27": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date'",
-        "method.response.header.Access-Control-Allow-Origin": "'*'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "RestAPIairlinesairlineIdaircraft086075C8"
-    },
-    "RestApiId": {
-     "Ref": "RestAPI1CC12F26"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/aircraft/OPTIONS/Resource"
-   }
-  },
-  "RestAPIairlinesairlineIdaircraftaircraftId5AADD19C": {
-   "Type": "AWS::ApiGateway::Resource",
-   "Properties": {
-    "ParentId": {
-     "Ref": "RestAPIairlinesairlineIdaircraft086075C8"
     },
     "PathPart": "{aircraftId}",
     "RestApiId": {
@@ -1364,10 +1302,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/aircraft/{aircraftId}/Resource"
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/{aircraftId}/Resource"
    }
   },
-  "RestAPIairlinesairlineIdaircraftaircraftIdOPTIONSE4B93112": {
+  "RestAPIairlinesairlineIdaircraftIdOPTIONS25698E46": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
     "ApiKeyRequired": false,
@@ -1402,17 +1340,17 @@
      }
     ],
     "ResourceId": {
-     "Ref": "RestAPIairlinesairlineIdaircraftaircraftId5AADD19C"
+     "Ref": "RestAPIairlinesairlineIdaircraftIdBBA61E16"
     },
     "RestApiId": {
      "Ref": "RestAPI1CC12F26"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/aircraft/{aircraftId}/OPTIONS/Resource"
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/{aircraftId}/OPTIONS/Resource"
    }
   },
-  "RestAPIairlinesairlineIdaircraftaircraftIdGETApiPermissionRestAPIStackRestAPIBD91D303GETairlinesairlineIdaircraftaircraftIdD5F44975": {
+  "RestAPIairlinesairlineIdaircraftIdGETApiPermissionRestAPIStackRestAPIBD91D303GETairlinesairlineIdaircraftId3C2D576E": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -1439,16 +1377,16 @@
        {
         "Ref": "RestAPIDeploymentStagedev1DE74094"
        },
-       "/GET/airlines/*/aircraft/*"
+       "/GET/airlines/*/*"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlines.{airlineId}.aircraft.{aircraftId}"
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/{aircraftId}/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlines.{airlineId}.{aircraftId}"
    }
   },
-  "RestAPIairlinesairlineIdaircraftaircraftIdGETApiPermissionTestRestAPIStackRestAPIBD91D303GETairlinesairlineIdaircraftaircraftId5A461490": {
+  "RestAPIairlinesairlineIdaircraftIdGETApiPermissionTestRestAPIStackRestAPIBD91D303GETairlinesairlineIdaircraftIdA07332E9": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -1471,16 +1409,16 @@
        {
         "Ref": "RestAPI1CC12F26"
        },
-       "/test-invoke-stage/GET/airlines/*/aircraft/*"
+       "/test-invoke-stage/GET/airlines/*/*"
       ]
      ]
     }
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlines.{airlineId}.aircraft.{aircraftId}"
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/{aircraftId}/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlines.{airlineId}.{aircraftId}"
    }
   },
-  "RestAPIairlinesairlineIdaircraftaircraftIdGET0965D6C2": {
+  "RestAPIairlinesairlineIdaircraftIdGET36F8EB68": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
     "AuthorizationType": "NONE",
@@ -1505,14 +1443,14 @@
      }
     },
     "ResourceId": {
-     "Ref": "RestAPIairlinesairlineIdaircraftaircraftId5AADD19C"
+     "Ref": "RestAPIairlinesairlineIdaircraftIdBBA61E16"
     },
     "RestApiId": {
      "Ref": "RestAPI1CC12F26"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/Resource"
+    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/{aircraftId}/GET/Resource"
    }
   },
   "RestAPIairlinesPOSTApiPermissionRestAPIStackRestAPIBD91D303POSTairlines4D75D1EC": {
