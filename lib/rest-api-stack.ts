@@ -23,6 +23,12 @@ export class RestAPIStack extends cdk.Stack {
       tableName: "Airlines",
     });
 
+    airlinesTable.addGlobalSecondaryIndex({
+      indexName: "CapacityIndex",
+      partitionKey: { name: "capacity", type: dynamodb.AttributeType.NUMBER },  
+      sortKey: { name: "model", type: dynamodb.AttributeType.STRING },
+    });
+
     // Functions 
     const getAirlineByIdFn = new lambdanode.NodejsFunction(
       this,
@@ -104,6 +110,17 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
+    const getAirlineTranslationFn = new lambdanode.NodejsFunction(this, "GetAirlineTranslationFn", {
+      architecture: lambda.Architecture.ARM_64,
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: `${__dirname}/../lambdas/getTranslation.ts`,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 128,
+      environment: {
+        REGION: "eu-west-1",
+      },
+    });
+
     new custom.AwsCustomResource(this, "airlinesDbInitData", {
       onCreate: {
         service: "DynamoDB",
@@ -128,6 +145,7 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadWriteData(deleteAirlineFn);
     airlinesTable.grantReadData(getAircraftByIdFn);
     airlinesTable.grantReadWriteData(updateAirlineFn);
+    airlinesTable.grantReadData(getAirlineTranslationFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -181,6 +199,13 @@ export class RestAPIStack extends cdk.Stack {
       specificAircraftEndpoint.addMethod(
         "GET",
         new apig.LambdaIntegration(getAircraftByIdFn, { proxy: true })
+      );
+
+            // Get aircraft with translation
+      const translationEndpoint = specificAircraftEndpoint.addResource("translation");
+      translationEndpoint.addMethod(
+        "GET",
+        new apig.LambdaIntegration(getAirlineTranslationFn, { proxy: true })
       );
 
   }

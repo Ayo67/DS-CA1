@@ -4,12 +4,12 @@ import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 const ddbDocClient = createDDbDocClient();
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => { 
+export const handler: APIGatewayProxyHandlerV2 = async (event, context) => { 
   try {
     console.log("Event: ", JSON.stringify(event));
     
-    // Get path parameter
     const airlineId = event.pathParameters?.airlineId;
+
     if (!airlineId) {
       return {
         statusCode: 400,
@@ -18,26 +18,33 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       };
     }
 
-    // Get query string parameters (optional filters)
+    // (optional filters)
     const queryParams = event.queryStringParameters || {};
     const { destination, capacity } = queryParams;
 
-    // Defininition of  base QueryCommand parameters
     const params: any = {
       TableName: process.env.TABLE_NAME,
-      KeyConditionExpression: "airlineId = :airlineId",
-      ExpressionAttributeValues: { ":airlineId": parseInt(airlineId) },
+      IndexName: "CapacityIndex",
+      ExpressionAttributeValues: {
+        ":airlineId": parseInt(airlineId),
+      },
     };
 
+    // Handle capacity parameter in KeyConditionExpression
+    if (capacity) {
+      params.KeyConditionExpression = "airlineId = :airlineId AND capacity >= :capacity";
+      params.ExpressionAttributeValues[":capacity"] = parseInt(capacity);
+    } else {
+      // If no capacity provided, just query by partition key
+      params.KeyConditionExpression = "airlineId = :airlineId";
+    }
+
+    // Add any additional filter expressions
     let filterExpressions: string[] = [];
     
     if (destination) {
       filterExpressions.push("destination = :destination");
       params.ExpressionAttributeValues[":destination"] = destination;
-    }
-    if (capacity) {
-      filterExpressions.push("capacity >= :capacity");
-      params.ExpressionAttributeValues[":capacity"] = parseInt(capacity);
     }
 
     if (filterExpressions.length > 0) {
@@ -55,6 +62,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
         body: JSON.stringify({ Message: "No results match the given filters" }),
       };
     }
+    
     return {
       statusCode: 200,
       headers: { "content-type": "application/json" },
