@@ -1,7 +1,7 @@
 export type Airline = {
   airlineId: number;
   aircraftId: number; 
-  aircraftName: string; 
+  model: string; 
   airlineName: string;
   country: string;
   logo: string;
@@ -10,7 +10,7 @@ export type Airline = {
   website: string;
   established: string;
   popularity: number;
-  fleetSize: number;
+  capacity: number;
   international: boolean;
   tags: string[];
   destination: string;

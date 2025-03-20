@@ -2,7 +2,7 @@ export const airlines = [
   {
     airlineId: 1,
     aircraftId: 101,
-    aircraftName: "Boeing 737",
+    model: "Boeing 737",
     airlineName: "Delta Airlines",
     country: "United States",
     logo: "/logos/delta.png",
@@ -11,7 +11,7 @@ export const airlines = [
     website: "https://www.delta.com",
     established: "1929",
     popularity: 9.5,
-    fleetSize: 800,
+    capacity: 800,
     international: true,
     tags: ["legacy", "international", "domestic", "SkyTeam"],
     destination: "New York, USA"
@@ -19,7 +19,7 @@ export const airlines = [
   {
     airlineId: 1,
     aircraftId: 102,
-    aircraftName: "Airbus A320",
+    model: "Airbus A320",
     airlineName: "Delta Airlines",
     country: "United States",
     logo: "/logos/delta.png",
@@ -28,7 +28,7 @@ export const airlines = [
     website: "https://www.delta.com",
     established: "1929",
     popularity: 9.3,
-    fleetSize: 800,
+    capacity: 800,
     international: true,
     tags: ["legacy", "international", "domestic", "SkyTeam"],
     destination: "Los Angeles, USA"
@@ -36,7 +36,7 @@ export const airlines = [
   {
     airlineId: 1,
     aircraftId: 103,
-    aircraftName: "Boeing 767",
+    model: "Boeing 767",
     airlineName: "Delta Airlines",
     country: "United States",
     logo: "/logos/delta.png",
@@ -45,7 +45,7 @@ export const airlines = [
     website: "https://www.delta.com",
     established: "1929",
     popularity: 9.4,
-    fleetSize: 800,
+    capacity: 800,
     international: true,
     tags: ["legacy", "international", "domestic", "SkyTeam"],
     destination: "Paris, France"
@@ -53,7 +53,7 @@ export const airlines = [
   {
     airlineId: 2,
     aircraftId: 201,
-    aircraftName: "Boeing 777",
+    model: "Boeing 777",
     airlineName: "Emirates",
     country: "United Arab Emirates",
     logo: "/logos/emirates.png",
@@ -62,7 +62,7 @@ export const airlines = [
     website: "https://www.emirates.com",
     established: "1985",
     popularity: 9.8,
-    fleetSize: 260,
+    capacity: 260,
     international: true,
     tags: ["luxury", "long-haul", "international", "hub-Dubai"],
     destination: "London, UK"
@@ -70,7 +70,7 @@ export const airlines = [
   {
     airlineId: 3,
     aircraftId: 301,
-    aircraftName: "Airbus A350",
+    model: "Airbus A350",
     airlineName: "Qatar Airways",
     country: "Qatar",
     logo: "/logos/qatar.png",
@@ -79,7 +79,7 @@ export const airlines = [
     website: "https://www.qatarairways.com",
     established: "1993",
     popularity: 9.7,
-    fleetSize: 250,
+    capacity: 250,
     international: true,
     tags: ["luxury", "international", "oneworld"],
     destination: "Doha, Qatar"
@@ -87,7 +87,7 @@ export const airlines = [
   {
     airlineId: 4,
     aircraftId: 401,
-    aircraftName: "Boeing 787 Dreamliner",
+    model: "Boeing 787 Dreamliner",
     airlineName: "Singapore Airlines",
     country: "Singapore",
     logo: "/logos/singapore.png",
@@ -96,7 +96,7 @@ export const airlines = [
     website: "https://www.singaporeair.com",
     established: "1947",
     popularity: 9.6,
-    fleetSize: 140,
+    capacity: 140,
     international: true,
     tags: ["luxury", "international", "StarAlliance"],
     destination: "Singapore"
@@ -104,7 +104,7 @@ export const airlines = [
   {
     airlineId: 5,
     aircraftId: 501,
-    aircraftName: "Airbus A380",
+    model: "Airbus A380",
     airlineName: "British Airways",
     country: "United Kingdom",
     logo: "/logos/british-airways.png",
@@ -113,7 +113,7 @@ export const airlines = [
     website: "https://www.britishairways.com",
     established: "1974",
     popularity: 9.2,
-    fleetSize: 280,
+    capacity: 280,
     international: true,
     tags: ["legacy", "international", "oneworld"],
     destination: "Dubai, UAE"

@@ -92,6 +92,18 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
+    const updateAirlineFn = new lambdanode.NodejsFunction(this, "UpdateAirlineFn", {
+      architecture: lambda.Architecture.ARM_64,
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: `${__dirname}/../lambdas/updateAirline.ts`,
+      timeout: cdk.Duration.seconds(10),
+      memorySize: 128,
+      environment: {
+        TABLE_NAME: airlinesTable.tableName,
+        REGION: "eu-west-1",
+      },
+    });
+
     new custom.AwsCustomResource(this, "airlinesDbInitData", {
       onCreate: {
         service: "DynamoDB",
@@ -115,6 +127,7 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadWriteData(addAirlineFn);
     airlinesTable.grantReadWriteData(deleteAirlineFn);
     airlinesTable.grantReadData(getAircraftByIdFn);
+    airlinesTable.grantReadWriteData(updateAirlineFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -154,6 +167,12 @@ export class RestAPIStack extends cdk.Stack {
       specificAirlineEndpoint.addMethod(
         "DELETE",
         new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
+      );
+
+      // Update specific airline endpoint
+      specificAirlineEndpoint.addMethod(
+        "PUT",
+        new apig.LambdaIntegration(updateAirlineFn, { proxy: true })
       );
 
       // Create specific aircraft endpoint directly under airline (no "aircraft" resource)

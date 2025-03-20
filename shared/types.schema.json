@@ -7,7 +7,7 @@
                 "aircraftId": {
                     "type": "number"
                 },
-                "aircraftName": {
+                "model": {
                     "type": "string"
                 },
                 "airlineId": {
@@ -25,7 +25,7 @@
                 "established": {
                     "type": "string"
                 },
-                "fleetSize": {
+                "capacity": {
                     "type": "number"
                 },
                 "headQuarters": {
@@ -55,13 +55,13 @@
             },
             "required": [
                 "aircraftId",
-                "aircraftName",
+                "model",
                 "airlineId",
                 "airlineName",
                 "country",
                 "destination",
                 "established",
-                "fleetSize",
+                "capacity",
                 "headQuarters",
                 "international",
                 "logo",
