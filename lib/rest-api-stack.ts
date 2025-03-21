@@ -176,10 +176,10 @@ export class RestAPIStack extends cdk.Stack {
 
                 // Airlines endpoint
       const airlinesEndpoint = api.root.addResource("airlines");
-      airlinesEndpoint.addMethod(
-        "GET",
-        new apig.LambdaIntegration(getAllAirlinesFn, { proxy: true })
-      );
+      // airlinesEndpoint.addMethod(
+      //   "GET",
+      //   new apig.LambdaIntegration(getAllAirlinesFn, { proxy: true })
+      // );
 
       // Detail airline endpoint
       const specificAirlineEndpoint = airlinesEndpoint.addResource("{airlineId}");
@@ -194,11 +194,11 @@ export class RestAPIStack extends cdk.Stack {
         new apig.LambdaIntegration(addAirlineFn, { proxy: true })
       );
 
-      // Delete airline endpoint
-      specificAirlineEndpoint.addMethod(
-        "DELETE", 
-        new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
-      );
+      // // Delete airline endpoint
+      // specificAirlineEndpoint.addMethod(
+      //   "DELETE", 
+      //   new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
+      // );
 
       // Create specific aircraft endpoint directly under airline
       const specificAircraftEndpoint = specificAirlineEndpoint.addResource("{aircraftId}");
@@ -212,7 +212,7 @@ export class RestAPIStack extends cdk.Stack {
       // Delete aircraft endpoint (moved from airline to aircraft)
       specificAircraftEndpoint.addMethod(
         "DELETE",
-        new apig.LambdaIntegration(deleteAirlineFn, { proxy: true })
+        new apig.LambdaIntegration(deleteAircraftFn, { proxy: true })
       );
 
       // Update specific aircraft endpoint (moved from airline to aircraft)

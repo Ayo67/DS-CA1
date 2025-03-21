@@ -1245,7 +1245,7 @@
     "aws:cdk:path": "RestAPIStack/RestAPI/Resource"
    }
   },
-  "RestAPIDeploymentD35A5380d940b8efdfba6ff3715dc049c0c1376e": {
+  "RestAPIDeploymentD35A5380b8cdab20b3dfce00ef81b7fa030e7c8b": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Airlines API",
@@ -1262,11 +1262,9 @@
     "RestAPIairlinesairlineIdaircraftIdtranslationGET446CF3D8",
     "RestAPIairlinesairlineIdaircraftIdtranslationOPTIONS83705197",
     "RestAPIairlinesairlineIdaircraftIdtranslation281416FE",
-    "RestAPIairlinesairlineIdDELETE7A572294",
     "RestAPIairlinesairlineIdGET85BD3742",
     "RestAPIairlinesairlineIdOPTIONSD009B84C",
     "RestAPIairlinesairlineId549B5FB0",
-    "RestAPIairlinesGET19F2054E",
     "RestAPIairlinesOPTIONSA1C7926E",
     "RestAPIairlinesPOST3F9E0F43",
     "RestAPIairlines7492FEC0",
@@ -1280,7 +1278,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "RestAPIDeploymentD35A5380d940b8efdfba6ff3715dc049c0c1376e"
+     "Ref": "RestAPIDeploymentD35A5380b8cdab20b3dfce00ef81b7fa030e7c8b"
     },
     "RestApiId": {
      "Ref": "RestAPI1CC12F26"
@@ -1400,109 +1398,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/OPTIONS/Resource"
-   }
-  },
-  "RestAPIairlinesGETApiPermissionRestAPIStackRestAPIBD91D303GETairlinesEEA74E1B": {
-   "Type": "AWS::Lambda::Permission",
-   "Properties": {
-    "Action": "lambda:InvokeFunction",
-    "FunctionName": {
-     "Fn::GetAtt": [
-      "GetAllAirlinesFn2145EE6E",
-      "Arn"
-     ]
-    },
-    "Principal": "apigateway.amazonaws.com",
-    "SourceArn": {
-     "Fn::Join": [
-      "",
-      [
-       "arn:aws:execute-api:eu-west-1:",
-       {
-        "Ref": "AWS::AccountId"
-       },
-       ":",
-       {
-        "Ref": "RestAPI1CC12F26"
-       },
-       "/",
-       {
-        "Ref": "RestAPIDeploymentStagedev1DE74094"
-       },
-       "/GET/airlines"
-      ]
-     ]
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/GET/ApiPermission.RestAPIStackRestAPIBD91D303.GET..airlines"
-   }
-  },
-  "RestAPIairlinesGETApiPermissionTestRestAPIStackRestAPIBD91D303GETairlines80717D10": {
-   "Type": "AWS::Lambda::Permission",
-   "Properties": {
-    "Action": "lambda:InvokeFunction",
-    "FunctionName": {
-     "Fn::GetAtt": [
-      "GetAllAirlinesFn2145EE6E",
-      "Arn"
-     ]
-    },
-    "Principal": "apigateway.amazonaws.com",
-    "SourceArn": {
-     "Fn::Join": [
-      "",
-      [
-       "arn:aws:execute-api:eu-west-1:",
-       {
-        "Ref": "AWS::AccountId"
-       },
-       ":",
-       {
-        "Ref": "RestAPI1CC12F26"
-       },
-       "/test-invoke-stage/GET/airlines"
-      ]
-     ]
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/GET/ApiPermission.Test.RestAPIStackRestAPIBD91D303.GET..airlines"
-   }
-  },
-  "RestAPIairlinesGET19F2054E": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "AuthorizationType": "NONE",
-    "HttpMethod": "GET",
-    "Integration": {
-     "IntegrationHttpMethod": "POST",
-     "Type": "AWS_PROXY",
-     "Uri": {
-      "Fn::Join": [
-       "",
-       [
-        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
-        {
-         "Fn::GetAtt": [
-          "GetAllAirlinesFn2145EE6E",
-          "Arn"
-         ]
-        },
-        "/invocations"
-       ]
-      ]
-     }
-    },
-    "ResourceId": {
-     "Ref": "RestAPIairlines7492FEC0"
-    },
-    "RestApiId": {
-     "Ref": "RestAPI1CC12F26"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/GET/Resource"
    }
   },
   "RestAPIairlinesairlineId549B5FB0": {
@@ -1666,109 +1561,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/GET/Resource"
-   }
-  },
-  "RestAPIairlinesairlineIdDELETEApiPermissionRestAPIStackRestAPIBD91D303DELETEairlinesairlineId3B9DD047": {
-   "Type": "AWS::Lambda::Permission",
-   "Properties": {
-    "Action": "lambda:InvokeFunction",
-    "FunctionName": {
-     "Fn::GetAtt": [
-      "DeleteAirlineFn110DF859",
-      "Arn"
-     ]
-    },
-    "Principal": "apigateway.amazonaws.com",
-    "SourceArn": {
-     "Fn::Join": [
-      "",
-      [
-       "arn:aws:execute-api:eu-west-1:",
-       {
-        "Ref": "AWS::AccountId"
-       },
-       ":",
-       {
-        "Ref": "RestAPI1CC12F26"
-       },
-       "/",
-       {
-        "Ref": "RestAPIDeploymentStagedev1DE74094"
-       },
-       "/DELETE/airlines/*"
-      ]
-     ]
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/DELETE/ApiPermission.RestAPIStackRestAPIBD91D303.DELETE..airlines.{airlineId}"
-   }
-  },
-  "RestAPIairlinesairlineIdDELETEApiPermissionTestRestAPIStackRestAPIBD91D303DELETEairlinesairlineId06A2D302": {
-   "Type": "AWS::Lambda::Permission",
-   "Properties": {
-    "Action": "lambda:InvokeFunction",
-    "FunctionName": {
-     "Fn::GetAtt": [
-      "DeleteAirlineFn110DF859",
-      "Arn"
-     ]
-    },
-    "Principal": "apigateway.amazonaws.com",
-    "SourceArn": {
-     "Fn::Join": [
-      "",
-      [
-       "arn:aws:execute-api:eu-west-1:",
-       {
-        "Ref": "AWS::AccountId"
-       },
-       ":",
-       {
-        "Ref": "RestAPI1CC12F26"
-       },
-       "/test-invoke-stage/DELETE/airlines/*"
-      ]
-     ]
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/DELETE/ApiPermission.Test.RestAPIStackRestAPIBD91D303.DELETE..airlines.{airlineId}"
-   }
-  },
-  "RestAPIairlinesairlineIdDELETE7A572294": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "AuthorizationType": "NONE",
-    "HttpMethod": "DELETE",
-    "Integration": {
-     "IntegrationHttpMethod": "POST",
-     "Type": "AWS_PROXY",
-     "Uri": {
-      "Fn::Join": [
-       "",
-       [
-        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
-        {
-         "Fn::GetAtt": [
-          "DeleteAirlineFn110DF859",
-          "Arn"
-         ]
-        },
-        "/invocations"
-       ]
-      ]
-     }
-    },
-    "ResourceId": {
-     "Ref": "RestAPIairlinesairlineId549B5FB0"
-    },
-    "RestApiId": {
-     "Ref": "RestAPI1CC12F26"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/{airlineId}/DELETE/Resource"
    }
   },
   "RestAPIairlinesairlineIdaircraftIdBBA61E16": {
@@ -1940,7 +1732,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "DeleteAirlineFn110DF859",
+      "DeleteAircraftFnE998D0D9",
       "Arn"
      ]
     },
@@ -1976,7 +1768,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "DeleteAirlineFn110DF859",
+      "DeleteAircraftFnE998D0D9",
       "Arn"
      ]
     },
@@ -2017,7 +1809,7 @@
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "DeleteAirlineFn110DF859",
+          "DeleteAircraftFnE998D0D9",
           "Arn"
          ]
         },
@@ -2409,7 +2201,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12Qy26DMBBFvyV7Z9o8Ft0mqbrrQ6R7NJgJdYJtxIyLEOLfKxsaqq7umTviaMwWNk972Kyw47Uub+vaFDCcBfVNYcf5UPYOrS8LGD6xqEmdLi7BqGq0RYm58yVdGd5SvASnxXinDFoYMj99kPLD10b3cZxoVLzLkZmE4RBD8Q6OQd9Ijsg062E4Xdzdejauqkn80twheqm1htl4NypsTIVCHfYwZMRyaEy6ZMZnamrfW3IS2z/TWbBKN0+QEfvQakoXvZJ8+TIuZ/rdzubE47jU6VlRZFyldGDxNm/nJcOh41PqFs2/cbFGfg/SBBlV/OFw5Yfv7RY2e3hcXdmYdRucGEuQTfkDpsgD5NcBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12QTW+DMAyGf0vvqde1m7Rr22m3fYjujkxwWVqSIOwMIcR/nxJYmXZ6H78Wjxy2cP/0CJsVdrzW5XVdmwKGk6C+Kuw4H8reofVlAcMnFjWp49klGFWNtigxd76kC8NbipfgtBjvlEELQ+anD1J++NroPo4TjYp3OTKTMOxjKN7BIegryQGZZj0Mx7O7WU/GVTWJX5obRC+11jAb70aFjalQqMMehoxY9o1Jl8z4TE3te0tOYvtnOglW6eYJMmIfWk3poleSL1/G5Uy/29mceByXOj0rioyrlA4s3ubtvGTYd3xM3aL5Ny7WyO9BmiCjij8cLnz3vd3C/QNsVhc2Zt0GJ8YSZFP+AIDSgtDXAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/CDKMetadata/Default"

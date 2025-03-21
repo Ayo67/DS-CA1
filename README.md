@@ -33,12 +33,26 @@ Table item attributes:
 
 [ Provide a bullet-point list of the app's endpoints (excluding the Auth API) you have successfully implemented. ]
 e.g.
- 
-+ POST /thing - add a new 'thing'.
-+ GET /thing/{partition-key}/ - Get all the 'things' with a specified partition key.
-+ GEtT/thing/{partition-key}?attributeX=value - Get all the 'things' with a specified partition key value and its attributeX satisfying the condition .....
-+ etc
 
+## Airlines
+### `GET /airlines`- **Description**: Retrieves a list of all airlines. *(Currently commented out in the code)*
+
+### `POST /airlines`- **Description**: Adds a new airline to the database.
+
+## Specific Airline
+### `GET /airlines/{airlineId}`- **Description**: Retrieves details of a specific airline using the `airlineId`.
+
+### `DELETE /airlines/{airlineId}`- **Description**: Deletes a specific airline by `airlineId`. *(Currently commented out in the code)*
+
+## Specific Aircraft (Under an Airline)
+### `GET /airlines/{airlineId}/{aircraftId}`- **Description**: Retrieves details of a specific aircraft belonging to an airline.
+
+### `DELETE /airlines/{airlineId}/{aircraftId}`- **Description**: Deletes a specific aircraft under a given airline.
+
+### `PUT /airlines/{airlineId}/{aircraftId}`- **Description**: Updates details of a specific aircraft.
+
+## Aircraft Translation
+### `GET /airlines/{airlineId}/{aircraftId}/translation`- **Description**: Retrieves translation data for a specific aircraft.
 
 ### Features.
 

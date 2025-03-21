@@ -9,39 +9,40 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     console.log("Event: ", JSON.stringify(event));
     
     const airlineId = event.pathParameters?.airlineId;
-
-    if (!airlineId) {
-      return {
-        statusCode: 400,
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ Message: "Missing airlineId parameter" }),
-      };
-    }
-
-    // (optional filters)
     const queryParams = event.queryStringParameters || {};
     const { destination, capacity } = queryParams;
 
-    const params: any = {
-      TableName: process.env.TABLE_NAME,
-      IndexName: "CapacityIndex",
-      ExpressionAttributeValues: {
-        ":airlineId": parseInt(airlineId),
-      },
-    };
-
-    // Handle capacity parameter in KeyConditionExpression
+    let params: any;
+    
     if (capacity) {
-      params.KeyConditionExpression = "airlineId = :airlineId AND capacity >= :capacity";
-      params.ExpressionAttributeValues[":capacity"] = parseInt(capacity);
+      // Querying via CapacityIndex (GSI)
+      params = {
+        TableName: process.env.TABLE_NAME,
+        IndexName: "CapacityIndex",
+        KeyConditionExpression: "capacity = :capacity",
+        ExpressionAttributeValues: {
+          ":capacity": parseInt(capacity),
+        },
+      };
+    } else if (airlineId) {
+      // Querying via primary key (Main Table)
+      params = {
+        TableName: process.env.TABLE_NAME,
+        KeyConditionExpression: "airlineId = :airlineId",
+        ExpressionAttributeValues: {
+          ":airlineId": parseInt(airlineId),
+        },
+      };
     } else {
-      // If no capacity provided, just query by partition key
-      params.KeyConditionExpression = "airlineId = :airlineId";
+      return {
+        statusCode: 400,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ Message: "Missing required parameters: airlineId or capacity" }),
+      };
     }
 
-    // Add any additional filter expressions
+    // Apply optional filters
     let filterExpressions: string[] = [];
-    
     if (destination) {
       filterExpressions.push("destination = :destination");
       params.ExpressionAttributeValues[":destination"] = destination;
