@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/fcca8c5b962cf5d0e53fd02a6ce9656066fb37c8e399235005710b5573b42294.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/989cb37c7f721e949ed7a2453e90c03a1d031cb65d4f553024b13d075fd26001.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -235,7 +235,7 @@
         "/RestAPIStack/RestAPI/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RestAPIDeploymentD35A5380b8cdab20b3dfce00ef81b7fa030e7c8b"
+            "data": "RestAPIDeploymentD35A53805dda8f6372fc469c415ba921719adee7"
           }
         ],
         "/RestAPIStack/RestAPI/DeploymentStage.dev/Resource": [
@@ -410,6 +410,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "RestAPIairlinesPOST3F9E0F43"
+          }
+        ],
+        "/RestAPIStack/AirlinesApiKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiKey5F1EAB47"
+          }
+        ],
+        "/RestAPIStack/AirlinesUsagePlan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesUsagePlanB779F363"
+          }
+        ],
+        "/RestAPIStack/AirlinesUsagePlan/UsagePlanKeyResource:RestAPIStackAirlinesApiKey7C5F2C0E": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesUsagePlanUsagePlanKeyResourceRestAPIStackAirlinesApiKey7C5F2C0E7E71B087"
           }
         ],
         "/RestAPIStack/CDKMetadata/Default": [

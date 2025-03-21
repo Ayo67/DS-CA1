@@ -43,11 +43,10 @@
                 "slogan": {
                     "type": "string"
                 },
-                "tags": {
+                "description": {
                     "items": {
                         "type": "string"
-                    },
-                    "type": "array"
+                    }
                 },
                 "website": {
                     "type": "string"
@@ -67,7 +66,7 @@
                 "logo",
                 "popularity",
                 "slogan",
-                "tags",
+                "description",
                 "website"
             ],
             "type": "object"

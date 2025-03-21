@@ -12,7 +12,7 @@ export type Airline = {
   popularity: number;
   capacity: number;
   international: boolean;
-  tags: string[];
+  description: string;
   destination: string;
 };
 

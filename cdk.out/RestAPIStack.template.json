@@ -15,10 +15,6 @@
      {
       "AttributeName": "capacity",
       "AttributeType": "N"
-     },
-     {
-      "AttributeName": "model",
-      "AttributeType": "S"
      }
     ],
     "BillingMode": "PAY_PER_REQUEST",
@@ -27,11 +23,11 @@
       "IndexName": "CapacityIndex",
       "KeySchema": [
        {
-        "AttributeName": "capacity",
+        "AttributeName": "airlineId",
         "KeyType": "HASH"
        },
        {
-        "AttributeName": "model",
+        "AttributeName": "capacity",
         "KeyType": "RANGE"
        }
       ],
@@ -1057,6 +1053,45 @@
          ]
         }
        ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AirlinesTableF593EC65",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AirlinesTableF593EC65",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
       }
      ],
      "Version": "2012-10-17"
@@ -1086,6 +1121,9 @@
     },
     "Environment": {
      "Variables": {
+      "TABLE_NAME": {
+       "Ref": "AirlinesTableF593EC65"
+      },
       "REGION": "eu-west-1"
      }
     },
@@ -1128,7 +1166,7 @@
        {
         "Ref": "AirlinesTableF593EC65"
        },
-       "\":[{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"1\"},\"aircraftId\":{\"N\":\"101\"},\"model\":{\"S\":\"Boeing 737\"},\"airlineName\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"headQuarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.5\"},\"capacity\":{\"N\":\"800\"},\"international\":{\"BOOL\":true},\"tags\":{\"L\":[{\"S\":\"legacy\"},{\"S\":\"international\"},{\"S\":\"domestic\"},{\"S\":\"SkyTeam\"}]},\"destination\":{\"S\":\"New York, USA\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"1\"},\"aircraftId\":{\"N\":\"102\"},\"model\":{\"S\":\"Airbus A320\"},\"airlineName\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"headQuarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.3\"},\"capacity\":{\"N\":\"800\"},\"international\":{\"BOOL\":true},\"tags\":{\"L\":[{\"S\":\"legacy\"},{\"S\":\"international\"},{\"S\":\"domestic\"},{\"S\":\"SkyTeam\"}]},\"destination\":{\"S\":\"Los Angeles, USA\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"1\"},\"aircraftId\":{\"N\":\"103\"},\"model\":{\"S\":\"Boeing 767\"},\"airlineName\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"headQuarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.4\"},\"capacity\":{\"N\":\"800\"},\"international\":{\"BOOL\":true},\"tags\":{\"L\":[{\"S\":\"legacy\"},{\"S\":\"international\"},{\"S\":\"domestic\"},{\"S\":\"SkyTeam\"}]},\"destination\":{\"S\":\"Paris, France\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"2\"},\"aircraftId\":{\"N\":\"201\"},\"model\":{\"S\":\"Boeing 777\"},\"airlineName\":{\"S\":\"Emirates\"},\"country\":{\"S\":\"United Arab Emirates\"},\"logo\":{\"S\":\"/logos/emirates.png\"},\"slogan\":{\"S\":\"Fly Better\"},\"headQuarters\":{\"S\":\"Dubai, UAE\"},\"website\":{\"S\":\"https://www.emirates.com\"},\"established\":{\"S\":\"1985\"},\"popularity\":{\"N\":\"9.8\"},\"capacity\":{\"N\":\"260\"},\"international\":{\"BOOL\":true},\"tags\":{\"L\":[{\"S\":\"luxury\"},{\"S\":\"long-haul\"},{\"S\":\"international\"},{\"S\":\"hub-Dubai\"}]},\"destination\":{\"S\":\"London, UK\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"3\"},\"aircraftId\":{\"N\":\"301\"},\"model\":{\"S\":\"Airbus A350\"},\"airlineName\":{\"S\":\"Qatar Airways\"},\"country\":{\"S\":\"Qatar\"},\"logo\":{\"S\":\"/logos/qatar.png\"},\"slogan\":{\"S\":\"Going Places Together\"},\"headQuarters\":{\"S\":\"Doha, Qatar\"},\"website\":{\"S\":\"https://www.qatarairways.com\"},\"established\":{\"S\":\"1993\"},\"popularity\":{\"N\":\"9.7\"},\"capacity\":{\"N\":\"250\"},\"international\":{\"BOOL\":true},\"tags\":{\"L\":[{\"S\":\"luxury\"},{\"S\":\"international\"},{\"S\":\"oneworld\"}]},\"destination\":{\"S\":\"Doha, Qatar\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"4\"},\"aircraftId\":{\"N\":\"401\"},\"model\":{\"S\":\"Boeing 787 Dreamliner\"},\"airlineName\":{\"S\":\"Singapore Airlines\"},\"country\":{\"S\":\"Singapore\"},\"logo\":{\"S\":\"/logos/singapore.png\"},\"slogan\":{\"S\":\"A Great Way to Fly\"},\"headQuarters\":{\"S\":\"Singapore\"},\"website\":{\"S\":\"https://www.singaporeair.com\"},\"established\":{\"S\":\"1947\"},\"popularity\":{\"N\":\"9.6\"},\"capacity\":{\"N\":\"140\"},\"international\":{\"BOOL\":true},\"tags\":{\"L\":[{\"S\":\"luxury\"},{\"S\":\"international\"},{\"S\":\"StarAlliance\"}]},\"destination\":{\"S\":\"Singapore\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"5\"},\"aircraftId\":{\"N\":\"501\"},\"model\":{\"S\":\"Airbus A380\"},\"airlineName\":{\"S\":\"British Airways\"},\"country\":{\"S\":\"United Kingdom\"},\"logo\":{\"S\":\"/logos/british-airways.png\"},\"slogan\":{\"S\":\"To Fly. To Serve.\"},\"headQuarters\":{\"S\":\"London, England, UK\"},\"website\":{\"S\":\"https://www.britishairways.com\"},\"established\":{\"S\":\"1974\"},\"popularity\":{\"N\":\"9.2\"},\"capacity\":{\"N\":\"280\"},\"international\":{\"BOOL\":true},\"tags\":{\"L\":[{\"S\":\"legacy\"},{\"S\":\"international\"},{\"S\":\"oneworld\"}]},\"destination\":{\"S\":\"Dubai, UAE\"}}}}]}},\"physicalResourceId\":{\"id\":\"airlinesDbInitData\"}}"
+       "\":[{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"1\"},\"aircraftId\":{\"N\":\"101\"},\"model\":{\"S\":\"Boeing 737\"},\"airlineName\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"headQuarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.5\"},\"capacity\":{\"N\":\"800\"},\"international\":{\"BOOL\":true},\"description\":{\"S\":\"A major U.S. airline offering domestic and international flights.\"},\"destination\":{\"S\":\"New York, USA\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"1\"},\"aircraftId\":{\"N\":\"102\"},\"model\":{\"S\":\"Airbus A320\"},\"airlineName\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"headQuarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.3\"},\"capacity\":{\"N\":\"800\"},\"international\":{\"BOOL\":true},\"description\":{\"S\":\"Known for its extensive domestic and international route network.\"},\"destination\":{\"S\":\"Los Angeles, USA\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"1\"},\"aircraftId\":{\"N\":\"103\"},\"model\":{\"S\":\"Boeing 767\"},\"airlineName\":{\"S\":\"Delta Airlines\"},\"country\":{\"S\":\"United States\"},\"logo\":{\"S\":\"/logos/delta.png\"},\"slogan\":{\"S\":\"Keep Climbing\"},\"headQuarters\":{\"S\":\"Atlanta, Georgia, USA\"},\"website\":{\"S\":\"https://www.delta.com\"},\"established\":{\"S\":\"1929\"},\"popularity\":{\"N\":\"9.4\"},\"capacity\":{\"N\":\"800\"},\"international\":{\"BOOL\":true},\"description\":{\"S\":\"Provides transatlantic and long-haul services.\"},\"destination\":{\"S\":\"Paris, France\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"2\"},\"aircraftId\":{\"N\":\"201\"},\"model\":{\"S\":\"Boeing 777\"},\"airlineName\":{\"S\":\"Emirates\"},\"country\":{\"S\":\"United Arab Emirates\"},\"logo\":{\"S\":\"/logos/emirates.png\"},\"slogan\":{\"S\":\"Fly Better\"},\"headQuarters\":{\"S\":\"Dubai, UAE\"},\"website\":{\"S\":\"https://www.emirates.com\"},\"established\":{\"S\":\"1985\"},\"popularity\":{\"N\":\"9.8\"},\"capacity\":{\"N\":\"260\"},\"international\":{\"BOOL\":true},\"description\":{\"S\":\"A luxury airline with world-class service based in Dubai.\"},\"destination\":{\"S\":\"London, UK\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"3\"},\"aircraftId\":{\"N\":\"301\"},\"model\":{\"S\":\"Airbus A350\"},\"airlineName\":{\"S\":\"Qatar Airways\"},\"country\":{\"S\":\"Qatar\"},\"logo\":{\"S\":\"/logos/qatar.png\"},\"slogan\":{\"S\":\"Going Places Together\"},\"headQuarters\":{\"S\":\"Doha, Qatar\"},\"website\":{\"S\":\"https://www.qatarairways.com\"},\"established\":{\"S\":\"1993\"},\"popularity\":{\"N\":\"9.7\"},\"capacity\":{\"N\":\"250\"},\"international\":{\"BOOL\":true},\"description\":{\"S\":\"A premium airline known for its excellent in-flight experience.\"},\"destination\":{\"S\":\"Doha, Qatar\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"4\"},\"aircraftId\":{\"N\":\"401\"},\"model\":{\"S\":\"Boeing 787 Dreamliner\"},\"airlineName\":{\"S\":\"Singapore Airlines\"},\"country\":{\"S\":\"Singapore\"},\"logo\":{\"S\":\"/logos/singapore.png\"},\"slogan\":{\"S\":\"A Great Way to Fly\"},\"headQuarters\":{\"S\":\"Singapore\"},\"website\":{\"S\":\"https://www.singaporeair.com\"},\"established\":{\"S\":\"1947\"},\"popularity\":{\"N\":\"9.6\"},\"capacity\":{\"N\":\"140\"},\"international\":{\"BOOL\":true},\"description\":{\"S\":\"Renowned for its top-tier service and premium cabin experience.\"},\"destination\":{\"S\":\"Singapore\"}}}},{\"PutRequest\":{\"Item\":{\"airlineId\":{\"N\":\"5\"},\"aircraftId\":{\"N\":\"501\"},\"model\":{\"S\":\"Airbus A380\"},\"airlineName\":{\"S\":\"British Airways\"},\"country\":{\"S\":\"United Kingdom\"},\"logo\":{\"S\":\"/logos/british-airways.png\"},\"slogan\":{\"S\":\"To Fly. To Serve.\"},\"headQuarters\":{\"S\":\"London, England, UK\"},\"website\":{\"S\":\"https://www.britishairways.com\"},\"established\":{\"S\":\"1974\"},\"popularity\":{\"N\":\"9.2\"},\"capacity\":{\"N\":\"280\"},\"international\":{\"BOOL\":true},\"description\":{\"S\":\"A leading UK airline with a strong global presence.\"},\"destination\":{\"S\":\"Dubai, UAE\"}}}}]}},\"physicalResourceId\":{\"id\":\"airlinesDbInitData\"}}"
       ]
      ]
     },
@@ -1245,7 +1283,7 @@
     "aws:cdk:path": "RestAPIStack/RestAPI/Resource"
    }
   },
-  "RestAPIDeploymentD35A5380b8cdab20b3dfce00ef81b7fa030e7c8b": {
+  "RestAPIDeploymentD35A53805dda8f6372fc469c415ba921719adee7": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Airlines API",
@@ -1278,7 +1316,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "RestAPIDeploymentD35A5380b8cdab20b3dfce00ef81b7fa030e7c8b"
+     "Ref": "RestAPIDeploymentD35A53805dda8f6372fc469c415ba921719adee7"
     },
     "RestApiId": {
      "Ref": "RestAPI1CC12F26"
@@ -1900,6 +1938,7 @@
   "RestAPIairlinesairlineIdaircraftIdPUTE35EDC19": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
+    "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
     "HttpMethod": "PUT",
     "Integration": {
@@ -2166,6 +2205,7 @@
   "RestAPIairlinesPOST3F9E0F43": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
+    "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
     "HttpMethod": "POST",
     "Integration": {
@@ -2198,10 +2238,56 @@
     "aws:cdk:path": "RestAPIStack/RestAPI/Default/airlines/POST/Resource"
    }
   },
+  "AirlinesApiKey5F1EAB47": {
+   "Type": "AWS::ApiGateway::ApiKey",
+   "Properties": {
+    "Description": "API Key for Airlines API",
+    "Enabled": true,
+    "Name": "airlines-api-key"
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/AirlinesApiKey/Resource"
+   }
+  },
+  "AirlinesUsagePlanB779F363": {
+   "Type": "AWS::ApiGateway::UsagePlan",
+   "Properties": {
+    "ApiStages": [
+     {
+      "ApiId": {
+       "Ref": "RestAPI1CC12F26"
+      },
+      "Stage": {
+       "Ref": "RestAPIDeploymentStagedev1DE74094"
+      },
+      "Throttle": {}
+     }
+    ],
+    "UsagePlanName": "AirlinesUsagePlan"
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/AirlinesUsagePlan/Resource"
+   }
+  },
+  "AirlinesUsagePlanUsagePlanKeyResourceRestAPIStackAirlinesApiKey7C5F2C0E7E71B087": {
+   "Type": "AWS::ApiGateway::UsagePlanKey",
+   "Properties": {
+    "KeyId": {
+     "Ref": "AirlinesApiKey5F1EAB47"
+    },
+    "KeyType": "API_KEY",
+    "UsagePlanId": {
+     "Ref": "AirlinesUsagePlanB779F363"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "RestAPIStack/AirlinesUsagePlan/UsagePlanKeyResource:RestAPIStackAirlinesApiKey7C5F2C0E"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12QTW+DMAyGf0vvqde1m7Rr22m3fYjujkxwWVqSIOwMIcR/nxJYmXZ6H78Wjxy2cP/0CJsVdrzW5XVdmwKGk6C+Kuw4H8reofVlAcMnFjWp49klGFWNtigxd76kC8NbipfgtBjvlEELQ+anD1J++NroPo4TjYp3OTKTMOxjKN7BIegryQGZZj0Mx7O7WU/GVTWJX5obRC+11jAb70aFjalQqMMehoxY9o1Jl8z4TE3te0tOYvtnOglW6eYJMmIfWk3poleSL1/G5Uy/29mceByXOj0rioyrlA4s3ubtvGTYd3xM3aL5Ny7WyO9BmiCjij8cLnz3vd3C/QNsVhc2Zt0GJ8YSZFP+AIDSgtDXAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22RzU7DMBCEn6V3dyktSFzTIC4VUKVwjjbONrj1T5S1iaIo747ihLZCnOabXXk8iddw//QIqwW2vJTlealVAf3BozwLbDnvy86icWUB/QcWmkR6tBEGodEUJebWlXRieIvyEqz0ylmh0ECfuelA1L3TSnajnWgQvMmRmTxDMorgDWyDPJPfItMcD316tJfUg7KVJu+ukwuMudQYxaycHQTWqkJPLXbQZ8Q+qVVsMuMz1dp1hqwfpzfu4LGKnSfIiF1oJMVGr+S/XDkuZ/rdzskTJ7XaUfzOmT4ZK9prjB3/NzvqhuEaF3/HWEDZSsjA3pm8mZcMSctpnF2v/2Nv2qRH+x58HfwgxoeCE999r9dw/wCrxYmVWjbBemUIskl/AD3xmxMPAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "RestAPIStack/CDKMetadata/Default"

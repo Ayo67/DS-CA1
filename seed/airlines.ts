@@ -13,7 +13,7 @@ export const airlines = [
     popularity: 9.5,
     capacity: 800,
     international: true,
-    tags: ["legacy", "international", "domestic", "SkyTeam"],
+    description: "A major U.S. airline offering domestic and international flights.",
     destination: "New York, USA"
   },
   {
@@ -30,7 +30,7 @@ export const airlines = [
     popularity: 9.3,
     capacity: 800,
     international: true,
-    tags: ["legacy", "international", "domestic", "SkyTeam"],
+    description: "Known for its extensive domestic and international route network.",
     destination: "Los Angeles, USA"
   },
   {
@@ -47,7 +47,7 @@ export const airlines = [
     popularity: 9.4,
     capacity: 800,
     international: true,
-    tags: ["legacy", "international", "domestic", "SkyTeam"],
+    description: "Provides transatlantic and long-haul services.",
     destination: "Paris, France"
   },
   {
@@ -64,7 +64,7 @@ export const airlines = [
     popularity: 9.8,
     capacity: 260,
     international: true,
-    tags: ["luxury", "long-haul", "international", "hub-Dubai"],
+    description: "A luxury airline with world-class service based in Dubai.",
     destination: "London, UK"
   },
   {
@@ -81,7 +81,7 @@ export const airlines = [
     popularity: 9.7,
     capacity: 250,
     international: true,
-    tags: ["luxury", "international", "oneworld"],
+    description: "A premium airline known for its excellent in-flight experience.",
     destination: "Doha, Qatar"
   },
   {
@@ -98,7 +98,7 @@ export const airlines = [
     popularity: 9.6,
     capacity: 140,
     international: true,
-    tags: ["luxury", "international", "StarAlliance"],
+    description: "Renowned for its top-tier service and premium cabin experience.",
     destination: "Singapore"
   },
   {
@@ -115,10 +115,11 @@ export const airlines = [
     popularity: 9.2,
     capacity: 280,
     international: true,
-    tags: ["legacy", "international", "oneworld"],
+    description: "A leading UK airline with a strong global presence.",
     destination: "Dubai, UAE"
   }
 ];
+
 
 
   

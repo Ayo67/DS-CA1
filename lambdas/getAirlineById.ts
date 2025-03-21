@@ -4,33 +4,37 @@ import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 const ddbDocClient = createDDbDocClient();
 
-export const handler: APIGatewayProxyHandlerV2 = async (event, context) => { 
+export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("Event: ", JSON.stringify(event));
-    
+
     const airlineId = event.pathParameters?.airlineId;
     const queryParams = event.queryStringParameters || {};
-    const { destination, capacity } = queryParams;
+    const { international, capacity } = queryParams;
 
     let params: any;
-    
+
     if (capacity) {
       // Querying via CapacityIndex (GSI)
       params = {
         TableName: process.env.TABLE_NAME,
-        IndexName: "CapacityIndex",
-        KeyConditionExpression: "capacity = :capacity",
+        IndexName: "CapacityIndex",  // Using a GSI named "CapacityIndex"
+        KeyConditionExpression: "#capacity = :capacity and airlineId = :airlineId", // Adding airlineId for GSI query
+        ExpressionAttributeNames: {
+          "#capacity": "capacity", // Alias for the reserved word "capacity"
+        },
         ExpressionAttributeValues: {
           ":capacity": parseInt(capacity),
+          ":airlineId": airlineId ? parseInt(airlineId) : undefined, // Ensure airlineId is defined before parsing
         },
       };
     } else if (airlineId) {
       // Querying via primary key (Main Table)
       params = {
         TableName: process.env.TABLE_NAME,
-        KeyConditionExpression: "airlineId = :airlineId",
+        KeyConditionExpression: "airlineId = :airlineId", // Ensuring airlineId is included for primary key query
         ExpressionAttributeValues: {
-          ":airlineId": parseInt(airlineId),
+          ":airlineId": airlineId ? parseInt(airlineId) : undefined,
         },
       };
     } else {
@@ -43,9 +47,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
 
     // Apply optional filters
     let filterExpressions: string[] = [];
-    if (destination) {
-      filterExpressions.push("destination = :destination");
-      params.ExpressionAttributeValues[":destination"] = destination;
+    if (international) {
+      filterExpressions.push("international = :international");
+      params.ExpressionAttributeValues[":international"] = international;
     }
 
     if (filterExpressions.length > 0) {
@@ -63,7 +67,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
         body: JSON.stringify({ Message: "No results match the given filters" }),
       };
     }
-    
+
     return {
       statusCode: 200,
       headers: { "content-type": "application/json" },
