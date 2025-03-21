@@ -35,24 +35,21 @@ Table item attributes:
 e.g.
 
 ## Airlines
-### `GET /airlines`- **Description**: Retrieves a list of all airlines. *(Currently commented out in the code)*
-
-### `POST /airlines`- **Description**: Adds a new airline to the database.
+- **`GET /airlines`** - Retrieves a list of all airlines. *(Currently commented out in the code)*
+- **`POST /airlines`** - Adds a new airline to the database.
 
 ## Specific Airline
-### `GET /airlines/{airlineId}`- **Description**: Retrieves details of a specific airline using the `airlineId`.
-
-### `DELETE /airlines/{airlineId}`- **Description**: Deletes a specific airline by `airlineId`. *(Currently commented out in the code)*
+- **`GET /airlines/{airlineId}`** - Retrieves details of a specific airline using the `airlineId`.
+- **`DELETE /airlines/{airlineId}`** - Deletes a specific airline by `airlineId`. *(Currently commented out in the code)*
 
 ## Specific Aircraft (Under an Airline)
-### `GET /airlines/{airlineId}/{aircraftId}`- **Description**: Retrieves details of a specific aircraft belonging to an airline.
-
-### `DELETE /airlines/{airlineId}/{aircraftId}`- **Description**: Deletes a specific aircraft under a given airline.
-
-### `PUT /airlines/{airlineId}/{aircraftId}`- **Description**: Updates details of a specific aircraft.
+- **`GET /airlines/{airlineId}/{aircraftId}`** - Retrieves details of a specific aircraft belonging to an airline.
+- **`DELETE /airlines/{airlineId}/{aircraftId}`** - Deletes a specific aircraft under a given airline.
+- **`PUT /airlines/{airlineId}/{aircraftId}`** - Updates details of a specific aircraft.
 
 ## Aircraft Translation
-### `GET /airlines/{airlineId}/{aircraftId}/translation`- **Description**: Retrieves translation data for a specific aircraft.
+- **`GET /airlines/{airlineId}/{aircraftId}/translation`** - Retrieves translation data for a specific aircraft.
+
 
 ### Features.
 
