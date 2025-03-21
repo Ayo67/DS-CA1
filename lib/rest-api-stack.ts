@@ -25,9 +25,10 @@ export class RestAPIStack extends cdk.Stack {
 
     airlinesTable.addGlobalSecondaryIndex({
       indexName: "CapacityIndex",
-      partitionKey: { name: "capacity", type: dynamodb.AttributeType.NUMBER },  
-      sortKey: { name: "model", type: dynamodb.AttributeType.STRING },
+      partitionKey: { name: "airlineId", type: dynamodb.AttributeType.NUMBER },  
+      sortKey: { name: "capacity", type: dynamodb.AttributeType.NUMBER },
     });
+
 
     // Functions 
     const getAirlineByIdFn = new lambdanode.NodejsFunction(
@@ -129,9 +130,11 @@ export class RestAPIStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(10),
       memorySize: 128,
       environment: {
+        TABLE_NAME: airlinesTable.tableName,
         REGION: "eu-west-1",
       },
     });
+
 
     new custom.AwsCustomResource(this, "airlinesDbInitData", {
       onCreate: {
@@ -159,6 +162,7 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadData(getAircraftByIdFn);
     airlinesTable.grantReadWriteData(updateAircraftFn);
     airlinesTable.grantReadData(getAirlineTranslationFn);
+    airlinesTable.grantReadWriteData(getAirlineTranslationFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -173,6 +177,25 @@ export class RestAPIStack extends cdk.Stack {
         allowOrigins: ["*"],
       },
     });
+
+            // Create API key and usage plan
+      const apiKey = new apig.ApiKey(this, "AirlinesApiKey", {
+        apiKeyName: "airlines-api-key",
+        description: "API Key for Airlines API",
+        enabled: true,
+      });
+
+      const usagePlan = new apig.UsagePlan(this, "AirlinesUsagePlan", {
+        name: "AirlinesUsagePlan",
+        apiStages: [
+          {
+            api: api,
+            stage: api.deploymentStage,
+          },
+        ],
+      });
+
+      usagePlan.addApiKey(apiKey);
 
                 // Airlines endpoint
       const airlinesEndpoint = api.root.addResource("airlines");
@@ -191,7 +214,10 @@ export class RestAPIStack extends cdk.Stack {
       // Add airline endpoint
       airlinesEndpoint.addMethod(
         "POST",
-        new apig.LambdaIntegration(addAirlineFn, { proxy: true })
+        new apig.LambdaIntegration(addAirlineFn, { proxy: true }),
+        {
+          apiKeyRequired: true, // Require API key
+        }
       );
 
       // // Delete airline endpoint
@@ -209,16 +235,19 @@ export class RestAPIStack extends cdk.Stack {
         new apig.LambdaIntegration(getAircraftByIdFn, { proxy: true })
       );
 
-      // Delete aircraft endpoint (moved from airline to aircraft)
+      // Delete aircraft endpoint 
       specificAircraftEndpoint.addMethod(
         "DELETE",
         new apig.LambdaIntegration(deleteAircraftFn, { proxy: true })
       );
 
-      // Update specific aircraft endpoint (moved from airline to aircraft)
+      // Update specific aircraft endpoint 
       specificAircraftEndpoint.addMethod(
         "PUT",
-        new apig.LambdaIntegration(updateAircraftFn, { proxy: true })
+        new apig.LambdaIntegration(updateAircraftFn, { proxy: true }),
+        {
+          apiKeyRequired: true, // Require API key
+        }
       );
 
       // Get aircraft with translation
