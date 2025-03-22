@@ -4,9 +4,12 @@ import * as lambdanode from "aws-cdk-lib/aws-lambda-nodejs";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
+import { SeedConstructs } from "./seed-construct";
 
 export interface LambdaStackProps extends cdk.StackProps {
     airlinesTable: dynamodb.Table;
+    region?: string;
+    enableSeed?: boolean;
 }
 
 export class LambdaStack extends cdk.Stack {
@@ -14,12 +17,12 @@ export class LambdaStack extends cdk.Stack {
         getAirlineByIdFn: lambdanode.NodejsFunction;
         getAllAirlinesFn: lambdanode.NodejsFunction;
         addAirlineFn: lambdanode.NodejsFunction;
-        updateAirlineFn: lambdanode.NodejsFunction;
         deleteAirlineFn: lambdanode.NodejsFunction;
         deleteAircraftFn: lambdanode.NodejsFunction;
         getAircraftByIdFn: lambdanode.NodejsFunction;
         updateAircraftFn: lambdanode.NodejsFunction;
         airlineTranslationFn: lambdanode.NodejsFunction;
+        seedAirlinesFn?: lambdanode.NodejsFunction;
     };
 
     constructor(scope: Construct, id: string, props: LambdaStackProps) {
@@ -48,60 +51,79 @@ export class LambdaStack extends cdk.Stack {
         };
 
         // Create Lambda functions
+        const getAirlineByIdFn = new lambdanode.NodejsFunction(this, "GetAirlineByIdFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/getAirlineById.ts",
+            handler: "handler",
+        });
+
+        const getAllAirlinesFn = new lambdanode.NodejsFunction(this, "GetAllAirlinesFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/getAllAirlines.ts",
+            handler: "handler",
+        });
+
+        const addAirlineFn = new lambdanode.NodejsFunction(this, "AddAirlineFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/addAirline.ts",
+            handler: "handler",
+        });
+
+
+        const deleteAirlineFn = new lambdanode.NodejsFunction(this, "DeleteAirlineFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/deleteAirline.ts",
+            handler: "handler",
+        });
+
+        const getAircraftByIdFn = new lambdanode.NodejsFunction(this, "GetAircraftByIdFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/getAircraftById.ts",
+            handler: "handler",
+        });
+
+        const updateAircraftFn = new lambdanode.NodejsFunction(this, "UpdateAircraftFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/updateAircraft.ts",
+            handler: "handler",
+        });
+
+        const deleteAircraftFn = new lambdanode.NodejsFunction(this, "DeleteAircraftFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/deleteAircraft.ts",
+            handler: "handler",
+        });
+
+        const airlineTranslationFn = new lambdanode.NodejsFunction(this, "AirlineTranslationFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/getTranslation.ts",
+            handler: "handler",
+        });
+
+        const seedAirlinesFn = new lambdanode.NodejsFunction(this, "SeedAirlinesFn", {
+            ...commonLambdaProps,
+            entry: "lambdas/seedAirline.ts",
+            handler: "handler",
+        });
+
+        // Set the functions property with the created Lambda functions
         this.functions = {
-            getAirlineByIdFn: new lambdanode.NodejsFunction(this, "GetAirlineByIdFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/getAirlineById.ts",
-                handler: "handler",
-            }),
-
-            getAllAirlinesFn: new lambdanode.NodejsFunction(this, "GetAllAirlinesFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/getAllAirlines.ts",
-                handler: "handler",
-            }),
-
-            addAirlineFn: new lambdanode.NodejsFunction(this, "AddAirlineFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/addAirline.ts",
-                handler: "handler",
-            }),
-
-            updateAirlineFn: new lambdanode.NodejsFunction(this, "UpdateAirlineFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/updateAirline.ts",
-                handler: "handler",
-            }),
-
-            deleteAirlineFn: new lambdanode.NodejsFunction(this, "DeleteAirlineFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/deleteAirline.ts",
-                handler: "handler",
-            }),
-
-            getAircraftByIdFn: new lambdanode.NodejsFunction(this, "GetAircraftByIdFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/getAircraftById.ts",
-                handler: "handler",
-            }),
-
-            updateAircraftFn: new lambdanode.NodejsFunction(this, "UpdateAircraftFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/updateAircraft.ts",
-                handler: "handler",
-            }),
-
-            deleteAircraftFn: new lambdanode.NodejsFunction(this, "DeleteAircraftFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/deleteAircraft.ts",
-                handler: "handler",
-            }),
-
-            airlineTranslationFn: new lambdanode.NodejsFunction(this, "AirlineTranslationFunction", {
-                ...commonLambdaProps,
-                entry: "lambda/airlineTranslation.ts",
-                handler: "handler",
-            }),
+            getAircraftByIdFn,
+            getAllAirlinesFn,
+            addAirlineFn,
+            deleteAirlineFn,
+            deleteAircraftFn,
+            getAirlineByIdFn,
+            updateAircraftFn,
+            airlineTranslationFn,
+            seedAirlinesFn,
         };
+
+        // Create seed construct if enabled
+        const enableSeed = props.enableSeed || false;
+        if (enableSeed) {
+            new SeedConstructs(this, "SeedConstructs", seedAirlinesFn );
+        }
     }
+
 }

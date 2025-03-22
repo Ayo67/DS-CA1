@@ -8,7 +8,6 @@ export interface ApiStackProps extends cdk.StackProps {
         getAirlineByIdFn: lambdanode.NodejsFunction;
         getAllAirlinesFn: lambdanode.NodejsFunction;
         addAirlineFn: lambdanode.NodejsFunction;
-        updateAirlineFn: lambdanode.NodejsFunction;
         deleteAirlineFn: lambdanode.NodejsFunction;
         deleteAircraftFn: lambdanode.NodejsFunction;
         getAircraftByIdFn: lambdanode.NodejsFunction;
@@ -71,12 +70,6 @@ export class ApiStack extends cdk.Stack {
             passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES,
          }),
          {apiKeyRequired: true});   
-
-        airline.addMethod("PUT", new apig.LambdaIntegration(props.lambdaFunctions.updateAirlineFn, { proxy: true, 
-            requestParameters: { "integration.request.header.Content-Type": "'application/json'" },
-            passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES,
-         }),
-        {apiKeyRequired: true});
 
         airline.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAirlineFn, { proxy: true }) );
     }

@@ -13,7 +13,7 @@ export interface AirlineAPIProps {
     enableSeed?: boolean;
 }
 
-export class AirlineAPIConstruct extends Construct {
+export class AirlinesApiConstruct extends Construct {
     public readonly api: apigateway.RestApi;
     public readonly table: dynamodb.Table;
     public readonly apiKey: apigateway.ApiKey;
@@ -44,6 +44,12 @@ export class AirlineAPIConstruct extends Construct {
             indexName: "CapacityIndex",
             partitionKey: { name: "airlineId", type: dynamodb.AttributeType.NUMBER },
             sortKey: { name: "capacity", type: dynamodb.AttributeType.NUMBER },
+        });
+
+        this.apiKey = new apigateway.ApiKey(this, "AirlinesApiKey", {
+            apiKeyName: props.apiKeyName || "airlines-api-key2",
+            description: "API Key for post and put operations",
+            enabled: true,
         });
 
         // Common Lambda properties
@@ -102,6 +108,11 @@ export class AirlineAPIConstruct extends Construct {
         this.airlineTranslationFn = new lambdanode.NodejsFunction(this, "AirlineTranslationFn", {
             ...commonLambdaProps,
             entry: `${__dirname}/../lambdas/airlineTranslation.ts`,
+        });
+
+        this.seedAirlinesFn = new lambdanode.NodejsFunction(this, "SeedAirlinesFn", {
+            ...commonLambdaProps,
+            entry: `${__dirname}/../lambdas/seedAirlines.ts`,
         });
 
         // Grant DynamoDB permissions to all functions

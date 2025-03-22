@@ -3,22 +3,24 @@ import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
 import { ApiStack } from "../lib/api-stack";
 import { DatabaseStack } from "../lib/database-stack";
-import { LambdaStack } from "../lib/lambda-stack"; // Assuming you'll create this
+import { LambdaStack } from "../lib/lambda-stack"; 
+import { AirlinesApiConstruct } from "../lib/airline-api-construct";
 
 const app = new cdk.App();
 const region = "eu-west-1";
 
 if(app.node.tryGetContext("useMultiStack") === "true") {
     // Create the database stack first
-    const databaseStack = new DatabaseStack(app, "DatabaseStack", {
+    const databaseStack = new DatabaseStack(app, "AirlineDatabaseStack", {
         env: { region: region },
-        airlinesTable: "AirlinesTable", // Fixed property name
+        airlinesTable: "AirlinesTable"
     });
 
-    // Create Lambda functions stack that depends on the database
-    const lambdaStack = new LambdaStack(app, "LambdaStack", {
+    
+    const lambdaStack = new LambdaStack(app, "AirlinesLambdaStack", {
         env: { region: region },
         airlinesTable: databaseStack.airlinesTable,
+        enableSeed: true
     });
 
     // Create API stack that depends on Lambda functions
@@ -29,9 +31,17 @@ if(app.node.tryGetContext("useMultiStack") === "true") {
         stageName: app.node.tryGetContext("stage") || "dev",
     });
 } else {
-    // Single stack implementation if preferred
-    // This would combine all resources into a single stack
-    // Implement this if needed
-    console.log("Using single stack approach. Not implemented yet.");
+    const stack = new cdk.Stack(app, "AirlineStack", {
+        env: { region: region },
+    });
+
+    new AirlinesApiConstruct(stack, "AirlineAPI", {
+        tableName: "AirlinesTable",
+        stageName: "dev",
+        apiKeyName: "airlines-api-key2",
+        enableSeed: true
+        
+    });
+
 }
 

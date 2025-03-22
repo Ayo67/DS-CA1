@@ -1,0 +1,20 @@
+{
+  "version": "40.0.0",
+  "files": {
+    "542d46ab5badd74331eb1cf3b2e10a7107d9ff1f0a14282f09b2b9871f501ed3": {
+      "source": {
+        "path": "ApiStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-eu-west-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
+          "objectKey": "542d46ab5badd74331eb1cf3b2e10a7107d9ff1f0a14282f09b2b9871f501ed3.json",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
