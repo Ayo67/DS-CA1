@@ -8,6 +8,7 @@ import { Construct } from "constructs";
 import { generateBatch } from "../shared/util";
 import { airlines } from "../seed/airlines";
 import * as apig from "aws-cdk-lib/aws-apigateway";
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 
 export class RestAPIStack extends cdk.Stack {
@@ -123,7 +124,7 @@ export class RestAPIStack extends cdk.Stack {
       },
     });
 
-    const getAirlineTranslationFn = new lambdanode.NodejsFunction(this, "GetAirlineTranslationFn", {
+    const airlineTranslationFn = new lambdanode.NodejsFunction(this, "AirlineTranslationFn", {
       architecture: lambda.Architecture.ARM_64,
       runtime: lambda.Runtime.NODEJS_18_X,
       entry: `${__dirname}/../lambdas/getTranslation.ts`,
@@ -134,6 +135,13 @@ export class RestAPIStack extends cdk.Stack {
         REGION: "eu-west-1",
       },
     });
+   const translate = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['translate:TranslateText'],
+      resources: ['*']
+    });
+    airlineTranslationFn.addToRolePolicy(translate);
+  
 
 
     new custom.AwsCustomResource(this, "airlinesDbInitData", {
@@ -161,8 +169,8 @@ export class RestAPIStack extends cdk.Stack {
     airlinesTable.grantReadWriteData(deleteAircraftFn);
     airlinesTable.grantReadData(getAircraftByIdFn);
     airlinesTable.grantReadWriteData(updateAircraftFn);
-    airlinesTable.grantReadData(getAirlineTranslationFn);
-    airlinesTable.grantReadWriteData(getAirlineTranslationFn);
+    airlinesTable.grantReadData(airlineTranslationFn);
+    airlinesTable.grantReadWriteData(airlineTranslationFn);
 
     // REST API 
     const api = new apig.RestApi(this, "RestAPI", {
@@ -254,7 +262,7 @@ export class RestAPIStack extends cdk.Stack {
       const translationEndpoint = specificAircraftEndpoint.addResource("translation");
       translationEndpoint.addMethod(
         "GET",
-        new apig.LambdaIntegration(getAirlineTranslationFn, { proxy: true })
+        new apig.LambdaIntegration(airlineTranslationFn, { proxy: true })
       );
 
   }

@@ -26,7 +26,7 @@ Table item attributes:
 + popularity - number 
 + capacity - number  
 + international - boolean  
-+ tags - array<string>  
++ description - string  
 + destination - string  
 
 ### App API endpoints.

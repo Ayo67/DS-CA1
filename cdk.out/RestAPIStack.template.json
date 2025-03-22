@@ -980,7 +980,7 @@
     "aws:asset:property": "Code"
    }
   },
-  "GetAirlineTranslationFnServiceRole4263B000": {
+  "AirlineTranslationFnServiceRole3BF1F472": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -1011,14 +1011,19 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/GetAirlineTranslationFn/ServiceRole/Resource"
+    "aws:cdk:path": "RestAPIStack/AirlineTranslationFn/ServiceRole/Resource"
    }
   },
-  "GetAirlineTranslationFnServiceRoleDefaultPolicyF7A184DF": {
+  "AirlineTranslationFnServiceRoleDefaultPolicyED6E19E6": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
      "Statement": [
+      {
+       "Action": "translate:TranslateText",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
       {
        "Action": [
         "dynamodb:BatchGetItem",
@@ -1096,18 +1101,18 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "GetAirlineTranslationFnServiceRoleDefaultPolicyF7A184DF",
+    "PolicyName": "AirlineTranslationFnServiceRoleDefaultPolicyED6E19E6",
     "Roles": [
      {
-      "Ref": "GetAirlineTranslationFnServiceRole4263B000"
+      "Ref": "AirlineTranslationFnServiceRole3BF1F472"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/GetAirlineTranslationFn/ServiceRole/DefaultPolicy/Resource"
+    "aws:cdk:path": "RestAPIStack/AirlineTranslationFn/ServiceRole/DefaultPolicy/Resource"
    }
   },
-  "GetAirlineTranslationFnCBDE532D": {
+  "AirlineTranslationFn0CBD0B34": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
     "Architectures": [
@@ -1117,7 +1122,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "532f501e91d4eb00c938417d76f0ddfda59fb8bd73984ef4c5cf2e739fe8c951.zip"
+     "S3Key": "d3009abc3e9a45941717619e4b160cf42f40f908cc635f164b042f1367fc2b59.zip"
     },
     "Environment": {
      "Variables": {
@@ -1131,7 +1136,7 @@
     "MemorySize": 128,
     "Role": {
      "Fn::GetAtt": [
-      "GetAirlineTranslationFnServiceRole4263B000",
+      "AirlineTranslationFnServiceRole3BF1F472",
       "Arn"
      ]
     },
@@ -1139,11 +1144,11 @@
     "Timeout": 10
    },
    "DependsOn": [
-    "GetAirlineTranslationFnServiceRoleDefaultPolicyF7A184DF",
-    "GetAirlineTranslationFnServiceRole4263B000"
+    "AirlineTranslationFnServiceRoleDefaultPolicyED6E19E6",
+    "AirlineTranslationFnServiceRole3BF1F472"
    ],
    "Metadata": {
-    "aws:cdk:path": "RestAPIStack/GetAirlineTranslationFn/Resource",
+    "aws:cdk:path": "RestAPIStack/AirlineTranslationFn/Resource",
     "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
@@ -1283,7 +1288,7 @@
     "aws:cdk:path": "RestAPIStack/RestAPI/Resource"
    }
   },
-  "RestAPIDeploymentD35A53805dda8f6372fc469c415ba921719adee7": {
+  "RestAPIDeploymentD35A5380bf20b1f070aaf6a4bec8ac3bbd16138e": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Airlines API",
@@ -1316,7 +1321,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "RestAPIDeploymentD35A53805dda8f6372fc469c415ba921719adee7"
+     "Ref": "RestAPIDeploymentD35A5380bf20b1f070aaf6a4bec8ac3bbd16138e"
     },
     "RestApiId": {
      "Ref": "RestAPI1CC12F26"
@@ -2037,7 +2042,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "GetAirlineTranslationFnCBDE532D",
+      "AirlineTranslationFn0CBD0B34",
       "Arn"
      ]
     },
@@ -2073,7 +2078,7 @@
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
      "Fn::GetAtt": [
-      "GetAirlineTranslationFnCBDE532D",
+      "AirlineTranslationFn0CBD0B34",
       "Arn"
      ]
     },
@@ -2114,7 +2119,7 @@
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
          "Fn::GetAtt": [
-          "GetAirlineTranslationFnCBDE532D",
+          "AirlineTranslationFn0CBD0B34",
           "Arn"
          ]
         },
