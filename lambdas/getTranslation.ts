@@ -55,11 +55,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
 
     if(aircraft.translations && aircraft.translations[targetLanguage]) {
 
-                // Create a response object with all aircraft data plus the translation
-        const response = {
-            ...aircraft,  // Spread all original aircraft properties
-            translatedDescription: aircraft.translations[targetLanguage]
-        };
+        //         // Create a response object with all aircraft data plus the translation
+        // const response = {
+        //     ...aircraft,  // Spread all original aircraft properties
+        //     translatedDescription: aircraft.translations[targetLanguage]
+        // };
 
       return {
         statusCode: 200,
@@ -95,10 +95,10 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
 
     const updateResult = await ddbDocClient.send(new UpdateCommand(updateParams));
 
-    const response = {
-        ...aircraft,  // Spread all original aircraft properties
-        translatedDescription: translatedText
-      };
+    // const response = {
+    //     ...aircraft,  // Spread all original aircraft properties
+    //     translatedDescription: translatedText
+    //   };
 
     return {
       statusCode: 200,
