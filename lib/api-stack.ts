@@ -56,7 +56,9 @@ export class ApiStack extends cdk.Stack {
         usagePlan.addApiKey(this.apiKey);
 
         const airlinesResource = this.api.root.addResource("airlines");
+        airlinesResource.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAllAirlinesFn, { proxy: true }));
 
+        // Create global /airlines/aircraft endpoint
         const aircraft = airlinesResource.addResource("aircraft");
         aircraft.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAircraftByIdFn, { proxy: true }));
         aircraft.addMethod(
@@ -67,7 +69,6 @@ export class ApiStack extends cdk.Stack {
             { apiKeyRequired: true } 
           );
           
-
         aircraft.addMethod(
             "PUT",
             new apig.LambdaIntegration(props.lambdaFunctions.updateAircraftFn, {
@@ -76,10 +77,19 @@ export class ApiStack extends cdk.Stack {
             }),
             { apiKeyRequired: true } 
           );
-          
-
+        
+        // Create airline/{airlineId} endpoint
         const airline = airlinesResource.addResource("{airlineId}");
         airline.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAirlineByIdFn, { proxy: true }));
+        
+        // Add airline/{airlineId}/aircraft endpoint
+        const airlineAircraft = airline.addResource("aircraft");
+        
+        // Add airline/{airlineId}/aircraft/{aircraftId} endpoint
+        const aircraftIdResource = airlineAircraft.addResource("{aircraftId}");
+        aircraftIdResource.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAircraftByIdFn, { proxy: true }));
+        aircraftIdResource.addMethod("PUT", new apig.LambdaIntegration(props.lambdaFunctions.updateAircraftFn, { proxy: true, passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES }), { apiKeyRequired: true });
+        aircraftIdResource.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAircraftFn, { proxy: true }), { apiKeyRequired: true });
 
         airlinesResource.addMethod("POST", new apig.LambdaIntegration(props.lambdaFunctions.addAirlineFn, { proxy: true, 
             requestParameters: { "integration.request.header.Content-Type": "'application/json'" },

@@ -71,6 +71,11 @@
          ]
         }
        ]
+      },
+      {
+       "Action": "translate:TranslateText",
+       "Effect": "Allow",
+       "Resource": "*"
       }
      ],
      "Version": "2012-10-17"
@@ -93,11 +98,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "06617e0351d19f3fc9a49ff0271bb0c87e1d6c11639074e27b73922c54687180.zip"
+     "S3Key": "d353283881b9c3cbbb291458607073195ce9cb57b74f7a7f35e498a8eff963a8.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -119,7 +124,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/GetAirlineByIdFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -131,11 +136,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "216d673786f9eff199ed6e3b2b4e806582846c684f6729fe9d2479810d2f4ca8.zip"
+     "S3Key": "3e7c19c06871ddb963f8f0ad9fd9ad639d1414a890de19032bffabecac932315.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -157,7 +162,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/GetAllAirlinesFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -169,11 +174,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "a33a492a92427b5c3cbf165927dba61e2a5810d4c8b5633df81a632a5dd8afe5.zip"
+     "S3Key": "a206cd284629fa7064c7c705b91a9d1b18491642f82f9aca8d4bd7a3c6c6ee42.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -195,7 +200,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/AddAirlineFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -207,11 +212,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "cf8fb46723fdb9e7a5ba4ead9aff3ecf7bbcd04c49460a38a0cd53862cd9794e.zip"
+     "S3Key": "c5432340b7f77cdf52281904b60758056b793869a3b3e8967f1402956fa6fc50.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -233,7 +238,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/DeleteAirlineFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -245,11 +250,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "40bfe435b5ab63edd11009a4b9b78e56ed9361525dd8384beea5f85c6d2707b4.zip"
+     "S3Key": "a37048d24bbe14dffa264547195599f05fa88cfe420f4ab38739edde293b7885.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -271,7 +276,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/GetAircraftByIdFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -283,11 +288,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "8ff90571cc090e21e5cce70adf65e1b0b17d6da45d1740d935f1e365eddbea2d.zip"
+     "S3Key": "6d95e045af52b4c29258f8b81a2ade5d82175edc91482bf5157df285b32511f9.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -309,7 +314,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/UpdateAircraftFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -321,11 +326,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "57d7aaa2820b9252500847ac6812340ee5cd22909d2c4de9f3e565b95a7edc6b.zip"
+     "S3Key": "424716b532f0e08b16e230ec564382a00822e6bc5e93805dc17d1232f40e314e.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -347,7 +352,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/DeleteAircraftFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -359,11 +364,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "639c17b144f45a798b23b79e80e75b4d103044ef92a846a47b9cc5a9291157ff.zip"
+     "S3Key": "3c0e70235bd0574231e9b63ee710c6d2a98d1142c585287d17d2c787654ff1e4.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -385,7 +390,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/AirlineTranslationFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -397,11 +402,11 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
      },
-     "S3Key": "f0d9424237fe0c577acbc084b08c76548c4bfeb61b8e8c5724a6461d137c0675.zip"
+     "S3Key": "3a22cf8e676846e93d52d301bbdcf692b595d8581c1e2cfac60ad6df282c3567.zip"
     },
     "Environment": {
      "Variables": {
-      "AIRLINES_TABLE": {
+      "TABLE_NAME": {
        "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
       }
      }
@@ -423,7 +428,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/SeedAirlinesFn/Resource",
-    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:path": "/Users/clintonbempah/DS-CA1",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -567,7 +572,7 @@
       "Arn"
      ]
     },
-    "timestamp": "2025-03-22T16:16:02.476Z"
+    "timestamp": "2025-03-22T22:45:52.453Z"
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -578,7 +583,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/z2OSwrCQBBEz+K+02pUcKsBlyLxAKGdtNL5zMD0jCIhd5d8zOpVUTyoFLfHA25W9NHElHXSyAO7eyBTA3206IRa7HLXMGRPO/LmGjHfoU6ph4baR0mFdSVXitcRl2hNEGdBdwWpclA8DQDd4TmamsOZlGcVu+xpF+Mf+h5yVhe9YRjde6CX2BeYqMG1hZ9HxZt3bynZQzYuizVcnnMPwz2sdP1OU9zucbOqVCTx0QZpGfOJP8SIwzkPAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/z2PzQrCQAyEn8V7GrVF8KqCR5H6AGW7jZL+7MJmV5HSd3f7Y0/fJMOESYr74wF3G/WRRFdN0nKJ/cMr3UBcFT2rDvvctgSXp5l4ty3r7zjOaoBWdWWlCmMrqgVvE67BaM/WgGSFEiEveBoRZzwH3ZA/K6Elin28tib+YhggJ7HBaYIpG2u92LxAB/G2K9xiCt6dfXNFDi6Ts6bGyoseYKyHtWzf6S7+jNmmFubEBeO5I8xn/gDnsahmDwEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "AirlinesLambdaStack/CDKMetadata/Default"
@@ -586,6 +591,17 @@
   }
  },
  "Outputs": {
+  "ExportsOutputFnGetAttGetAllAirlinesFn2145EE6EArn3732AA67": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetAllAirlinesFn2145EE6E",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAllAirlinesFn2145EE6EArn3732AA67"
+   }
+  },
   "ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554": {
    "Value": {
     "Fn::GetAtt": [
@@ -650,6 +666,17 @@
    },
    "Export": {
     "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
+   }
+  },
+  "ExportsOutputFnGetAttAirlineTranslationFn0CBD0B34ArnFF89608B": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AirlineTranslationFn0CBD0B34",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttAirlineTranslationFn0CBD0B34ArnFF89608B"
    }
   }
  },

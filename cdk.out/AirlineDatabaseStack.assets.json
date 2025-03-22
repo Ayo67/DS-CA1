@@ -1,7 +1,7 @@
 {
   "version": "40.0.0",
   "files": {
-    "5f2ded874ad7245f0fb2af1b56a7862bb011231972e52f62078b3b698bf92705": {
+    "cdfe9398709f0c88cd554343bbc37a7d24339ff3e382825064f0dfb4a28bb9f1": {
       "source": {
         "path": "AirlineDatabaseStack.template.json",
         "packaging": "file"
@@ -9,7 +9,7 @@
       "destinations": {
         "current_account-eu-west-1": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1",
-          "objectKey": "5f2ded874ad7245f0fb2af1b56a7862bb011231972e52f62078b3b698bf92705.json",
+          "objectKey": "cdfe9398709f0c88cd554343bbc37a7d24339ff3e382825064f0dfb4a28bb9f1.json",
           "region": "eu-west-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-west-1"
         }

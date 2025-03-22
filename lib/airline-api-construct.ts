@@ -119,6 +119,7 @@ export class AirlinesApiConstruct extends Construct {
         this.table.grantReadWriteData(this.updateAircraftFn);
         this.table.grantReadWriteData(this.deleteAircraftFn);
         this.table.grantReadWriteData(this.airlineTranslationFn);
+        this.table.grantReadWriteData(this.seedAirlinesFn);
 
         // Add translation permissions
         const translatePolicy = new iam.PolicyStatement({
@@ -176,7 +177,9 @@ export class AirlinesApiConstruct extends Construct {
         // Single airline endpoint
         const singleAirlineResource = airlinesResource.addResource("{airlineId}");
         singleAirlineResource.addMethod("GET", new apigateway.LambdaIntegration(this.getAirlineByIdFn));
-        singleAirlineResource.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAirlineFn));
+        singleAirlineResource.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAirlineFn), {
+            apiKeyRequired: true
+        });
 
         // Aircraft endpoints
         const aircraftResource = singleAirlineResource.addResource("aircraft");
@@ -184,8 +187,12 @@ export class AirlinesApiConstruct extends Construct {
         // Single aircraft endpoint
         const singleAircraftResource = aircraftResource.addResource("{aircraftId}");
         singleAircraftResource.addMethod("GET", new apigateway.LambdaIntegration(this.getAircraftByIdFn));
-        singleAircraftResource.addMethod("PUT", new apigateway.LambdaIntegration(this.updateAircraftFn));
-        singleAircraftResource.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAircraftFn));
+        singleAircraftResource.addMethod("PUT", new apigateway.LambdaIntegration(this.updateAircraftFn), {
+            apiKeyRequired: true
+        });
+        singleAircraftResource.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAircraftFn), {
+            apiKeyRequired: true
+        });
 
         // Translation endpoint
         const translateResource = airlinesResource.addResource("translate");

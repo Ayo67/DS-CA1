@@ -38,6 +38,12 @@ export class LambdaStack extends cdk.Stack {
 
         // Grant DynamoDB permissions to the role
         props.airlinesTable.grantReadWriteData(lambdaRole);
+        
+        // Add AWS Translate permissions
+        lambdaRole.addToPolicy(new iam.PolicyStatement({
+            actions: ["translate:TranslateText"],
+            resources: ["*"]
+        }));
 
         // Common Lambda properties
         const commonLambdaProps = {
@@ -46,7 +52,7 @@ export class LambdaStack extends cdk.Stack {
             timeout: cdk.Duration.seconds(10),
             memorySize: 256,
             environment: {
-                AIRLINES_TABLE: props.airlinesTable.tableName,
+                TABLE_NAME: props.airlinesTable.tableName,
             },
         };
 

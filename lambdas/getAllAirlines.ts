@@ -1,12 +1,10 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
-const ddbDocClient = new DynamoDBClient({ region: process.env.REGION });
+import { ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { ddbDocClient } from "../shared/dynamodb-client";
 
 export const handler: APIGatewayProxyHandlerV2 = async (event, context) => { 
   try {
-    
     console.log("Event: ", event);
 
     const commandOutput = await ddbDocClient.send(
@@ -14,15 +12,17 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
         TableName: process.env.TABLE_NAME,
       })
     );
-    if (!commandOutput.Items) {
+    
+    if (!commandOutput.Items || commandOutput.Items.length === 0) {
       return {
         statusCode: 404,
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ Message: "No airlines found" }),
+        body: JSON.stringify({ message: "No airlines found" }),
       };
     }
+    
     const body = {
       data: commandOutput.Items,
     };
@@ -46,17 +46,3 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     };
   }
 };
-
-function createDDbDocClient() {
-  const ddbClient = new DynamoDBClient({ region: process.env.REGION });
-  const marshallOptions = {
-    convertEmptyValues: true,
-    removeUndefinedValues: true,
-    convertClassInstanceToMap: true,
-  };
-  const unmarshallOptions = {
-    wrapNumbers: false,
-  };
-  const translateConfig = { marshallOptions, unmarshallOptions };
-  return DynamoDBDocumentClient.from(ddbClient, translateConfig);
-}

@@ -1,13 +1,13 @@
 import { CloudFormationCustomResourceEvent, CloudFormationCustomResourceResponse } from "aws-lambda";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
+
+import { BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
+import { ddbDocClient } from "../shared/dynamodb-client";
 import { airlines } from "../seed/airlines";
 
 // Define CloudFormationStatus type
 type CloudFormationStatus = "SUCCESS" | "FAILED";
 
 
-const ddbDocClient = createDDbDocClient();
 
 // Function to send response back to CloudFormation
 async function sendResponse(event: CloudFormationCustomResourceEvent, status: CloudFormationStatus, data: any) {
@@ -64,6 +64,11 @@ export const handler = async (event: CloudFormationCustomResourceEvent): Promise
     }
 
     const tableName = process.env.TABLE_NAME;
+    if (!tableName) {
+      throw new Error("TABLE_NAME environment variable is not set");
+    }
+
+    // Prepare items for batch write
     const batchItems: Array<{ PutRequest: { Item: any } }> = [];
 
     for (const airline of airlines) {
@@ -74,26 +79,31 @@ export const handler = async (event: CloudFormationCustomResourceEvent): Promise
       });
     }
 
+    // Split items into chunks of 25 (DynamoDB BatchWrite limit)
+    const batchChunks: Array<typeof batchItems> = [];
+    for (let i = 0; i < batchItems.length; i += 25) {
+      batchChunks.push(batchItems.slice(i, i + 25));
+    }
+
+    console.log(`Seeding ${batchItems.length} airline records to ${tableName}`);
+
+    // Process each chunk with BatchWriteCommand
+    for (const chunk of batchChunks) {
+      const params = {
+        RequestItems: {
+          [tableName]: chunk
+        }
+      };
+      
+      await ddbDocClient.send(new BatchWriteCommand(params));
+      console.log(`Seeded ${chunk.length} items to DynamoDB`);
+    }
+
+    console.log("Seeding completed successfully");
     await sendResponse(event, "SUCCESS", { Message: "Resource creation successful" });
     
   } catch (error) {
-    console.error("Error", error);
-    await sendResponse(event, "FAILED", { Message: "Operation failed" });
+    console.error("Error during seeding:", error);
+    await sendResponse(event, "FAILED", { Message: `Operation failed: ${error}` });
   }
-
 };
-
-  // Function to create DynamoDB Document Client
-  function createDDbDocClient() {
-    const ddbClient = new DynamoDBClient({ region: process.env.REGION });
-    const marshallOptions = {
-      convertEmptyValues: true,
-      removeUndefinedValues: true,
-      convertClassInstanceToMap: true,
-    };
-    const unmarshallOptions = {
-      wrapNumbers: false,
-    };
-    const translateConfig = { marshallOptions, unmarshallOptions };
-    return DynamoDBDocumentClient.from(ddbClient, translateConfig);
-  }

@@ -10,7 +10,7 @@
     "aws:cdk:path": "ApiStack/AirlinesApi/Resource"
    }
   },
-  "AirlinesApiDeployment1AFE1B2Cf570251f9106941ac4172daa536c6972": {
+  "AirlinesApiDeployment1AFE1B2Ce64a98916e6a57cc5678fe3e26ce2873": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Airlines API",
@@ -19,6 +19,13 @@
     }
    },
    "DependsOn": [
+    "AirlinesApiairlinesairlineIdaircraftaircraftIdDELETE2AD1BA91",
+    "AirlinesApiairlinesairlineIdaircraftaircraftIdGETA469F6C8",
+    "AirlinesApiairlinesairlineIdaircraftaircraftIdOPTIONSA1B51774",
+    "AirlinesApiairlinesairlineIdaircraftaircraftIdPUT45524C8A",
+    "AirlinesApiairlinesairlineIdaircraftaircraftIdF9B6FEC4",
+    "AirlinesApiairlinesairlineIdaircraftOPTIONS28CC6678",
+    "AirlinesApiairlinesairlineIdaircraft76892570",
     "AirlinesApiairlinesairlineIdDELETEBCD05E48",
     "AirlinesApiairlinesairlineIdGETDC8FA793",
     "AirlinesApiairlinesairlineIdOPTIONS1D111631",
@@ -28,9 +35,13 @@
     "AirlinesApiairlinesaircraftOPTIONSC8F3C43B",
     "AirlinesApiairlinesaircraftPUT8E76C6FA",
     "AirlinesApiairlinesaircraftBA396C51",
+    "AirlinesApiairlinesGET5FAB7F52",
     "AirlinesApiairlinesOPTIONSC72B20E7",
     "AirlinesApiairlinesPOST6003810E",
     "AirlinesApiairlines3406C008",
+    "AirlinesApiairlinestranslationGETCCE65627",
+    "AirlinesApiairlinestranslationOPTIONS427CE212",
+    "AirlinesApiairlinestranslationF46937DA",
     "AirlinesApiOPTIONS4057560C"
    ],
    "Metadata": {
@@ -41,7 +52,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "AirlinesApiDeployment1AFE1B2Cf570251f9106941ac4172daa536c6972"
+     "Ref": "AirlinesApiDeployment1AFE1B2Ce64a98916e6a57cc5678fe3e26ce2873"
     },
     "RestApiId": {
      "Ref": "AirlinesApiA2CD38F6"
@@ -62,7 +73,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -128,7 +139,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -163,6 +174,100 @@
     "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/OPTIONS/Resource"
    }
   },
+  "AirlinesApiairlinesGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlines82E86837": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAllAirlinesFn2145EE6EArn3732AA67"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/",
+       {
+        "Ref": "AirlinesApiDeploymentStagedev9D6B8060"
+       },
+       "/GET/airlines"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines"
+   }
+  },
+  "AirlinesApiairlinesGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlines9D420BA0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAllAirlinesFn2145EE6EArn3732AA67"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/test-invoke-stage/GET/airlines"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines"
+   }
+  },
+  "AirlinesApiairlinesGET5FAB7F52": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAllAirlinesFn2145EE6EArn3732AA67"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AirlinesApiairlines3406C008"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/GET/Resource"
+   }
+  },
   "AirlinesApiairlinesaircraftBA396C51": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
@@ -188,7 +293,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -382,6 +487,7 @@
   "AirlinesApiairlinesaircraftDELETE9E874BD7": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
+    "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
     "HttpMethod": "DELETE",
     "Integration": {
@@ -476,10 +582,12 @@
   "AirlinesApiairlinesaircraftPUT8E76C6FA": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
+    "ApiKeyRequired": true,
     "AuthorizationType": "NONE",
     "HttpMethod": "PUT",
     "Integration": {
      "IntegrationHttpMethod": "POST",
+     "PassthroughBehavior": "WHEN_NO_TEMPLATES",
      "Type": "AWS_PROXY",
      "Uri": {
       "Fn::Join": [
@@ -530,7 +638,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -657,6 +765,411 @@
    },
    "Metadata": {
     "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/GET/Resource"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraft76892570": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AirlinesApiairlinesairlineIdB4975AA5"
+    },
+    "PathPart": "aircraft",
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/Resource"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftOPTIONS28CC6678": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,-api-key'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AirlinesApiairlinesairlineIdaircraft76892570"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/OPTIONS/Resource"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdF9B6FEC4": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AirlinesApiairlinesairlineIdaircraft76892570"
+    },
+    "PathPart": "{aircraftId}",
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/Resource"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdOPTIONSA1B51774": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,-api-key'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AirlinesApiairlinesairlineIdaircraftaircraftIdF9B6FEC4"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/OPTIONS/Resource"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftaircraftIdD2C65D96": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/",
+       {
+        "Ref": "AirlinesApiDeploymentStagedev9D6B8060"
+       },
+       "/GET/airlines/*/aircraft/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.aircraft.{aircraftId}"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftaircraftId5E97E3E3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/test-invoke-stage/GET/airlines/*/aircraft/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.aircraft.{aircraftId}"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdGETA469F6C8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AirlinesApiairlinesairlineIdaircraftaircraftIdF9B6FEC4"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/Resource"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdPUTApiPermissionApiStackAirlinesApiDF9AC38BPUTairlinesairlineIdaircraftaircraftIdE93EEE03": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/",
+       {
+        "Ref": "AirlinesApiDeploymentStagedev9D6B8060"
+       },
+       "/PUT/airlines/*/aircraft/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/PUT/ApiPermission.ApiStackAirlinesApiDF9AC38B.PUT..airlines.{airlineId}.aircraft.{aircraftId}"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdPUTApiPermissionTestApiStackAirlinesApiDF9AC38BPUTairlinesairlineIdaircraftaircraftIdEC4AF6D9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/test-invoke-stage/PUT/airlines/*/aircraft/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/PUT/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.PUT..airlines.{airlineId}.aircraft.{aircraftId}"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdPUT45524C8A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": true,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "PassthroughBehavior": "WHEN_NO_TEMPLATES",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AirlinesApiairlinesairlineIdaircraftaircraftIdF9B6FEC4"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/PUT/Resource"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdDELETEApiPermissionApiStackAirlinesApiDF9AC38BDELETEairlinesairlineIdaircraftaircraftId731E805C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/",
+       {
+        "Ref": "AirlinesApiDeploymentStagedev9D6B8060"
+       },
+       "/DELETE/airlines/*/aircraft/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/DELETE/ApiPermission.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.{airlineId}.aircraft.{aircraftId}"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdDELETEApiPermissionTestApiStackAirlinesApiDF9AC38BDELETEairlinesairlineIdaircraftaircraftIdCF224027": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/test-invoke-stage/DELETE/airlines/*/aircraft/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/DELETE/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.{airlineId}.aircraft.{aircraftId}"
+   }
+  },
+  "AirlinesApiairlinesairlineIdaircraftaircraftIdDELETE2AD1BA91": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": true,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "DELETE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AirlinesApiairlinesairlineIdaircraftaircraftIdF9B6FEC4"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/DELETE/Resource"
    }
   },
   "AirlinesApiairlinesairlineIdDELETEApiPermissionApiStackAirlinesApiDF9AC38BDELETEairlinesairlineId4A5ECFFF": {
@@ -852,6 +1365,160 @@
     "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/POST/Resource"
    }
   },
+  "AirlinesApiairlinestranslationF46937DA": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AirlinesApiairlines3406C008"
+    },
+    "PathPart": "translation",
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/translation/Resource"
+   }
+  },
+  "AirlinesApiairlinestranslationOPTIONS427CE212": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,-api-key'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
+        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true,
+       "method.response.header.Access-Control-Allow-Credentials": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AirlinesApiairlinestranslationF46937DA"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/translation/OPTIONS/Resource"
+   }
+  },
+  "AirlinesApiairlinestranslationGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlinestranslation3C0D638A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttAirlineTranslationFn0CBD0B34ArnFF89608B"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/",
+       {
+        "Ref": "AirlinesApiDeploymentStagedev9D6B8060"
+       },
+       "/GET/airlines/translation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/translation/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines.translation"
+   }
+  },
+  "AirlinesApiairlinestranslationGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlinestranslation5FB90E79": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttAirlineTranslationFn0CBD0B34ArnFF89608B"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "AirlinesApiA2CD38F6"
+       },
+       "/test-invoke-stage/GET/airlines/translation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/translation/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines.translation"
+   }
+  },
+  "AirlinesApiairlinestranslationGETCCE65627": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttAirlineTranslationFn0CBD0B34ArnFF89608B"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AirlinesApiairlinestranslationF46937DA"
+    },
+    "RestApiId": {
+     "Ref": "AirlinesApiA2CD38F6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiStack/AirlinesApi/Default/airlines/translation/GET/Resource"
+   }
+  },
   "AirlinesApiKey5F1EAB47": {
    "Type": "AWS::ApiGateway::ApiKey",
    "Properties": {
@@ -901,7 +1568,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22MywrCQAxFv8X9NGpRcOtjJ6JUXEtsY422M0OTWkrpv8vQCi5c5dxzL4lhvlrCbIKNRGn2igq+QXdWTF8GG7l26DlHpQZb6BISXXs227v94o584dqSrAb7k86KOQU3QELi6iqlDQqZA+nDZaEc6duOnwdee95TG9RIF8GcTgXa4P6HPbW9KbC8ZQjbuz1RVbIIO9uH2bFWX2tvrMsInjJ9xzHMFzCbPIU5qmqrXBIkw/0Ah+ySdBkBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22PTQuCQBCGf0v3dTMj6NrHLSIxOseok63uF+5uIuJ/bxcVOnSaZ555eWESutnvaLyCzkRF2USc5XS4Wyga4tVzAM0qsNhBT4cMjT1oRk4vueAZNVe9QGmD/dl8RYXBTeDzyrUFHsEguaJ9qzIcZ1quc/PEvv6CfVAzPYxvSjnI4P4vPjYSDiIvgXqfYiuYMUzJMcRuzmpnRyJVibQ2608S++/pdlUbxqLWScsE0myaX6TV+SsZAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "ApiStack/CDKMetadata/Default"

@@ -1,18 +1,19 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+
+import { GetCommand, PutCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { ddbDocClient } from "../shared/dynamodb-client";
 import { TranslateClient, TranslateTextCommand } from "@aws-sdk/client-translate";
 import * as iam from 'aws-cdk-lib/aws-iam';
 
 
-const ddbDocClient = createDDbDocClient();
 const translateClient = new TranslateClient({ region: process.env.REGION });
 
 export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("Event:", JSON.stringify(event));
-    const airlineId = event.pathParameters?.airlineId;
-    const aircraftId = event.pathParameters?.aircraftId;
+    // Get parameters from query string instead of path parameters
+    const airlineId = event.queryStringParameters?.airlineId;
+    const aircraftId = event.queryStringParameters?.aircraftId;
     const targetLanguage = event.queryStringParameters?.language;
 
     if (!airlineId || !aircraftId) {
@@ -20,7 +21,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
         statusCode: 400,
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ 
-          message: "Missing required path parameters",
+          message: "Missing required query parameters",
           missing: !airlineId ? "airlineId" : "aircraftId" 
         }),
       };
@@ -114,16 +115,3 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     };
   }
 };
-
-
-function createDDbDocClient() {
-  const ddbClient = new DynamoDBClient({ region: process.env.REGION });
-  const marshallOptions = {
-    convertEmptyValues: true,
-    removeUndefinedValues: true,
-    convertClassInstanceToMap: true,
-  };
-  const unmarshallOptions = { wrapNumbers: false };
-  const translateConfig = { marshallOptions, unmarshallOptions };
-  return DynamoDBDocumentClient.from(ddbClient, translateConfig);
-}
