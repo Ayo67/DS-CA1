@@ -7,16 +7,19 @@
                 "aircraftId": {
                     "type": "number"
                 },
-                "model": {
-                    "type": "string"
-                },
                 "airlineId": {
                     "type": "number"
                 },
                 "airlineName": {
                     "type": "string"
                 },
+                "capacity": {
+                    "type": "number"
+                },
                 "country": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "destination": {
@@ -24,9 +27,6 @@
                 },
                 "established": {
                     "type": "string"
-                },
-                "capacity": {
-                    "type": "number"
                 },
                 "headQuarters": {
                     "type": "string"
@@ -37,16 +37,14 @@
                 "logo": {
                     "type": "string"
                 },
+                "model": {
+                    "type": "string"
+                },
                 "popularity": {
                     "type": "number"
                 },
                 "slogan": {
                     "type": "string"
-                },
-                "description": {
-                    "items": {
-                        "type": "string"
-                    }
                 },
                 "website": {
                     "type": "string"
@@ -54,19 +52,19 @@
             },
             "required": [
                 "aircraftId",
-                "model",
                 "airlineId",
                 "airlineName",
+                "capacity",
                 "country",
+                "description",
                 "destination",
                 "established",
-                "capacity",
                 "headQuarters",
                 "international",
                 "logo",
+                "model",
                 "popularity",
                 "slogan",
-                "description",
                 "website"
             ],
             "type": "object"

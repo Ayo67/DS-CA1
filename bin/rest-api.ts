@@ -40,7 +40,6 @@ if(app.node.tryGetContext("useMultiStack") === "true") {
         stageName: "dev",
         apiKeyName: "airlines-api-key2",
         enableSeed: true
-        
     });
 
 }

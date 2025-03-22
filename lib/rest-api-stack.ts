@@ -222,11 +222,13 @@ export class RestAPIStack extends cdk.Stack {
       // Add airline endpoint
       airlinesEndpoint.addMethod(
         "POST",
-        new apig.LambdaIntegration(addAirlineFn, { proxy: true }),
-        {
-          apiKeyRequired: true, // Require API key
-        }
+        new apig.LambdaIntegration(addAirlineFn, {
+          proxy: true,
+          passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES
+        }),
+        { apiKeyRequired: true }
       );
+      
 
       // // Delete airline endpoint
       // specificAirlineEndpoint.addMethod(
@@ -246,17 +248,21 @@ export class RestAPIStack extends cdk.Stack {
       // Delete aircraft endpoint 
       specificAircraftEndpoint.addMethod(
         "DELETE",
-        new apig.LambdaIntegration(deleteAircraftFn, { proxy: true })
+        new apig.LambdaIntegration(deleteAircraftFn, { proxy: true }),
+        { apiKeyRequired: true } 
       );
 
-      // Update specific aircraft endpoint 
-      specificAircraftEndpoint.addMethod(
+      // Update specific aircraft endpoint
+      specificAirlineEndpoint.addMethod(
         "PUT",
-        new apig.LambdaIntegration(updateAircraftFn, { proxy: true }),
-        {
-          apiKeyRequired: true, // Require API key
-        }
+        new apig.LambdaIntegration(updateAircraftFn, {
+          proxy: true,
+          requestParameters: { "integration.request.header.Content-Type": "'application/json'" },
+          passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES
+        }),
+        { apiKeyRequired: true } 
       );
+
 
       // Get aircraft with translation
       const translationEndpoint = specificAircraftEndpoint.addResource("translation");

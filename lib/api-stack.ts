@@ -31,7 +31,7 @@ export class ApiStack extends cdk.Stack {
                 stageName: props.stageName || process.env.STAGE || "dev",
             },
             defaultCorsPreflightOptions: {
-                allowHeaders: ["Content-Type", "X-Amz-Date", "airlines-api-key"],
+                allowHeaders: ["Content-Type", "X-Amz-Date", "-api-key"],
                 allowMethods: ["OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"],
                 allowCredentials: true,
                 allowOrigins: ["*"],
@@ -59,8 +59,24 @@ export class ApiStack extends cdk.Stack {
 
         const aircraft = airlinesResource.addResource("aircraft");
         aircraft.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAircraftByIdFn, { proxy: true }));
-        aircraft.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAircraftFn, { proxy: true }));
-        aircraft.addMethod("PUT", new apig.LambdaIntegration(props.lambdaFunctions.updateAircraftFn, { proxy: true }));
+        aircraft.addMethod(
+            "DELETE",
+            new apig.LambdaIntegration(props.lambdaFunctions.deleteAircraftFn, {
+              proxy: true
+            }),
+            { apiKeyRequired: true } 
+          );
+          
+
+        aircraft.addMethod(
+            "PUT",
+            new apig.LambdaIntegration(props.lambdaFunctions.updateAircraftFn, {
+              proxy: true,
+              passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES
+            }),
+            { apiKeyRequired: true } 
+          );
+          
 
         const airline = airlinesResource.addResource("{airlineId}");
         airline.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAirlineByIdFn, { proxy: true }));
@@ -72,5 +88,8 @@ export class ApiStack extends cdk.Stack {
          {apiKeyRequired: true});   
 
         airline.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAirlineFn, { proxy: true }) );
+
+        const airlineTranslation = airlinesResource.addResource("translation");
+        airlineTranslation.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.airlineTranslationFn, { proxy: true }));   
     }
 }

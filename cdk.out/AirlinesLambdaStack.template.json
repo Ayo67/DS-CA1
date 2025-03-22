@@ -1,0 +1,690 @@
+{
+ "Resources": {
+  "AirlinesLambdaRoleC8CFE551": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/AirlinesLambdaRole/Resource"
+   }
+  },
+  "AirlinesLambdaRoleDefaultPolicy37961EFF": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputFnGetAttAirlinesTableF593EC65ArnB0C8A124"
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputFnGetAttAirlinesTableF593EC65ArnB0C8A124"
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "Roles": [
+     {
+      "Ref": "AirlinesLambdaRoleC8CFE551"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/AirlinesLambdaRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetAirlineByIdFn0DF6CA46": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "06617e0351d19f3fc9a49ff0271bb0c87e1d6c11639074e27b73922c54687180.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/GetAirlineByIdFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetAllAirlinesFn2145EE6E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "216d673786f9eff199ed6e3b2b4e806582846c684f6729fe9d2479810d2f4ca8.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/GetAllAirlinesFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "AddAirlineFn002E9C30": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "a33a492a92427b5c3cbf165927dba61e2a5810d4c8b5633df81a632a5dd8afe5.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/AddAirlineFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DeleteAirlineFn110DF859": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "cf8fb46723fdb9e7a5ba4ead9aff3ecf7bbcd04c49460a38a0cd53862cd9794e.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/DeleteAirlineFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetAircraftByIdFn0170DC2A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "40bfe435b5ab63edd11009a4b9b78e56ed9361525dd8384beea5f85c6d2707b4.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/GetAircraftByIdFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UpdateAircraftFn4457F72B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "8ff90571cc090e21e5cce70adf65e1b0b17d6da45d1740d935f1e365eddbea2d.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/UpdateAircraftFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DeleteAircraftFnE998D0D9": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "57d7aaa2820b9252500847ac6812340ee5cd22909d2c4de9f3e565b95a7edc6b.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/DeleteAircraftFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "AirlineTranslationFn0CBD0B34": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "639c17b144f45a798b23b79e80e75b4d103044ef92a846a47b9cc5a9291157ff.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/AirlineTranslationFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SeedAirlinesFnCC048040": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "f0d9424237fe0c577acbc084b08c76548c4bfeb61b8e8c5724a6461d137c0675.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AIRLINES_TABLE": {
+       "Fn::ImportValue": "AirlineDatabaseStack:ExportsOutputRefAirlinesTableF593EC657C8105E0"
+      }
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "AirlinesLambdaRoleC8CFE551",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "AirlinesLambdaRoleDefaultPolicy37961EFF",
+    "AirlinesLambdaRoleC8CFE551"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/SeedAirlinesFn/Resource",
+    "aws:asset:path": "C:\\Users\\ayoog\\DS-Assignment1",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SeedConstructsSeedProviderframeworkonEventServiceRole31EA941B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/SeedConstructs/SeedProvider/framework-onEvent/ServiceRole/Resource"
+   }
+  },
+  "SeedConstructsSeedProviderframeworkonEventServiceRoleDefaultPolicy1990DC80": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SeedAirlinesFnCC048040",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SeedAirlinesFnCC048040",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:GetFunction",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "SeedAirlinesFnCC048040",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SeedConstructsSeedProviderframeworkonEventServiceRoleDefaultPolicy1990DC80",
+    "Roles": [
+     {
+      "Ref": "SeedConstructsSeedProviderframeworkonEventServiceRole31EA941B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/SeedConstructs/SeedProvider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "SeedConstructsSeedProviderframeworkonEvent01D0325D": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1"
+     },
+     "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
+    },
+    "Description": "AWS CDK resource provider framework - onEvent (AirlinesLambdaStack/SeedConstructs/SeedProvider)",
+    "Environment": {
+     "Variables": {
+      "USER_ON_EVENT_FUNCTION_ARN": {
+       "Fn::GetAtt": [
+        "SeedAirlinesFnCC048040",
+        "Arn"
+       ]
+      }
+     }
+    },
+    "Handler": "framework.onEvent",
+    "Role": {
+     "Fn::GetAtt": [
+      "SeedConstructsSeedProviderframeworkonEventServiceRole31EA941B",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "SeedConstructsSeedProviderframeworkonEventServiceRoleDefaultPolicy1990DC80",
+    "SeedConstructsSeedProviderframeworkonEventServiceRole31EA941B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/SeedConstructs/SeedProvider/framework-onEvent/Resource",
+    "aws:asset:path": "asset.bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "SeedConstructsSeedResourceD2D95B20": {
+   "Type": "AWS::CloudFormation::CustomResource",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SeedConstructsSeedProviderframeworkonEvent01D0325D",
+      "Arn"
+     ]
+    },
+    "timestamp": "2025-03-22T16:16:02.476Z"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/SeedConstructs/SeedResource/Default"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/z2OSwrCQBBEz+K+02pUcKsBlyLxAKGdtNL5zMD0jCIhd5d8zOpVUTyoFLfHA25W9NHElHXSyAO7eyBTA3206IRa7HLXMGRPO/LmGjHfoU6ph4baR0mFdSVXitcRl2hNEGdBdwWpclA8DQDd4TmamsOZlGcVu+xpF+Mf+h5yVhe9YRjde6CX2BeYqMG1hZ9HxZt3bynZQzYuizVcnnMPwz2sdP1OU9zucbOqVCTx0QZpGfOJP8SIwzkPAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AirlinesLambdaStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetAircraftByIdFn0170DC2A",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+   }
+  },
+  "ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DeleteAircraftFnE998D0D9",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
+   }
+  },
+  "ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617": {
+   "Value": {
+    "Fn::GetAtt": [
+     "UpdateAircraftFn4457F72B",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+   }
+  },
+  "ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GetAirlineByIdFn0DF6CA46",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F"
+   }
+  },
+  "ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF": {
+   "Value": {
+    "Fn::GetAtt": [
+     "DeleteAirlineFn110DF859",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
+   }
+  },
+  "ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AddAirlineFn002E9C30",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "AirlinesLambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

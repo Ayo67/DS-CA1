@@ -10,7 +10,7 @@
     "aws:cdk:path": "ApiStack/AirlinesApi/Resource"
    }
   },
-  "AirlinesApiDeployment1AFE1B2C215505daedaa1b20b943fa3f10a33b2a": {
+  "AirlinesApiDeployment1AFE1B2Cf570251f9106941ac4172daa536c6972": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "Airlines API",
@@ -41,7 +41,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "AirlinesApiDeployment1AFE1B2C215505daedaa1b20b943fa3f10a33b2a"
+     "Ref": "AirlinesApiDeployment1AFE1B2Cf570251f9106941ac4172daa536c6972"
     },
     "RestApiId": {
      "Ref": "AirlinesApiA2CD38F6"
@@ -62,7 +62,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,airlines-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -128,7 +128,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,airlines-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -188,7 +188,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,airlines-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -228,7 +228,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -261,7 +261,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -299,7 +299,7 @@
        [
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
-         "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
         },
         "/invocations"
        ]
@@ -322,7 +322,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -355,7 +355,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -393,7 +393,7 @@
        [
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
-         "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
         },
         "/invocations"
        ]
@@ -416,7 +416,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -449,7 +449,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -487,7 +487,7 @@
        [
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
-         "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
         },
         "/invocations"
        ]
@@ -530,7 +530,7 @@
      "IntegrationResponses": [
       {
        "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,airlines-api-key'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,x-api-key'",
         "method.response.header.Access-Control-Allow-Origin": "'*'",
         "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST,PUT,PATCH,DELETE'",
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
@@ -570,7 +570,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -603,7 +603,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -641,7 +641,7 @@
        [
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
-         "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F"
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttGetAirlineByIdFn0DF6CA46Arn1659619F"
         },
         "/invocations"
        ]
@@ -664,7 +664,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -697,7 +697,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -735,7 +735,7 @@
        [
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
-         "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
         },
         "/invocations"
        ]
@@ -758,7 +758,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -791,7 +791,7 @@
    "Properties": {
     "Action": "lambda:InvokeFunction",
     "FunctionName": {
-     "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
+     "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
     },
     "Principal": "apigateway.amazonaws.com",
     "SourceArn": {
@@ -834,7 +834,7 @@
        [
         "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
         {
-         "Fn::ImportValue": "LambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
+         "Fn::ImportValue": "AirlinesLambdaStack:ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
         },
         "/invocations"
        ]

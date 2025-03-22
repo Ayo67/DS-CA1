@@ -5,6 +5,7 @@ import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as lambdanode from "aws-cdk-lib/aws-lambda-nodejs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
+import { SeedConstructs } from "./seed-construct";
 
 export interface AirlineAPIProps {
     tableName?: string;
@@ -20,7 +21,6 @@ export class AirlinesApiConstruct extends Construct {
     public readonly getAirlineByIdFn: lambdanode.NodejsFunction;
     public readonly getAllAirlinesFn: lambdanode.NodejsFunction;
     public readonly addAirlineFn: lambdanode.NodejsFunction;
-    public readonly updateAirlineFn: lambdanode.NodejsFunction;
     public readonly deleteAirlineFn: lambdanode.NodejsFunction;
     public readonly deleteAircraftFn: lambdanode.NodejsFunction;
     public readonly getAircraftByIdFn: lambdanode.NodejsFunction;
@@ -56,7 +56,7 @@ export class AirlinesApiConstruct extends Construct {
         const commonLambdaProps = {
             architecture: lambda.Architecture.ARM_64,
             runtime: lambda.Runtime.NODEJS_18_X,
-            timeout: cdk.Duration.seconds(10),
+            timeout: cdk.Duration.seconds(15),
             memorySize: 128,
             environment: {
                 TABLE_NAME: this.table.tableName,
@@ -78,11 +78,6 @@ export class AirlinesApiConstruct extends Construct {
         this.addAirlineFn = new lambdanode.NodejsFunction(this, "AddAirlineFn", {
             ...commonLambdaProps,
             entry: `${__dirname}/../lambdas/addAirline.ts`,
-        });
-
-        this.updateAirlineFn = new lambdanode.NodejsFunction(this, "UpdateAirlineFn", {
-            ...commonLambdaProps,
-            entry: `${__dirname}/../lambdas/updateAirline.ts`,
         });
 
         this.deleteAirlineFn = new lambdanode.NodejsFunction(this, "DeleteAirlineFn", {
@@ -107,19 +102,18 @@ export class AirlinesApiConstruct extends Construct {
 
         this.airlineTranslationFn = new lambdanode.NodejsFunction(this, "AirlineTranslationFn", {
             ...commonLambdaProps,
-            entry: `${__dirname}/../lambdas/airlineTranslation.ts`,
+            entry: `${__dirname}/../lambdas/getTranslation.ts`,
         });
 
         this.seedAirlinesFn = new lambdanode.NodejsFunction(this, "SeedAirlinesFn", {
             ...commonLambdaProps,
-            entry: `${__dirname}/../lambdas/seedAirlines.ts`,
+            entry: `${__dirname}/../lambdas/seedAirline.ts`,
         });
 
         // Grant DynamoDB permissions to all functions
         this.table.grantReadWriteData(this.getAirlineByIdFn);
         this.table.grantReadWriteData(this.getAllAirlinesFn);
         this.table.grantReadWriteData(this.addAirlineFn);
-        this.table.grantReadWriteData(this.updateAirlineFn);
         this.table.grantReadWriteData(this.deleteAirlineFn);
         this.table.grantReadWriteData(this.getAircraftByIdFn);
         this.table.grantReadWriteData(this.updateAircraftFn);
@@ -133,15 +127,7 @@ export class AirlinesApiConstruct extends Construct {
             resources: ["*"],
         });
         this.airlineTranslationFn.addToRolePolicy(translatePolicy);
-
-        // Optional seed function
-        if (props.enableSeed) {
-            this.seedAirlinesFn = new lambdanode.NodejsFunction(this, "SeedAirlinesFn", {
-                ...commonLambdaProps,
-                entry: `${__dirname}/../lambdas/seedAirlines.ts`,
-            });
-           // this.table.grantReadWriteData(this.seedAirlinesFn);
-        }
+       
 
         // Create API Gateway
         this.api = new apigateway.RestApi(this, "AirlinesApi", {
@@ -151,16 +137,10 @@ export class AirlinesApiConstruct extends Construct {
             },
             defaultCorsPreflightOptions: {
                 allowHeaders: ["Content-Type", "X-Amz-Date", "airlines-api-key"],
-                allowMethods: ["OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"],
+                allowMethods: ["OPTIONS", "GET", "POST", "PUT", "DELETE"],
                 allowCredentials: true,
                 allowOrigins: ["*"],
             },
-        });
-
-        this.apiKey = new apigateway.ApiKey(this, "AirlinesApiKey", {
-            apiKeyName: props.apiKeyName || "airlines-api-key2",
-            description: "API Key for Post and Put operations",
-            enabled: true,
         });
 
         const usagePlan = new apigateway.UsagePlan(this, "AirlinesUsagePlan", {
@@ -174,7 +154,14 @@ export class AirlinesApiConstruct extends Construct {
         usagePlan.addApiKey(this.apiKey);
 
         this.setupApiEndpoints();
+    
+
+    const enableSeed = props.enableSeed || false;
+    if (enableSeed) {
+        new SeedConstructs(this, "SeedConstructs", this.seedAirlinesFn);
     }
+
+}
 
     private setupApiEndpoints() {
         // Create API endpoints
@@ -189,9 +176,6 @@ export class AirlinesApiConstruct extends Construct {
         // Single airline endpoint
         const singleAirlineResource = airlinesResource.addResource("{airlineId}");
         singleAirlineResource.addMethod("GET", new apigateway.LambdaIntegration(this.getAirlineByIdFn));
-        singleAirlineResource.addMethod("PUT", new apigateway.LambdaIntegration(this.updateAirlineFn), {
-            apiKeyRequired: true
-        });
         singleAirlineResource.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAirlineFn));
 
         // Aircraft endpoints
