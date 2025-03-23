@@ -54,56 +54,53 @@ e.g.
 ### Features.
 
 #### Translation persistence (if completed)
+The translation persistence in the  Lambda function is handled by storing the translated text in the translations attribute of the aircraft record in DynamoDB. If a translation for the target language exists, it's returned from the database. If not, the text is then translated using AWS Translate, and the result is added to the translations field. The record is then updated in DynamoDB to store the new translation.
 
-[ Explain briefly your solution to the translation persistence requirement - no code excerpts required. Show the structure of a table item that includes review translations, e.g.
-
-+ MovieID - number  (Partition key)
-+ ActorID - number  (Sort Key)
-+ RoleName - string
-+ RoleDescription - string
-+ AwardsWon - List<string>
-+ Translations - ?
-]
++ airlineId - number  (Partition key)
++ airlineId - number  (Sort Key)
++ model - string
++ airlineName - string
++ Translations - {
+    fr:
+    es:
+}
 
 #### Custom L2 Construct (if completed)
-
-[State briefly the infrastructure provisioned by your custom L2 construct. Show the structure of its input props object and list the public properties it exposes, e.g. taken from the Cognito lab,
+The custom L2 construct provisions infrastructure for the DynamoDB table to store airline and aircraft data, an API Gateway for RESTful endpoints, and Lambda functions for CRUD operations on airlines and aircraft as well as managing translations using AWS Translate. IAM permissions are granted to ensure the Lambda functions can interact with DynamoDB and AWS Translate, and an optional seed function is provided to populate the database. The input props (AirlineAPIProps) allow customization of the DynamoDB table name, API Gateway stage, API key, and database seeding. 
 
 Construct Input props object:
 ~~~
-type AuthApiProps = {
- userPoolId: string;
- userPoolClientId: string;
-}
+type AirlineAPIProps = {
+    tableName?: string;
+    stageName?: string;
+    apiKeyName?: string;
+    enableSeed?: boolean;  
+};
 ~~~
 Construct public properties
 ~~~
-export class MyConstruct extends Construct {
- public  PropertyName: type
- etc.
-~~~
- ]
+export class AirlinesApiConstruct extends Construct {
+    public readonly api: apigateway.RestApi;
+    public readonly table: dynamodb.Table;
+    public readonly apiKey: apigateway.ApiKey;
+    public readonly getAirlineByIdFn: lambdanode.NodejsFunction;
+    public readonly getAllAirlinesFn: lambdanode.NodejsFunction;
+    public readonly addAirlineFn: lambdanode.NodejsFunction;
+    public readonly deleteAirlineFn: lambdanode.NodejsFunction;
+    public readonly deleteAircraftFn: lambdanode.NodejsFunction;
+    public readonly getAircraftByIdFn: lambdanode.NodejsFunction;
+    public readonly updateAircraftFn: lambdanode.NodejsFunction;
+    public readonly airlineTranslationFn: lambdanode.NodejsFunction;
+    public readonly seedAirlinesFn?: lambdanode.NodejsFunction;
+}
 
 #### Multi-Stack app (if completed)
 
-[Explain briefly the stack composition of your app - no code excerpts required.]
-
-#### Lambda Layers (if completed)
-
-[Explain briefly where you used the Layers feature of the AWS Lambda service - no code excerpts required.]
+The app follows a three-tier microservices architecture using AWS CDK, with separate stacks for each concern: a DatabaseStack creating a DynamoDB table for airline data persistence, a LambdaStack containing serverless functions that connect to the database, and an ApiStack configuring API Gateway to these functions as secure REST endpoints with API key authentication.While also offering an alternative single-stack deployment option through a consolidated construct for other scenarios.
 
 
 #### API Keys. (if completed)
 
-[Explain briefly how to implement API key authentication to protect API Gateway endpoints. Include code excerpts from your app to support this. ][]
+In the CDK app, this is implemented by first creating an API key with new apigateway.ApiKey() and specifying a name via the apiKeyName property. Next, a usage plan is created with new apigateway.UsagePlan() and associated with the API stage. The API key is then linked to this usage plan using usagePlan.addApiKey(apiKey). Finally, each API route that needs protection is configured with the apiKeyRequired: true parameter when defining methods. When deployed, clients must include this key in the x-api-key header of their requests.
 
-~~~ts
-// This is a code excerpt markdown 
-let foo : string = 'Foo'
-console.log(foo)
-~~~
-
-###  Extra (If relevant).
-
-[ State any other aspects of your solution that use CDK/serverless features not covered in the lectures ]
 
