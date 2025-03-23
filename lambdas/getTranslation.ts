@@ -11,9 +11,12 @@ const translateClient = new TranslateClient({ region: process.env.REGION });
 export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("Event:", JSON.stringify(event));
-    // Get parameters from query string instead of path parameters
-    const airlineId = event.queryStringParameters?.airlineId;
-    const aircraftId = event.queryStringParameters?.aircraftId;
+
+    // Extract from path parameters
+    const airlineId = event.pathParameters?.airlineId;
+    const aircraftId = event.pathParameters?.aircraftId;
+
+    // Extract language from query string
     const targetLanguage = event.queryStringParameters?.language;
 
     if (!airlineId || !aircraftId) {
@@ -21,13 +24,13 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
         statusCode: 400,
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ 
-          message: "Missing required query parameters",
+          message: "Missing required path parameters",
           missing: !airlineId ? "airlineId" : "aircraftId" 
         }),
       };
     }
 
-    if (!targetLanguage ) {
+    if (!targetLanguage) {
       return {
         statusCode: 400,
         headers: { "content-type": "application/json" },
@@ -37,11 +40,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
 
     const params = {
       TableName: process.env.TABLE_NAME,
-        Key: {
-            airlineId: Number(airlineId),
-            aircraftId: Number(aircraftId),
-        },
+      Key: {
+        airlineId: Number(airlineId),
+        aircraftId: Number(aircraftId),
+      },
     };
+
     const getResult = await ddbDocClient.send(new GetCommand(params));
 
     if (!getResult.Item) {
@@ -54,14 +58,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
 
     const aircraft = getResult.Item;
 
-    if(aircraft.translations && aircraft.translations[targetLanguage]) {
-
-        //         // Create a response object with all aircraft data plus the translation
-        // const response = {
-        //     ...aircraft,  // Spread all original aircraft properties
-        //     translatedDescription: aircraft.translations[targetLanguage]
-        // };
-
+    if (aircraft.translations && aircraft.translations[targetLanguage]) {
       return {
         statusCode: 200,
         headers: { "content-type": "application/json" },
@@ -70,9 +67,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     }
 
     const translationParams = {
-        Text: aircraft.description,
-        SourceLanguageCode: "en", 
-        TargetLanguageCode: targetLanguage,
+      Text: aircraft.description,
+      SourceLanguageCode: "en", 
+      TargetLanguageCode: targetLanguage,
     };
 
     const translationResult = await translateClient.send(new TranslateTextCommand(translationParams));
@@ -82,24 +79,19 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     translations[targetLanguage] = translatedText;
 
     const updateParams = {
-        TableName: process.env.TABLE_NAME,   
-          Key: {
-              airlineId: Number(airlineId),
-              aircraftId: Number(aircraftId),
-          },
-          UpdateExpression: "SET translations = :translations",
-          ExpressionAttributeValues: {    
-              ":translations": translations,
-          },
-          ReturnValues: "ALL_NEW" as const,
-      };
+      TableName: process.env.TABLE_NAME,   
+      Key: {
+        airlineId: Number(airlineId),
+        aircraftId: Number(aircraftId),
+      },
+      UpdateExpression: "SET translations = :translations",
+      ExpressionAttributeValues: {    
+        ":translations": translations,
+      },
+      ReturnValues: "ALL_NEW" as const,
+    };
 
     const updateResult = await ddbDocClient.send(new UpdateCommand(updateParams));
-
-    // const response = {
-    //     ...aircraft,  // Spread all original aircraft properties
-    //     translatedDescription: translatedText
-    //   };
 
     return {
       statusCode: 200,
@@ -115,3 +107,4 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     };
   }
 };
+

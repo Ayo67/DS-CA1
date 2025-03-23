@@ -28,7 +28,7 @@ export class ApiStack extends cdk.Stack {
         this.api = new apig.RestApi(this, "AirlinesApi", {
             description: "Airlines API",
             deployOptions: {
-                stageName: props.stageName || process.env.STAGE || "dev",
+                stageName: props.stageName ||  "dev",
             },
             defaultCorsPreflightOptions: {
                 allowHeaders: ["Content-Type", "X-Amz-Date", "-api-key"],
@@ -55,51 +55,39 @@ export class ApiStack extends cdk.Stack {
 
         usagePlan.addApiKey(this.apiKey);
 
-        const airlinesResource = this.api.root.addResource("airlines");
-        airlinesResource.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAllAirlinesFn, { proxy: true }));
 
-        // Create global /airlines/aircraft endpoint
-        const aircraft = airlinesResource.addResource("aircraft");
-        aircraft.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAircraftByIdFn, { proxy: true }));
-        aircraft.addMethod(
-            "DELETE",
-            new apig.LambdaIntegration(props.lambdaFunctions.deleteAircraftFn, {
-              proxy: true
-            }),
-            { apiKeyRequired: true } 
-          );
-          
-        aircraft.addMethod(
-            "PUT",
-            new apig.LambdaIntegration(props.lambdaFunctions.updateAircraftFn, {
-              proxy: true,
-              passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES
-            }),
-            { apiKeyRequired: true } 
-          );
-        
-        // Create airline/{airlineId} endpoint
-        const airline = airlinesResource.addResource("{airlineId}");
-        airline.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAirlineByIdFn, { proxy: true }));
-        
-        // Add airline/{airlineId}/aircraft endpoint
-        const airlineAircraft = airline.addResource("aircraft");
-        
-        // Add airline/{airlineId}/aircraft/{aircraftId} endpoint
-        const aircraftIdResource = airlineAircraft.addResource("{aircraftId}");
-        aircraftIdResource.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAircraftByIdFn, { proxy: true }));
-        aircraftIdResource.addMethod("PUT", new apig.LambdaIntegration(props.lambdaFunctions.updateAircraftFn, { proxy: true, passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES }), { apiKeyRequired: true });
-        aircraftIdResource.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAircraftFn, { proxy: true }), { apiKeyRequired: true });
 
-        airlinesResource.addMethod("POST", new apig.LambdaIntegration(props.lambdaFunctions.addAirlineFn, { proxy: true, 
+    const airlinesResource = this.api.root.addResource("airlines");
+
+    // /airlines endpoint - define GET only once
+       // airlinesResource.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAllAirlinesFn, { proxy: true }));
+        airlinesResource.addMethod("POST", new apig.LambdaIntegration(props.lambdaFunctions.addAirlineFn, {
             requestParameters: { "integration.request.header.Content-Type": "'application/json'" },
             passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES,
-         }),
-         {apiKeyRequired: true});   
+        }), {
+            apiKeyRequired: true
+        });
+// /airlines/{airlineId} endpoint
+const airline = airlinesResource.addResource("{airlineId}");
+airline.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAirlineByIdFn));
+airline.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAirlineFn), {
+    apiKeyRequired: true
+});
 
-        airline.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAirlineFn, { proxy: true }) );
+// /airlines/{airlineId}/{aircraftId} endpoint
+const singleAircraft = airline.addResource("{aircraftId}");
+singleAircraft.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.getAircraftByIdFn));
+singleAircraft.addMethod("PUT", new apig.LambdaIntegration(props.lambdaFunctions.updateAircraftFn, {
+    passthroughBehavior: apig.PassthroughBehavior.WHEN_NO_TEMPLATES
+}), {
+    apiKeyRequired: true
+});
+singleAircraft.addMethod("DELETE", new apig.LambdaIntegration(props.lambdaFunctions.deleteAircraftFn), {
+    apiKeyRequired: true
+});
 
-        const airlineTranslation = airlinesResource.addResource("translation");
-        airlineTranslation.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.airlineTranslationFn, { proxy: true }));   
-    }
+// /airlines/{airlineId}/{aircraftId}/translation endpoint
+const aircraftTranslation = singleAircraft.addResource("translation");
+aircraftTranslation.addMethod("GET", new apig.LambdaIntegration(props.lambdaFunctions.airlineTranslationFn));
+}
 }

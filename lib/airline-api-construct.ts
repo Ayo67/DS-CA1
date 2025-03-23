@@ -164,38 +164,37 @@ export class AirlinesApiConstruct extends Construct {
 
 }
 
-    private setupApiEndpoints() {
-        // Create API endpoints
-        const airlinesResource = this.api.root.addResource("airlines");
-        
-        // Airlines endpoints
-        airlinesResource.addMethod("GET", new apigateway.LambdaIntegration(this.getAllAirlinesFn));
-        airlinesResource.addMethod("POST", new apigateway.LambdaIntegration(this.addAirlineFn), {
-            apiKeyRequired: true
-        });
+private setupApiEndpoints() {
+    // Create API endpoints
+    const airlinesResource = this.api.root.addResource("airlines");
+    
+    // GET all airlines
+    //airlinesResource.addMethod("GET", new apigateway.LambdaIntegration(this.getAllAirlinesFn));
+    
+    // Add new airline (protected)
+    airlinesResource.addMethod("POST", new apigateway.LambdaIntegration(this.addAirlineFn), {
+        apiKeyRequired: true
+    });
 
-        // Single airline endpoint
-        const singleAirlineResource = airlinesResource.addResource("{airlineId}");
-        singleAirlineResource.addMethod("GET", new apigateway.LambdaIntegration(this.getAirlineByIdFn));
-        singleAirlineResource.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAirlineFn), {
-            apiKeyRequired: true
-        });
-
-        // Aircraft endpoints
-        const aircraftResource = singleAirlineResource.addResource("aircraft");
-        
-        // Single aircraft endpoint
-        const singleAircraftResource = aircraftResource.addResource("{aircraftId}");
-        singleAircraftResource.addMethod("GET", new apigateway.LambdaIntegration(this.getAircraftByIdFn));
-        singleAircraftResource.addMethod("PUT", new apigateway.LambdaIntegration(this.updateAircraftFn), {
-            apiKeyRequired: true
-        });
-        singleAircraftResource.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAircraftFn), {
-            apiKeyRequired: true
-        });
-
-        // Translation endpoint
-        const translateResource = airlinesResource.addResource("translate");
-        translateResource.addMethod("POST", new apigateway.LambdaIntegration(this.airlineTranslationFn));
-    }
+    // Single airline endpoint
+    const airline = airlinesResource.addResource("{airlineId}");
+    airline.addMethod("GET", new apigateway.LambdaIntegration(this.getAirlineByIdFn));
+    airline.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAirlineFn), {
+        apiKeyRequired: true
+    });
+    
+    // Aircraft collection endpoint under airline
+    const aircraftCollection = airline.addResource("{aircraftId}");
+    aircraftCollection.addMethod("GET", new apigateway.LambdaIntegration(this.getAircraftByIdFn));
+    aircraftCollection.addMethod("PUT", new apigateway.LambdaIntegration(this.updateAircraftFn), {
+        apiKeyRequired: true
+    });
+    aircraftCollection.addMethod("DELETE", new apigateway.LambdaIntegration(this.deleteAircraftFn), {
+        apiKeyRequired: true
+    });
+    
+    // Translation endpoint under aircraft - matches pattern airlines/{airlineId}/{aircraftId}/translation
+    const translationEndpoint = aircraftCollection.addResource("translation");
+    translationEndpoint.addMethod("GET", new apigateway.LambdaIntegration(this.airlineTranslationFn));
+}
 }

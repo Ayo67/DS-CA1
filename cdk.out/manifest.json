@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/cdfe9398709f0c88cd554343bbc37a7d24339ff3e382825064f0dfb4a28bb9f1.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/5f2ded874ad7245f0fb2af1b56a7862bb011231972e52f62078b3b698bf92705.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -110,7 +110,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/390150efebb49da1cdc43410b441da50b9ce7d25826ad63dbe8ae445dd08c65f.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/691ced9ab6a1642a56dff9063ad20c341b6c1f8511cfcdf9bcdf660c469df4d1.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -223,28 +223,10 @@
             "data": "CDKMetadata"
           }
         ],
-        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"GetAllAirlinesFn2145EE6E\",\"Arn\"]}": [
+        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"AddAirlineFn002E9C30\",\"Arn\"]}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputFnGetAttGetAllAirlinesFn2145EE6EArn3732AA67"
-          }
-        ],
-        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"GetAircraftByIdFn0170DC2A\",\"Arn\"]}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
-          }
-        ],
-        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"DeleteAircraftFnE998D0D9\",\"Arn\"]}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
-          }
-        ],
-        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"UpdateAircraftFn4457F72B\",\"Arn\"]}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+            "data": "ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
           }
         ],
         "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"GetAirlineByIdFn0DF6CA46\",\"Arn\"]}": [
@@ -259,10 +241,22 @@
             "data": "ExportsOutputFnGetAttDeleteAirlineFn110DF859Arn8E4178EF"
           }
         ],
-        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"AddAirlineFn002E9C30\",\"Arn\"]}": [
+        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"GetAircraftByIdFn0170DC2A\",\"Arn\"]}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ExportsOutputFnGetAttAddAirlineFn002E9C30Arn20016AF4"
+            "data": "ExportsOutputFnGetAttGetAircraftByIdFn0170DC2AArn9FF4A554"
+          }
+        ],
+        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"UpdateAircraftFn4457F72B\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttUpdateAircraftFn4457F72BArnFDBD2617"
+          }
+        ],
+        "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"DeleteAircraftFnE998D0D9\",\"Arn\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttDeleteAircraftFnE998D0D9ArnC477AED0"
           }
         ],
         "/AirlinesLambdaStack/Exports/Output{\"Fn::GetAtt\":[\"AirlineTranslationFn0CBD0B34\",\"Arn\"]}": [
@@ -303,7 +297,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/e378aa57b1f546a87725033d8a16a160cea65ab05a4145ab05b79449d27dd2cd.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-west-1/9fd8a78bdf776992b9e123149ffa772ee8b2a68028a7f51ace3b56ed3e317957.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -329,7 +323,7 @@
         "/ApiStack/AirlinesApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiDeployment1AFE1B2Ce64a98916e6a57cc5678fe3e26ce2873"
+            "data": "AirlinesApiDeployment1AFE1B2C687dc1089f387aef240440ab2158df9b"
           }
         ],
         "/ApiStack/AirlinesApi/DeploymentStage.dev/Resource": [
@@ -362,88 +356,22 @@
             "data": "AirlinesApiairlinesOPTIONSC72B20E7"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines": [
+        "/ApiStack/AirlinesApi/Default/airlines/POST/ApiPermission.ApiStackAirlinesApiDF9AC38B.POST..airlines": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlines82E86837"
+            "data": "AirlinesApiairlinesPOSTApiPermissionApiStackAirlinesApiDF9AC38BPOSTairlines8411F373"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines": [
+        "/ApiStack/AirlinesApi/Default/airlines/POST/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.POST..airlines": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlines9D420BA0"
+            "data": "AirlinesApiairlinesPOSTApiPermissionTestApiStackAirlinesApiDF9AC38BPOSTairlines58EFD127"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/GET/Resource": [
+        "/ApiStack/AirlinesApi/Default/airlines/POST/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesGET5FAB7F52"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftBA396C51"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/OPTIONS/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftOPTIONSC8F3C43B"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines.aircraft": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlinesaircraft40C2292A"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines.aircraft": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlinesaircraft5DC53E2A"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/GET/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftGET9061793B"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/DELETE/ApiPermission.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.aircraft": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftDELETEApiPermissionApiStackAirlinesApiDF9AC38BDELETEairlinesaircraftE96E37AE"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/DELETE/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.aircraft": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftDELETEApiPermissionTestApiStackAirlinesApiDF9AC38BDELETEairlinesaircraft8BB097DC"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/DELETE/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftDELETE9E874BD7"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/PUT/ApiPermission.ApiStackAirlinesApiDF9AC38B.PUT..airlines.aircraft": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftPUTApiPermissionApiStackAirlinesApiDF9AC38BPUTairlinesaircraft6BC168EA"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/PUT/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.PUT..airlines.aircraft": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftPUTApiPermissionTestApiStackAirlinesApiDF9AC38BPUTairlinesaircraft7CC6D7C7"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/aircraft/PUT/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesaircraftPUT8E76C6FA"
+            "data": "AirlinesApiairlinesPOST6003810E"
           }
         ],
         "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/Resource": [
@@ -476,84 +404,6 @@
             "data": "AirlinesApiairlinesairlineIdGETDC8FA793"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraft76892570"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/OPTIONS/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftOPTIONS28CC6678"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdF9B6FEC4"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/OPTIONS/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdOPTIONSA1B51774"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.aircraft.{aircraftId}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftaircraftIdD2C65D96"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.aircraft.{aircraftId}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftaircraftId5E97E3E3"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/GET/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdGETA469F6C8"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/PUT/ApiPermission.ApiStackAirlinesApiDF9AC38B.PUT..airlines.{airlineId}.aircraft.{aircraftId}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdPUTApiPermissionApiStackAirlinesApiDF9AC38BPUTairlinesairlineIdaircraftaircraftIdE93EEE03"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/PUT/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.PUT..airlines.{airlineId}.aircraft.{aircraftId}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdPUTApiPermissionTestApiStackAirlinesApiDF9AC38BPUTairlinesairlineIdaircraftaircraftIdEC4AF6D9"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/PUT/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdPUT45524C8A"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/DELETE/ApiPermission.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.{airlineId}.aircraft.{aircraftId}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdDELETEApiPermissionApiStackAirlinesApiDF9AC38BDELETEairlinesairlineIdaircraftaircraftId731E805C"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/DELETE/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.{airlineId}.aircraft.{aircraftId}": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdDELETEApiPermissionTestApiStackAirlinesApiDF9AC38BDELETEairlinesairlineIdaircraftaircraftIdCF224027"
-          }
-        ],
-        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/aircraft/{aircraftId}/DELETE/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesairlineIdaircraftaircraftIdDELETE2AD1BA91"
-          }
-        ],
         "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/DELETE/ApiPermission.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.{airlineId}": [
           {
             "type": "aws:cdk:logicalId",
@@ -572,52 +422,100 @@
             "data": "AirlinesApiairlinesairlineIdDELETEBCD05E48"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/POST/ApiPermission.ApiStackAirlinesApiDF9AC38B.POST..airlines": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesPOSTApiPermissionApiStackAirlinesApiDF9AC38BPOSTairlines8411F373"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdB914FA76"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/POST/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.POST..airlines": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesPOSTApiPermissionTestApiStackAirlinesApiDF9AC38BPOSTairlines58EFD127"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdOPTIONS7907FC89"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/POST/Resource": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.{aircraftId}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinesPOST6003810E"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftIdC4393E75"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/translation/Resource": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.{aircraftId}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinestranslationF46937DA"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftIdD1514C27"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/translation/OPTIONS/Resource": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinestranslationOPTIONS427CE212"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdGET756150E5"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/translation/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines.translation": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/PUT/ApiPermission.ApiStackAirlinesApiDF9AC38B.PUT..airlines.{airlineId}.{aircraftId}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinestranslationGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlinestranslation3C0D638A"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdPUTApiPermissionApiStackAirlinesApiDF9AC38BPUTairlinesairlineIdaircraftIdE3865F9D"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/translation/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines.translation": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/PUT/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.PUT..airlines.{airlineId}.{aircraftId}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinestranslationGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlinestranslation5FB90E79"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdPUTApiPermissionTestApiStackAirlinesApiDF9AC38BPUTairlinesairlineIdaircraftId36CD4EF2"
           }
         ],
-        "/ApiStack/AirlinesApi/Default/airlines/translation/GET/Resource": [
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/PUT/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AirlinesApiairlinestranslationGETCCE65627"
+            "data": "AirlinesApiairlinesairlineIdaircraftIdPUTEE2D6B4A"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/DELETE/ApiPermission.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.{airlineId}.{aircraftId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdDELETEApiPermissionApiStackAirlinesApiDF9AC38BDELETEairlinesairlineIdaircraftId33168D65"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/DELETE/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.DELETE..airlines.{airlineId}.{aircraftId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdDELETEApiPermissionTestApiStackAirlinesApiDF9AC38BDELETEairlinesairlineIdaircraftId9DF43E64"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdDELETEF6E50CAD"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/translation/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdtranslation60818643"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/translation/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdtranslationOPTIONS17487F98"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/translation/GET/ApiPermission.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.{aircraftId}.translation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdtranslationGETApiPermissionApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftIdtranslation2780EA62"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/translation/GET/ApiPermission.Test.ApiStackAirlinesApiDF9AC38B.GET..airlines.{airlineId}.{aircraftId}.translation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdtranslationGETApiPermissionTestApiStackAirlinesApiDF9AC38BGETairlinesairlineIdaircraftIdtranslation1B6C6DED"
+          }
+        ],
+        "/ApiStack/AirlinesApi/Default/airlines/{airlineId}/{aircraftId}/translation/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AirlinesApiairlinesairlineIdaircraftIdtranslationGET39834920"
           }
         ],
         "/ApiStack/AirlinesApiKey/Resource": [

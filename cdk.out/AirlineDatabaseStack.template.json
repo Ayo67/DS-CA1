@@ -57,7 +57,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSM7Qw1TNQTCwv1k1OydbNyUzSqw4uSUzO1gEKxadU5iXm5qcAxUISk3JSdZzT8sCMWp2g1OL80qJksJB/aUlBaUmtTl5+SqpeVrF+mZEB0Fg9Y8Ws4sxM3aLSvJLM3FS9IAgNADn0qB1yAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXISw5AMBRA0bWYtw8NibkFSDCX14+kPq14LRGxdwmje3IF5FUJWYIncaVnvlgJdxdQzQxPGvTlcPVawt2jXAyrR/fhYa0hH3f1rSaGLYaHOa8NTJQeQkBeQJZMZC3fowt2NdD+fQEazcNCcgAAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "AirlineDatabaseStack/CDKMetadata/Default"
